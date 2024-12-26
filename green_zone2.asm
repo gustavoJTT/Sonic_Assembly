@@ -7,7 +7,7 @@ main:
 	ori $11 $0 0x250000 #marrom escuro
 	ori $12 $0 0x6A1B00 #marrom claro
 	ori $13 $0 0x62FF36 #verde claro
-	ori $13 $0 0x00AD2B #verde esuro
+	ori $14 $0 0x00AD2B #verde esuro
 	
 	#addi $25 $0 8192 #mÃ¡ximo da tela
 	
@@ -24,21 +24,30 @@ ceu:
 
 
 
-mar_prep:
-	addi $25 $0 2304
+mar_prep: addi $25 $0 2134
 	
-mar:
-	beq $25 $0 solo_prep
+mar:   beq $25 $0 grama_prep
 	
 	sw $10 0($8)
 	
 	addi $8 $8 4
 	addi $25 $25 -1
-	j mar
+	j mar 
+	
+grama_prep: addi $25 $0 142
 
+grama: beq $25 $0 solo_prep
+       sw $14 0($8)
+       sw $14 4($8)
+       sw $13 8($8)
+       
+       addi $8 $8 12
+       addi $25 $25 -1
+       j grama
 
-solo_prep: addi $25 $25 10
+solo_prep: addi $25 $25 9
            addi $8 $8 -512
+           
 
 solo_laco1:beq $25 $0 fim
            addi $24 $0 64
