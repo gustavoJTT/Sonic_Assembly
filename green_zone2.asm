@@ -34,9 +34,11 @@ mar:   beq $25 $0 grama_prep
 	addi $25 $25 -1
 	j mar 
 	
-grama_prep: addi $25 $0 142
+grama_prep: 
+      addi $25 $0 142
 
-grama: beq $25 $0 solo_prep
+grama: 
+      beq $25 $0 solo_prep
        sw $14 0($8)
        sw $14 4($8)
        sw $13 8($8)
@@ -99,12 +101,3 @@ marr_esc: sw $11 0($8)
           j fim_func_solo
 
 fim_func_solo: jr $31
-
-
-
-
-
-
-
-
-
