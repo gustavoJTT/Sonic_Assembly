@@ -73,14 +73,17 @@ fim: addi $2 $0 10
 
 #função solo para prencher o solo de jeito alternado
 
-solo: lw $23 -4($8)
+solo: 
+	lw $23 -4($8)
       addi $22 $0 64
       beq $22 $24 prova
       
       beq $23 $12 marr_esc
       j marr_claro
+
 	
-prova: bne $23 $12 marr_esc 
+prova: 
+	bne $23 $12 marr_esc 
 
       
 marr_claro: sw $12 0($8)
