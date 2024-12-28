@@ -24,52 +24,81 @@ ceu:
 
 
 
-mar_prep: addi $25 $0 2134
+mar_prep: 
+	addi $25 $0 2134
 	
-mar:   beq $25 $0 grama_prep
+mar:   
+	beq $25 $0 grama_prep
 	
 	sw $10 0($8)
 	
 	addi $8 $8 4
 	addi $25 $25 -1
 	j mar 
-	
+
+
+
 grama_prep: 
-      addi $25 $0 142
+  addi $25 $0 142
 
 grama: 
-      beq $25 $0 solo_prep
-       sw $14 0($8)
-       sw $14 4($8)
-       sw $13 8($8)
+	beq $25 $0 solo_prep
+  sw $14 0($8)
+  sw $14 4($8)
+  sw $13 8($8)
        
-       addi $8 $8 12
-       addi $25 $25 -1
-       j grama
+  addi $8 $8 12
+  addi $25 $25 -1
+  j grama
 
-solo_prep: addi $25 $25 9
-           addi $8 $8 -512
+
+
+
+solo_prep: 
+	addi $25 $25 9
+  addi $8 $8 -512
            
 
-solo_laco1:beq $25 $0 fim
-           addi $24 $0 64
+solo_laco1:
+	beq $25 $0 montanha_prep
+  addi $24 $0 64
            
-           addi $8 $8 512
-           addi $25 $25 -1
+  addi $8 $8 512
+  addi $25 $25 -1
 
-solo_laco2: beq $24 $0 solo_laco1
+solo_laco2:
+	beq $24 $0 solo_laco1
            
-           jal solo
+  jal solo
            
-           addi $24 $24 -1
-           addi $8 $8 8
-           j solo_laco2
+  addi $24 $24 -1
+  addi $8 $8 8
+  j solo_laco2
 
 
-fim: addi $2 $0 10
-     syscall
 
-
+montanha_prep:
+	addi $8 $0 0
+	lui $8 0x1001
+	addi $8 $8 1280
+	#addi $23 $0 9
+	
+montanha:
+	#beq $23 $0 fim
+	
+	sw $11 0($8)
+	sw $11 508($8)
+	sw $11 512($8)
+	sw $11 516($8)
+	sw $11 1016($8)
+	sw $11 1020($8)
+	sw $11 1024($8)
+	sw $11 1028($8)
+	sw $11 1032($8)
+	
+fim:
+	addi $2 $0 10
+  syscall
 
 #----------------------func-----------------------
 
@@ -77,27 +106,29 @@ fim: addi $2 $0 10
 
 solo: 
 	lw $23 -4($8)
-      addi $22 $0 64
-      beq $22 $24 prova
+	addi $22 $0 64
+  beq $22 $24 prova
       
-      beq $23 $12 marr_esc
-      j marr_claro
+  beq $23 $12 marr_esc
+  j marr_claro
 
 	
 prova: 
 	bne $23 $12 marr_esc 
-
-      
-marr_claro: sw $12 0($8)
-            sw $12 4($8)
-            sw $12 512($8)
-            sw $12 516($8)
-            j fim_func_solo
+    
+marr_claro:
+	sw $12 0($8)
+  sw $12 4($8)
+  sw $12 512($8)
+  sw $12 516($8)
+  j fim_func_solo
                    
-marr_esc: sw $11 0($8)
-          sw $11 4($8)
-          sw $11 512($8)
-          sw $11 516($8)
-          j fim_func_solo
+marr_esc:
+	sw $11 0($8)
+  sw $11 4($8)
+  sw $11 512($8)
+  sw $11 516($8)
+  j fim_func_solo
 
-fim_func_solo: jr $31
+fim_func_solo:
+	jr $31
