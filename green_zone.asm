@@ -13,11 +13,11 @@ main:
   #addi $25 $0 8192 #mÃ¡ximo da tela
 
   addi $25 $0 3303
-  addi $24 $0 2580
-  addi $23 $0 2294
-  addi $22 $0 2022
+  addi $24 $0 2655
+  addi $23 $0 2320
+  addi $22 $0 2132
   addi $21 $0 1338
-  addi $20 $0 735
+  addi $20 $0 908
 
 ceu:
   beq $25 $0 montanhas_prep
@@ -61,7 +61,7 @@ montanha2:
   j montanha1_prep
 
 mar_prep: 
-  addi $25 $0 2176
+  addi $25 $0 2262
   addi $8 $8 -8
   addi $23 $0 260
 
@@ -79,12 +79,12 @@ mar:
 
 
 grama_prep: 
-  addi $25 $0 171
-  addi $23 $0 93
+  addi $25 $0 142
+  addi $23 $0 90
 
 grama: 
-  beq $25 $0 cachoeira_prep
- # jal flor_verif
+  beq $25 $0 solo_prep
+  jal flor_verif
   sw $14 0($8)
   sw $14 4($8)
   sw $13 8($8)
@@ -94,66 +94,28 @@ grama:
   addi $23 $23 -1
   j grama
 
-cachoeira_prep: addi $8 $8 -1908
-                addi $25 $0 2
-                addi $20 $0 0 #variavel escolha tipo de cachoeira
-                
-cachoeira_grama: beq $25 $0 solo_prep
-                 jal desenho_cachoeira
-                 addi $25 $25 -1
-                 addi $8 $8 416
-                 j cachoeira_grama
-
 solo_prep: 
   addi $25 $25 8
-  addi $8 $8 -656
+  addi $8 $8 -512
 
-  addi $20 $0 1 #variavel escolha tipo de cachoeira
 
 solo_laco1:
-  beq $25 $0 ponte_prep
-  addi $24 $0 53
+  beq $25 $0 fim
+  addi $24 $0 64
   add $22 $0 $24
-  addi $21 $24 -18
 
-  
   addi $8 $8 512
   addi $25 $25 -1
 
 solo_laco2:
   beq $24 $0 solo_laco1
 
-  beq $21 $24 cachoeira_solo
   jal solo
-  
+
   addi $24 $24 -1
   addi $8 $8 8
-  j solo_laco2
+j solo_laco2
 
-cachoeira_solo: 
-                jal desenho_cachoeira
-                addi $8 $8 -512
-                addi $24 $24 -1
-                add $22 $0 $24
-                j solo_laco2
-
-ponte_prep: addi $8 $8 -9072
-            jal ponte_des
-            addi $8 $8 524
-            jal ponte_des
-            addi $8 $8 524
-            jal ponte_des
-            addi $8 $8 12
-            jal ponte_des
-            addi $8 $8 12
-            jal ponte_des
-            addi $8 $8 12
-            jal ponte_des
-            addi $8 $8 -500
-            jal ponte_des
-            addi $8 $8 -500
-            jal ponte_des
-            
 
 fim:
   addi $2 $0 10
@@ -248,8 +210,7 @@ fim_func_montanhas:
   addi $8 $8 -512
   jr $31
   
-#função ondas
-      
+  
 ondas_verif:
 	beq $23 $0 ondas_draw
 	
@@ -271,7 +232,6 @@ ondas_draw:
   addi $23 $0 50
 	jr $31
 
-#função flores
 
 flor_verif:
   beq $23 $0 flor_draw
@@ -297,7 +257,6 @@ flor_draw:
 
 
 #função criar_nuvem 
-
 criar_nuvem: 
   sw $15 -516($8)
   sw $15 -520($8)
@@ -323,67 +282,3 @@ criar_nuvem:
   sw $15 16($8)
   addi $8 $8 20
   jr $31
-  
-# função desenho_cachoeira
-  
-desenho_cachoeira: 
-                   addi $18 $0 2
-                   addi $8 $8 -416
-                      
-laco1_cachoeira: beq $18 $0 fim_func_cachoeira
-                 addi $18 $18 -1
-                 addi $8 $8 416 
-                 addi $19 $0 8
-                 beq $20 $0 laco1_cachoeira_grama
-                 addi $19 $0 12
-                  
-laco2_cachoeira: beq $19 $0 laco1_cachoeira
-                 sw $10 0($8)
-                 sw $9 4($8)
-                 addi $8 $8 8
-                 addi $19 $19 -1
-                 j laco2_cachoeira
-                 
-laco1_cachoeira_grama: beq $19 $0 laco2_cachoeira_grama_prep
-                       beq $18 $0 fim_func_cachoeira
-                       
-                      sw $15 0($8)
-                      sw $9 4($8)
-                      sw $10 8($8)
-                      addi $8 $8 12
-                      addi $19 $19 -1
-                      j laco1_cachoeira_grama
-                     
-laco2_cachoeira_grama_prep: addi $18 $18 -1
-                            addi $8 $8 416 
-                            addi $19 $0 8    
-                            
-laco2_cachoeira_grama: beq $19 $0 laco1_cachoeira
-                       
-                      sw $10 0($8)
-                      sw $15 4($8)
-                      sw $9 8($8)
-                      addi $8 $8 12
-                      addi $19 $19 -1
-                      j laco2_cachoeira_grama            
-                 
-fim_func_cachoeira: jr $31  
-
-#função ponte_des para desenhar ponte      
-  
-ponte_des: sw $11 0($8)
-           sw $12 4($8)
-           sw $11 -508($8)
-           sw $11 516($8)
-           sw $11 8($8)
-           
-           jr $31   
-  
-  
-  
-  
-  
-  
-  
-  
-  
