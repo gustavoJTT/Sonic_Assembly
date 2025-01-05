@@ -2,43 +2,169 @@
 
 main:
   lui $8 0x1001
-  ori $9 $0 0x9C73B9 #roxo solo
-  ori $10 $0 0x673F84 #roxo linha solo
-  ori $11 $0 0x1F001F #roxo escuro fundo
-  ori $12 $0 0x48214F #roxo linha fundo
-  ori $13 $0 0
-  ori $14 $0 0
+  ori $9 $0 0x1D009F #azul ceu
+  ori $10 $0 0x0082E0 #azul mar
+  ori $11 $0 0x250000 #marrom escuro
+  ori $12 $0 0x6A1B00 #marrom claro
+  ori $13 $0 0x62FF36 #verde claro
+  ori $14 $0 0x00AD2B #verde esuro
   ori $15 $0 0xFFFFFF #branco
-  
+
+  #addi $25 $0 8192 #mÃ¡ximo da tela
+
+  addi $25 $0 3303
+  addi $24 $0 2580
+  addi $23 $0 2294
+  addi $22 $0 2022
+  addi $21 $0 1338
+  addi $20 $0 735
+
+ceu:
+  beq $25 $0 montanhas_prep
+
+  sw $9 0($8)
+
+  addi $8 $8 4
+  addi $25 $25 -1
+  beq $25 $24 nuvem
+  beq $25 $23 nuvem
+  beq $25 $22 nuvem 
+  beq $25 $21 nuvem 
+  beq $25 $20 nuvem 
+  j ceu
+
+nuvem:
+  jal criar_nuvem
+  j ceu
+
+montanhas_prep:
+  addi $22 $0 10
+
+montanha1_prep:
+  beq  $22 $0 mar_prep
+  addi $22 $22 -1
+  addi $24 $0 7 #$24 > altura montanha 
+  addi $23 $0 1
+
+montanha1:
+  jal criar_montanha
+
+montanha2_prep:
+  addi $24 $0 5
+  addi $23 $0 1 
+
+montanha2:
+  jal criar_montanha
+
+  addi $8 $8 4
+  sw $10 0($8)
+  j montanha1_prep
+
+mar_prep: 
+  addi $25 $0 2176
+  addi $8 $8 -8
+  addi $23 $0 260
+
+mar:   
+  beq $25 $0 grama_prep
+	
+  sw $10 0($8)
+  jal ondas_verif
+
+  addi $8 $8 4
+  addi $25 $25 -1
+  addi $23 $23 -1
+  j mar 
+
+
+
+grama_prep: 
+  addi $25 $0 171
+  addi $23 $0 81
+
+grama: 
+  beq $25 $0 cachoeira_prep
+  sw $14 0($8)
+  sw $14 4($8)
+  sw $13 8($8)
+  jal placa_verif
+
+  addi $8 $8 12
+  addi $25 $25 -1
+  addi $23 $23 -1
+  j grama
+
+cachoeira_prep: addi $8 $8 -1908
+                addi $25 $0 2
+                addi $20 $0 0 #variavel escolha tipo de cachoeira
+                
+cachoeira_grama: beq $25 $0 solo_prep
+                 jal desenho_cachoeira
+                 addi $25 $25 -1
+                 addi $8 $8 416
+                 j cachoeira_grama
+
 solo_prep: 
-  addi $25 $25 32
-  addi $8 $8 -512
+  addi $25 $25 8
+  addi $8 $8 -656
+
+  addi $20 $0 1 #variavel escolha tipo de cachoeira
 
 solo_laco1:
-  beq $25 $0 fim
-  addi $24 $0 64
+  beq $25 $0 ponte_prep
+  addi $24 $0 53
+  add $22 $0 $24
+  addi $21 $24 -18
 
+  
   addi $8 $8 512
   addi $25 $25 -1
 
 solo_laco2:
   beq $24 $0 solo_laco1
 
+  beq $21 $24 cachoeira_solo
   jal solo
-
+  
   addi $24 $24 -1
   addi $8 $8 8
-j solo_laco2
-	
+  j solo_laco2
+
+cachoeira_solo: 
+                jal desenho_cachoeira
+                addi $8 $8 -512
+                addi $24 $24 -1
+                add $22 $0 $24
+                j solo_laco2
+
+ponte_prep: addi $8 $8 -9072
+            jal ponte_des
+            addi $8 $8 524
+            jal ponte_des
+            addi $8 $8 524
+            jal ponte_des
+            addi $8 $8 12
+            jal ponte_des
+            addi $8 $8 12
+            jal ponte_des
+            addi $8 $8 12
+            jal ponte_des
+            addi $8 $8 -500
+            jal ponte_des
+            addi $8 $8 -500
+            jal ponte_des
+            
+
 fim:
   addi $2 $0 10
   syscall
 
 #----------------------func-----------------------
 
+#função solo para prencher o solo de jeito alternado
+
 solo: 
   lw $23 -4($8)
-  addi $22 $0 64
   beq $22 $24 escolha_solo
 
   beq $23 $12 marr_esc
@@ -46,7 +172,8 @@ solo:
 
 
 escolha_solo: 
-  bne $23 $12 marr_esc 
+  lw $23 -512($8)
+  bne $23 $11 marr_esc 
 
 marr_claro:
   sw $12 0($8)
@@ -64,3 +191,270 @@ marr_esc:
 
 fim_func_solo:
   jr $31
+
+
+# função criar_montanha para criar as montanhas com as medidadas dadas
+criar_montanha:
+  addi $21 $0 0
+  addi $20 $0 1
+  addi $19 $0 0
+  addi $24 $24 2
+  addi $8 $8 512
+
+montanha_subindo:
+  beq $24 $23 montanha_descendo_prep
+
+montanha_subindo2:
+  beq $21 $23 fim_montanha_subindo
+  sw $11 -512($8)
+  addi $21 $21 1 
+  addi $8 $8 -512
+  addi $19 $19 512
+  j montanha_subindo2
+
+fim_montanha_subindo:
+  addi $23 $23 2
+  addi $21 $0 0
+  add $8 $8 $19
+  addi $19 $0 0
+  addi $8 $8 4
+  j montanha_subindo
+
+montanha_descendo_prep:
+  addi $23 $23 -2
+
+montanha_descendo:
+  beq $23 $20 fim_func_montanhas
+  addi $23 $23 -2
+
+
+montanha_descendo2:
+  beq $21 $23 fim_montanha_descendo
+  sw $11 -512($8)
+  addi $21 $21 1 
+  addi $8 $8 -512
+  addi $19 $19 512
+  j montanha_descendo2
+
+fim_montanha_descendo:
+  addi $21 $0 0
+  add $8 $8 $19
+  addi $19 $0 0
+  addi $8 $8 4
+  j montanha_descendo                  
+
+
+fim_func_montanhas: 
+  addi $8 $8 -512
+  jr $31
+  
+#função ondas
+      
+ondas_verif:
+	beq $23 $0 ondas_draw
+	
+	jr $31
+	
+ondas_draw:
+	addi $9 $0 0
+  ori $9 $0 0x87B8BD #espuma das ondas
+  
+  sw $9 -1024($8)
+  sw $9 -1040($8)
+  sw $9 -516($8)
+  sw $9 -520($8)
+  sw $9 -512($8)
+  sw $9 -524($8)
+  sw $9 -528($8)
+  sw $9 -532($8)
+
+  addi $23 $0 50
+	jr $31
+
+#função criar_nuvem 
+
+criar_nuvem: 
+  sw $15 -516($8)
+  sw $15 -520($8)
+  sw $15 -1028($8)
+  sw $15 0($8)
+  sw $15 -512($8)
+  sw $15 -1024($8)
+  sw $15 4($8)
+  sw $15 -508($8)
+  sw $15 -1020($8)
+  sw $15 -1532($8)
+  sw $15 8($8)
+  sw $15 -504($8)
+  sw $15 -1016($8)
+  sw $15 -1528($8)
+  sw $15 12($8)
+  sw $15 -1012($8)
+  sw $15 -1008($8)
+  sw $15 -1004($8)
+  sw $15 -500($8)
+  sw $15 -496($8)
+  sw $15 -492($8)
+  sw $15 16($8)
+  addi $8 $8 20
+  jr $31
+  
+# função desenho_cachoeira
+  
+desenho_cachoeira: 
+                   addi $18 $0 2
+                   addi $8 $8 -416
+                      
+laco1_cachoeira: beq $18 $0 fim_func_cachoeira
+                 addi $18 $18 -1
+                 addi $8 $8 416 
+                 addi $19 $0 8
+                 beq $20 $0 laco1_cachoeira_grama
+                 addi $19 $0 12
+                  
+laco2_cachoeira: beq $19 $0 laco1_cachoeira
+                 sw $10 0($8)
+                 sw $9 4($8)
+                 addi $8 $8 8
+                 addi $19 $19 -1
+                 j laco2_cachoeira
+                 
+laco1_cachoeira_grama: beq $19 $0 laco2_cachoeira_grama_prep
+                       beq $18 $0 fim_func_cachoeira
+                       
+                      sw $15 0($8)
+                      sw $9 4($8)
+                      sw $10 8($8)
+                      addi $8 $8 12
+                      addi $19 $19 -1
+                      j laco1_cachoeira_grama
+                     
+laco2_cachoeira_grama_prep: addi $18 $18 -1
+                            addi $8 $8 416 
+                            addi $19 $0 8    
+                            
+laco2_cachoeira_grama: beq $19 $0 laco1_cachoeira
+                       
+                      sw $10 0($8)
+                      sw $15 4($8)
+                      sw $9 8($8)
+                      addi $8 $8 12
+                      addi $19 $19 -1
+                      j laco2_cachoeira_grama            
+                 
+fim_func_cachoeira: jr $31  
+
+#função ponte_des para desenhar ponte      
+  
+ponte_des: sw $11 0($8)
+           sw $12 4($8)
+           sw $11 -508($8)
+           sw $11 516($8)
+           sw $11 8($8)
+           
+           jr $31
+           
+           
+#função placa no final
+
+placa_verif:
+	beq $23 $0 placa_draw
+	
+	jr $31
+	
+placa_draw:
+	ori $23 $0 0x919493 #cinza moldura placa
+	ori $22 $0 0xF4FF2F #amarelo fundo placa
+	ori $21 $0 0xFF0000 #vermelho jaqueta / vermelho nariz
+	ori $20 $0 0xFFB797 #pele
+	ori $19 $0 0x4F0005 #marrom barba
+	ori $18 $0 0x2A72F4 #azul olhos
+	
+	#moldura
+	sw $23 0($8)
+	sw $23 -512($8)
+	sw $23 -1024($8)
+	sw $23 -1536($8)
+	
+		#moldura grossa !!!teste!!!
+	sw $23 -1540($8)
+		#moldura grossa !!!teste!!!
+		
+	sw $23 -2048($8)
+	#0+1
+	sw $23 -2044($8)
+	#0+2
+	sw $23 -2040($8)
+	#0-1
+	sw $23 -2052($8)
+	
+	
+	#fundo amarelo
+	sw $22 -3596($8)
+	sw $22 -3572($8)
+	
+	
+	#pele
+	sw $20 -2560($8)
+	sw $20 -3072($8)
+	
+	sw $20 -2564($8)
+	sw $20 -3076($8)
+	
+	sw $20 -2556($8)
+	sw $20 -3068($8)
+	sw $20 -4608($8)
+	
+	sw $20 -4600($8)
+	sw $20 -4616($8)
+	
+	sw $20 -5120($8)
+	sw $20 -5632($8)
+	
+	sw $20 -5124($8)
+	#sw $20 -5636($8) ficou meio estranho, ver dps
+	#sw $20 -5640($8) ficou meio estranho, ver dps
+	
+	sw $20 -5116($8)
+	#sw $20 -5628($8) ficou meio estranho, ver dps
+	
+	
+	#nariz
+	sw $21 -4096($8)
+	
+	
+	#olhos
+	sw $18 -4604($8)
+	sw $18 -4612($8)
+	
+	
+	#barba
+	sw $19 -3584($8)
+	#sw $19 -4096($8)
+	
+	sw $19 -3588($8)
+	sw $19 -4100($8)
+	sw $19 -3592($8)
+	sw $19 -4104($8)
+	sw $19 -4108($8)
+	
+	sw $19 -3580($8)
+	sw $19 -4092($8)
+	sw $19 -3576($8)
+	sw $19 -4088($8)
+	sw $19 -4084($8)
+	
+	
+	#roupa
+	sw $21 -2568($8)
+	sw $21 -3080($8)
+	sw $21 -2572($8)
+	sw $21 -3084($8)
+	
+	sw $21 -2548($8)
+	sw $21 -3060($8)
+	sw $21 -2552($8)
+	sw $21 -3064($8)
+	
+
+	jr $31

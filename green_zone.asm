@@ -80,7 +80,7 @@ mar:
 
 grama_prep: 
   addi $25 $0 142
-  addi $23 $0 10
+  addi $23 $0 90
 
 grama: 
   beq $25 $0 solo_prep
@@ -102,6 +102,7 @@ solo_prep:
 solo_laco1:
   beq $25 $0 fim
   addi $24 $0 64
+  add $22 $0 $24
 
   addi $8 $8 512
   addi $25 $25 -1
@@ -126,7 +127,6 @@ fim:
 
 solo: 
   lw $23 -4($8)
-  addi $22 $0 64
   beq $22 $24 escolha_solo
 
   beq $23 $12 marr_esc
@@ -134,7 +134,8 @@ solo:
 
 
 escolha_solo: 
-  bne $23 $12 marr_esc 
+  lw $23 -512($8)
+  bne $23 $11 marr_esc 
 
 marr_claro:
   sw $12 0($8)
