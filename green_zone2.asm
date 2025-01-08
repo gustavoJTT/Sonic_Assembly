@@ -484,6 +484,7 @@ placa_draw:
 	sw $22 -3052($8)
 	sw $22 -2540($8)
 	
+	
 	#pele
 	sw $20 -2560($8)
 	sw $20 -3072($8)
@@ -499,13 +500,8 @@ placa_draw:
 	sw $20 -4616($8)
 	
 	sw $20 -5120($8)
-	
 	sw $20 -5124($8)
-	#sw $20 -5636($8) ficou meio estranho, ver dps
-	#sw $20 -5640($8) ficou meio estranho, ver dps
-	
 	sw $20 -5116($8)
-	#sw $20 -5628($8) ficou meio estranho, ver dps
 	
 	
 	#nariz
@@ -519,7 +515,6 @@ placa_draw:
 	
 	#barba
 	sw $19 -3584($8)
-	#sw $19 -4096($8)
 	
 	sw $19 -3588($8)
 	sw $19 -4100($8)
