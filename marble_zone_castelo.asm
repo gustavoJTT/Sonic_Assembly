@@ -283,7 +283,7 @@ fim_func_cespugli:
 
 solo_marble_zone_func: ori $9 $0 0x6A3F84 #roxo escuro solo
                        ori $10 $0 0x9C73B9 #roxo claro solo
-                       ori $11 $0 0x1F001F #roxo escuro fundo
+                       ori $11 $0 0x48214F #roxo montanhas
                        add $22 $0 $31
 
 laco1_solo_marble_zone_func: beq $25 $24 laco2_solo_marble_zone_func_prep

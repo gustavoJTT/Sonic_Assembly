@@ -37,17 +37,10 @@ tijolo_fundo_draw:
 	j tijolo_fundo_draw
 
 lava_prep:
-	addi $25 $0 4001
-	addi $22 $0 4000
+	addi $25 $0 39
 	
 lava_draw:
-	beq $25 $0 solo_prep
-	
-	jal lava_teste
-	
-	addi $25 $25 -1
-	addi $22 $22 -1
-	j lava_draw
+	jal lava_draw_func
 
 	#desenhar solo
 solo_prep:
@@ -187,27 +180,66 @@ brick_draw_solo:
 	jr $31
 	
 
-	#funcao lava
-lava_teste:
-	beq $22 $0 lava_draw_shape
-	
-	jr $31
-	
-lava_draw_shape:
+######## função lava
+
+lava_draw_func:
 	ori $10 $0 0xFF0000 #vermelho lava
-	ori $11 $0 0xF9FC2B #amarelo lava
-	ori $12 $0 0xFF8A00 #laranja lava
+	ori $11 $0 0xFF8A00 #laranja lava
+	ori $12 $0 0xF9FC2B #amarelo lava
 	
-	#aumentar 512 / lateral cachoeira de lava
-	sw $10 -13008($8)
+	sw $10 0($8)
+	add $24 $0 $8
+	addi $23 $25 -6
+	addi $8 $8 -20612
 	
-	#aumentar 512
-	sw $10 -13004($8)
+lava_laco_start: beq $25 $23 lava_draw_laco_prep
+                 addi $8 $8 416
+                 addi $22 $0 8
+                       
+lava_laco2_start:     beq $22 $0 lava_laco3_start_prep
+                      sw $10 0($8)
+                      sw $11 4($8)
+                      sw $12 8($8)
+                      addi $8 $8 12
+                      addi $22 $22 -1
+                      j lava_laco2_start
+
+lava_laco3_start_prep: addi $8 $8 416
+                       addi $22 $0 8
+                       addi $25 $25 -2
+                       
+lava_laco3_start:     beq $22 $0 lava_laco_start
+		      sw $12 0($8)
+                      sw $10 4($8)                       
+                      sw $11 8($8)
+                      addi $8 $8 12
+                      addi $22 $22 -1
+                      j lava_laco3_start
+
+lava_draw_laco_prep: addi $8 $8 -16
 	
-	#aumentar 512
-	sw $10 -13000($8)
+lava_draw_laco1: beq $25 $0 fim_func_lava
+                 addi $8 $8 432
+                 addi $25 $25 -1
+                 addi $23 $0 2
+
+lava_draw_laco2:     sw $10 0($8)
+	             sw $10 4($8)
+	             sw $10 8($8)
+	             sw $10 12($8)
+	             
+	             beq $23 $0 lava_draw_laco1
+	             
+	             sw $11 16($8)
+	             sw $11 20($8)
+	             sw $11 24($8)
+	             sw $12 28($8)
+	             sw $12 32($8)
+	             sw $12 36($8)
+	             
+	             addi $8 $8 40
+	             addi $23 $23 -1
+	             j lava_draw_laco2
 	
-	#aumentar 512
-	sw $10 -12996($8)
-	
-	jr $31
+fim_func_lava: add $8 $0 $24
+               jr $31
