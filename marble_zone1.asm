@@ -85,27 +85,27 @@ castelo_base_sombra_main:
 	jal castelo_sombra_prep_func
 	
 castelo_coluna_luz_main:
-	addi $20 $19 280
+	addi $20 $19 296
 	jal castelo_coluna_luz_prep_func
 	
 castelo_coluna_sombra_main:
-	addi $20 $19 280
+	addi $20 $19 296
 	jal castelo_coluna_sombra_prep_func
 
 
 castelo_base_luz_main_2:
-	addi $20 $19 120
+	addi $20 $19 108
 	jal castelo_luz_prep_func
 
 castelo_base_sombra_main_2:
 	jal castelo_sombra_prep_func
 	
 castelo_coluna_luz_main_2:
-	addi $20 $19 400
+	addi $20 $19 404
 	jal castelo_coluna_luz_prep_func
 	
 castelo_coluna_sombra_main_2:
-	addi $20 $19 400
+	addi $20 $19 404
 	jal castelo_coluna_sombra_prep_func
 	
 castelo_topo_main:
@@ -523,51 +523,51 @@ castelo_coluna_luz_prep_func:
 castelo_coluna_luz_func:
 	beq $25 $0 voltar
 	
-	sw $9 -1536($20)
+	sw $9 -1552($20)
+	sw $9 -1548($20)
+	sw $10 -1544($20)
+	sw $10 -1540($20)
+	sw $10 -1536($20)
 	sw $9 -1532($20)
-	sw $10 -1528($20)
-	sw $10 -1524($20)
-	sw $10 -1520($20)
-	sw $9 -1516($20)
-	sw $9 -1512($20)
+	sw $9 -1528($20)
 	
-	sw $9 -2048($20)
+	sw $9 -2064($20)
+	sw $10 -2060($20)
+	sw $10 -2056($20)
+	sw $9 -2052($20)
+	sw $10 -2048($20)
 	sw $10 -2044($20)
-	sw $10 -2040($20)
-	sw $9 -2036($20)
-	sw $10 -2032($20)
-	sw $10 -2028($20)
-	sw $9 -2024($20)
+	sw $9 -2040($20)
 	
-	sw $9 -2560($20)
+	sw $9 -2576($20)
+	sw $10 -2572($20)
+	sw $10 -2568($20)
+	sw $9 -2564($20)
+	sw $10 -2560($20)
 	sw $10 -2556($20)
-	sw $10 -2552($20)
-	sw $9 -2548($20)
-	sw $10 -2544($20)
-	sw $10 -2540($20)
-	sw $9 -2536($20)
+	sw $9 -2552($20)
 	
-	sw $9 -3072($20)
+	sw $9 -3088($20)
+	sw $9 -3084($20)
+	sw $10 -3080($20)
+	sw $10 -3076($20)
+	sw $10 -3072($20)
 	sw $9 -3068($20)
-	sw $10 -3064($20)
-	sw $10 -3060($20)
-	sw $10 -3056($20)
-	sw $9 -3052($20)
-	sw $9 -3048($20)
+	sw $9 -3064($20)
 	
+	sw $9 -3600($20)
+	sw $9 -3596($20)
+	sw $9 -3592($20)
+	sw $10 -3588($20)
 	sw $9 -3584($20)
 	sw $9 -3580($20)
 	sw $9 -3576($20)
-	sw $10 -3572($20)
-	sw $9 -3568($20)
-	sw $9 -3564($20)
-	sw $9 -3560($20)
 	
 	addi $20 $20 -2560
 	addi $25 $25 -1
 	j castelo_coluna_luz_func
 	
-	
+	#coluna sombra
 castelo_coluna_sombra_prep_func:
 	addi $25 $0 2
 	
@@ -577,45 +577,45 @@ castelo_coluna_sombra_prep_func:
 castelo_coluna_sombra_func:
 	beq $25 $0 voltar
 	
-	sw $9 -1508($20)
+	sw $9 -1524($20)
+	sw $9 -1520($20)
+	sw $10 -1516($20)
+	sw $10 -1512($20)
+	sw $10 -1508($20)
 	sw $9 -1504($20)
-	sw $10 -1500($20)
-	sw $10 -1496($20)
-	sw $10 -1492($20)
-	sw $9 -1488($20)
-	sw $9 -1484($20)
+	sw $9 -1500($20)
 	
-	sw $9 -2020($20)
+	sw $9 -2036($20)
+	sw $10 -2032($20)
+	sw $10 -2028($20)
+	sw $9 -2024($20)
+	sw $10 -2020($20)
 	sw $10 -2016($20)
-	sw $10 -2012($20)
-	sw $9 -2008($20)
-	sw $10 -2004($20)
-	sw $10 -2000($20)
-	sw $9 -1996($20)
+	sw $9 -2012($20)
 	
-	sw $9 -2532($20)
+	sw $9 -2548($20)
+	sw $10 -2544($20)
+	sw $10 -2540($20)
+	sw $9 -2536($20)
+	sw $10 -2532($20)
 	sw $10 -2528($20)
-	sw $10 -2524($20)
-	sw $9 -2520($20)
-	sw $10 -2516($20)
-	sw $10 -2512($20)
-	sw $9 -2508($20)
+	sw $9 -2524($20)
 	
-	sw $9 -3044($20)
+	sw $9 -3060($20)
+	sw $9 -3056($20)
+	sw $10 -3052($20)
+	sw $10 -3048($20)
+	sw $10 -3044($20)
 	sw $9 -3040($20)
-	sw $10 -3036($20)
-	sw $10 -3032($20)
-	sw $10 -3028($20)
-	sw $9 -3024($20)
-	sw $9 -3020($20)
+	sw $9 -3036($20)
 	
+	sw $9 -3572($20)
+	sw $9 -3568($20)
+	sw $9 -3564($20)
+	sw $10 -3560($20)
 	sw $9 -3556($20)
 	sw $9 -3552($20)
 	sw $9 -3548($20)
-	sw $10 -3544($20)
-	sw $9 -3540($20)
-	sw $9 -3536($20)
-	sw $9 -3532($20)
 	
 	addi $20 $20 -2560
 	addi $25 $25 -1
@@ -624,7 +624,7 @@ castelo_coluna_sombra_func:
 	
 	#topo do castelo
 castelo_topo_prep_func:
-	addi $25 $0 52
+	addi $25 $0 49
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 	ori $10 $0 0x89B996 #verde escuro
@@ -639,7 +639,7 @@ castelo_topo_base:
 	j castelo_topo_base
 	
 castelo_topo_lateral_prep:
-	addi $25 $0 3
+	addi $25 $0 2
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
@@ -647,27 +647,299 @@ castelo_topo_lateral_prep:
 castelo_topo_lateral:
 	beq $25 $0 castelo_topo_lateral_esquerda_prep
 	
-	sw $9 -6672($20)
-	sw $9 -6464($20)
+	sw $9 -6672($20)	#esquerda
+	sw $9 -6480($20)	#direita
 	
 	addi $25 $25 -1
 	addi $20 $20 -512
 	j castelo_topo_lateral
 	
 castelo_topo_lateral_esquerda_prep:
-	addi $25 $0 3
+	addi $25 $0 9
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 	
 castelo_topo_lateral_esquerda:
-	beq $25 $0 voltar
+	beq $25 $0 castelo_topo_lateral_direita_prep
 	
-	sw $9 -7184($20)
-	sw $9 -6672($20)
+	sw $9 -7692($20)
+	sw $9 -7688($20)
 	
 	
 	addi $25 $25 -1
+	addi $20 $20 8
 	addi $20 $20 -512
-	addi $20 $20 4
 	j castelo_topo_lateral_esquerda
+
+
+castelo_topo_lateral_direita_prep:
+	addi $25 $0 9
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+	
+castelo_topo_lateral_direita:
+	beq $25 $0 castelo_topo_cima_prep
+	
+	sw $9 -7508($20)
+	sw $9 -7512($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 -8
+	addi $20 $20 -512
+	j castelo_topo_lateral_direita
+
+
+castelo_topo_cima_prep:
+	addi $25 $0 12
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+	
+castelo_topo_cima:
+	beq $25 $0 castelo_topo_preencher_prep
+	
+	sw $9 -11676($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 -4
+	j castelo_topo_cima
+	
+#topo do castelo preencher 1
+castelo_topo_preencher_prep:
+	addi $25 $0 47
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+	
+castelo_topo_preencher:
+	beq $25 $0 castelo_topo_preencher_prep_2
+	
+	sw $9 -7180($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 4
+	j castelo_topo_preencher
+	
+#topo do castelo preencher 2
+castelo_topo_preencher_prep_2:
+	addi $25 $0 43
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+
+castelo_topo_preencher_2:
+	beq $25 $0 castelo_topo_preencher_prep_3
+	
+	sw $9 -7684($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 4
+	j castelo_topo_preencher_2
+	
+#topo do castelo preencher 3
+castelo_topo_preencher_prep_3:
+	addi $25 $0 39
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+
+castelo_topo_preencher_3:
+	beq $25 $0 castelo_topo_preencher_prep_4
+	
+	sw $9 -8188($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 4
+	j castelo_topo_preencher_3
+	
+#topo do castelo preencher 4
+castelo_topo_preencher_prep_4:
+	addi $25 $0 35
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+
+castelo_topo_preencher_4:
+	beq $25 $0 castelo_topo_preencher_prep_5
+	
+	sw $9 -8692($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 4
+	j castelo_topo_preencher_4
+	
+#topo do castelo preencher 5
+castelo_topo_preencher_prep_5:
+	addi $25 $0 31
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+
+castelo_topo_preencher_5:
+	beq $25 $0 castelo_topo_preencher_prep_6
+	
+	sw $9 -9196($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 4
+	j castelo_topo_preencher_5
+	
+#topo do castelo preencher 6
+castelo_topo_preencher_prep_6:
+	addi $25 $0 25
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+
+castelo_topo_preencher_6:
+	beq $25 $0 castelo_topo_preencher_prep_7
+	
+	sw $9 -9196($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 4
+	j castelo_topo_preencher_6
+	
+#topo do castelo preencher 7
+castelo_topo_preencher_prep_7:
+	addi $25 $0 21
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+
+castelo_topo_preencher_7:
+	beq $25 $0 castelo_topo_preencher_prep_8
+	
+	sw $9 -9196($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 4
+	j castelo_topo_preencher_7
+
+#topo do castelo preencher 8
+castelo_topo_preencher_prep_8:
+	addi $25 $0 27
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+
+castelo_topo_preencher_8:
+	beq $25 $0 castelo_topo_preencher_prep_9
+	
+	sw $9 -9700($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 4
+	j castelo_topo_preencher_8
+	
+#topo do castelo preencher 9
+castelo_topo_preencher_prep_9:
+	addi $25 $0 23
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+
+castelo_topo_preencher_9:
+	beq $25 $0 castelo_topo_preencher_prep_10
+	
+	sw $9 -10204($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 4
+	j castelo_topo_preencher_9
+	
+#topo do castelo preencher 10
+castelo_topo_preencher_prep_10:
+	addi $25 $0 19
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+
+castelo_topo_preencher_10:
+	beq $25 $0 castelo_topo_preencher_prep_11
+	
+	sw $9 -10708($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 4
+	j castelo_topo_preencher_10
+	
+#topo do castelo preencher 11
+castelo_topo_preencher_prep_11:
+	addi $25 $0 15
+	addi $20 $19 280
+	
+	ori $9 $0 0xA7D4B1 #verde claro
+
+castelo_topo_preencher_11:
+	beq $25 $0 voltar
+	
+	sw $9 -11212($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 4
+	j castelo_topo_preencher_11
+	
+#desenhos castelo topo
+
+castelo_topo_desenho_prep:
+	addi $25 $0 3
+	addi $20 $19 280
+	
+	ori $9 $0 0x5D956D #verde claro sombra
+	
+castelo_topo_desenho:
+	beq $25 $0 castelo_topo_desenho_prep_2
+	
+	sw $9 -8180($20)
+	sw $9 -8176($20)
+	sw $9 -7664($20)
+	sw $9 -7660($20)
+	sw $9 -7144($20)
+	sw $9 -7652($20)
+	sw $9 -7648($20)
+	sw $9 -8160($20)
+	sw $9 -8156($20)
+	
+	#topo flor
+	sw $9 -8168($20)
+	sw $9 -8676($20)
+	sw $9 -8684($20)
+	sw $9 -9192($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 32
+	j castelo_topo_desenho
+	
+castelo_topo_desenho_prep_2:
+	addi $25 $0 2
+	addi $20 $19 280
+	addi $20 $20 -2560
+	addi $20 $20 32
+	
+	ori $9 $0 0x5D956D #verde claro sombra
+	
+castelo_topo_desenho_2:
+	beq $25 $0 voltar
+	
+	sw $9 -8180($20)
+	sw $9 -8176($20)
+	sw $9 -7664($20)
+	sw $9 -7660($20)
+	sw $9 -7144($20)
+	sw $9 -7652($20)
+	sw $9 -7648($20)
+	sw $9 -8160($20)
+	sw $9 -8156($20)
+	
+	#topo flor
+	sw $9 -8168($20)
+	sw $9 -8676($20)
+	sw $9 -8684($20)
+	sw $9 -9192($20)
+	
+	addi $25 $25 -1
+	addi $20 $20 32
+	j castelo_topo_desenho_2
