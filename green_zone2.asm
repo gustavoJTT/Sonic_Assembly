@@ -192,6 +192,14 @@ marr_esc:
 fim_func_solo:
   jr $31
 
+  sw $12 -512($8)
+  sw $12 -1024($8)
+  sw $10 -1536($8)
+  sw $10 -2052($8)
+  sw $10 -2044($8)
+  sw $9 -2048($8)
+  sw $10 -2560($8)
+
 
 # função criar_montanha para criar as montanhas com as medidadas dadas
 criar_montanha:
