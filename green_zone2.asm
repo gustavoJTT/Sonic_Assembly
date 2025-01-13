@@ -56,8 +56,8 @@ montanha2_prep:
 montanha2:
   jal criar_montanha
 
+  sw $11 0($8)
   addi $8 $8 4
-  sw $10 0($8)
   j montanha1_prep
 
 mar_prep: 
