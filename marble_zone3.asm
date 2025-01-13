@@ -39,7 +39,7 @@ tijolo_fundo_draw:
 #desenhar janelas
 
 janelas_prep: addi $25 $25 3
-              add $24 $0 $8
+              add $20 $0 $8
               addi $8 $8 -17320
             
 janelas_laco: beq $25 $0 solo_prep
@@ -52,7 +52,7 @@ janelas_laco: beq $25 $0 solo_prep
 
 	#desenhar solo
 solo_prep:
-        add $8 $0 $24
+        add $8 $0 $20
 	addi $8 $8 -4
 	add $15 $0 $8
 	ori $9 $0 0x9C73B9 #roxo solo
