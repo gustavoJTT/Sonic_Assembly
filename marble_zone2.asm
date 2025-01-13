@@ -258,7 +258,7 @@ corrente_func_prep:
 	
 	addi $8 $8 -22148
 	addi $8 $8 48
-	addi $25 $0 3
+	addi $25 $0 4
 
 corrente_func_draw:
 	beq $25 $0 canhao_func_prep
@@ -292,6 +292,7 @@ corrente_func_draw:
 	
 canhao_func_prep:
 	ori $10 $0 0xF7ED3D #preto canhao 1C1C1C
+	ori $11 $0 0xc9bb0e
 	
 	addi $8 $8 496
 	addi $25 $0 3 #3
@@ -300,29 +301,29 @@ canhao_func_draw:
 	beq $25 $0 canhao_func_fim_prep
 	
 	#boca do canhao
-	sw $10 -4($8)
-	sw $10 508($8)
+	sw $11 -4($8)
+	sw $11 508($8)
 	sw $10 512($8)
 	sw $10 516($8)
 	
-	sw $10 -8($8)
-	sw $10 504($8)
-	sw $10 1016($8)
-	sw $10 1528($8)
-	sw $10 2040($8)
+	sw $11 -8($8)
+	sw $11 504($8)
+	sw $11 1016($8)
+	sw $11 1528($8)
+	sw $11 2040($8)
 	sw $10 2552($8)
 	
 	sw $10 1028($8)
 	
 	sw $10 1024($8)
-	sw $10 1020($8)
+	sw $11 1020($8)
 	sw $10 1540($8)
 	sw $10 1536($8)
 	
-	sw $10 1532($8)
+	sw $11 1532($8)
 	sw $10 2048($8)
-	sw $10 2044($8)
-	sw $10 2556($8)
+	sw $11 2044($8)
+	sw $11 2556($8)
 	
 	#corpo
 	sw $10 520($8)
