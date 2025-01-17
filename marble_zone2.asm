@@ -64,7 +64,7 @@ tijolo_solo_prep:
 	addi $24 $0 0
 	
 tijolo_solo_draw:
-	beq $25 $0 fim
+	beq $25 $0 canhao_main #jujijoqam
 	
 	jal teste_height_solo
 	
@@ -72,6 +72,10 @@ tijolo_solo_draw:
 	addi $24 $24 -1
 	addi $25 $25 -1
 	j tijolo_solo_draw
+
+# canhao
+canhao_main:
+	jal corrente_func_prep
 
 fim:
   addi $2 $0 10
@@ -243,3 +247,156 @@ lava_draw_laco2:     sw $10 0($8)
 	
 fim_func_lava: add $8 $0 $24
                jr $31
+
+
+#funcao canhao
+voltar:
+	jr $31
+
+corrente_func_prep:
+	ori $10 $0 0x5F5F5F #cinza corrente
+	
+	addi $8 $8 -22148
+	addi $8 $8 48
+	addi $25 $0 4
+
+corrente_func_draw:
+	beq $25 $0 canhao_func_prep
+	
+	#elo de lado
+	sw $10 0($8)
+	sw $10 512($8)
+	sw $10 1024($8)
+	sw $10 1536($8)
+	sw $10 2048($8)
+	
+	#elo de frente esquerda
+	sw $10 1532($8)
+	sw $10 2040($8)
+	sw $10 2552($8)
+	sw $10 3064($8)
+	sw $10 3580($8)
+	
+	#elo de frente direita
+	sw $10 1540($8)
+	sw $10 2056($8)
+	sw $10 2568($8)
+	sw $10 3080($8)
+	sw $10 3588($8)
+	
+	
+	addi $25 $25 -1
+	addi $8 $8 3072
+	j corrente_func_draw
+	
+	
+canhao_func_prep:
+	ori $10 $0 0xF7ED3D #preto canhao 1C1C1C
+	ori $11 $0 0xc9bb0e
+	
+	addi $8 $8 496
+	addi $25 $0 3 #3
+	
+canhao_func_draw:
+	beq $25 $0 canhao_func_fim_prep
+	
+	#boca do canhao
+	sw $11 -4($8)
+	sw $11 508($8)
+	sw $10 512($8)
+	sw $10 516($8)
+	
+	sw $11 -8($8)
+	sw $11 504($8)
+	sw $11 1016($8)
+	sw $11 1528($8)
+	sw $11 2040($8)
+	sw $10 2552($8)
+	
+	sw $10 1028($8)
+	
+	sw $10 1024($8)
+	sw $11 1020($8)
+	sw $10 1540($8)
+	sw $10 1536($8)
+	
+	sw $11 1532($8)
+	sw $10 2048($8)
+	sw $11 2044($8)
+	sw $11 2556($8)
+	
+	#corpo
+	sw $10 520($8)
+	sw $10 524($8)
+	sw $10 528($8)
+	sw $10 532($8)
+	sw $10 536($8)
+	sw $10 540($8)
+	sw $10 544($8)
+	
+	sw $10 1032($8)
+	sw $10 1036($8)
+	sw $10 1040($8)
+	sw $10 1044($8)
+	sw $10 1048($8)
+	sw $10 1052($8)
+	sw $10 1056($8)
+	
+	sw $10 1544($8)
+	sw $10 1548($8)
+	sw $10 1552($8)
+	sw $10 1556($8)
+	sw $10 1560($8)
+	sw $10 1564($8)
+	sw $10 1568($8)
+	
+	sw $10 2052($8)
+	sw $10 2056($8)
+	sw $10 2060($8)
+	sw $10 2064($8)
+	sw $10 2068($8)
+	sw $10 2072($8)
+	sw $10 2076($8)
+	sw $10 2080($8)
+	
+	addi $25 $25 -1
+	addi $8 $8 512
+	j canhao_func_draw
+	
+canhao_func_fim_prep:
+	addi $25 $0 2
+	addi $8 $8 -1528
+	
+	ori $10 $0 0xF7ED3D #preto canhao	1C1C1C
+	
+canhao_func_draw_2:
+	beq $25 $0 mario_reference_prep
+	
+	sw $10 1052($8)
+	sw $10 1564($8)
+	sw $10 2076($8)
+	sw $10 1568($8)
+	
+	addi $25 $25 -1
+	addi $8 $8 512
+	j canhao_func_draw_2
+	
+mario_reference_prep:
+	ori $10 $0 0x9B388B #vermelho
+	
+	addi $8 $8 -512
+	
+
+mario_reference_draw:
+	#sw $10 504($8)
+	#sw $10 536($8)
+	sw $10 1020($8)
+	sw $10 1044($8)
+	sw $10 1536($8)
+	sw $10 1552($8)
+	
+	sw $10 2052($8)
+	sw $10 1544($8)
+	sw $10 2060($8)
+	
+	j voltar
