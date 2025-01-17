@@ -100,7 +100,7 @@ solo_prep:
 
 
 solo_laco1:
-  beq $25 $0 fim
+  beq $25 $0 npc_vespa_prep_main
   addi $24 $0 64
   add $22 $0 $24
 
@@ -116,6 +116,8 @@ solo_laco2:
   addi $8 $8 8
 j solo_laco2
 
+npc_vespa_prep_main:
+	j npc_vespa_prep
 
 fim:
   addi $2 $0 10
@@ -283,3 +285,25 @@ criar_nuvem:
   addi $8 $8 20
   
   jr $31
+
+
+#npc vespa
+
+npc_vespa_prep:
+	addi $8 $0 0
+	lui $8 0x1001
+	addi $8 $8 17272	#altura
+	
+	addi $25 $0 2
+	ori $10	$0 0x000000	#preto
+	ori $11	0x800007	#vermelho
+	ori $12	0x838383	#prata
+	ori $13	0xE0AD40	#amarelo
+	
+npc_vespa_draw:
+	beq $25 $0 fim
+	sw $10 0($8)
+	
+	addi $8 $8 4
+	addi $25 $25 -1
+	j npc_vespa_draw
