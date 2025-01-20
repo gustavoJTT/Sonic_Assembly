@@ -56,8 +56,8 @@ montanha2_prep:
 montanha2:
   jal criar_montanha
 
+  sw $11 0($8)
   addi $8 $8 4
-  sw $10 0($8)
   j montanha1_prep
 
 mar_prep: 
@@ -100,7 +100,7 @@ solo_prep:
 
 
 solo_laco1:
-  beq $25 $0 fim
+  beq $25 $0 npc_vespa_prep_main
   addi $24 $0 64
   add $22 $0 $24
 
@@ -116,6 +116,8 @@ solo_laco2:
   addi $8 $8 8
 j solo_laco2
 
+npc_vespa_prep_main:
+	j npc_vespa_prep
 
 fim:
   addi $2 $0 10
@@ -281,4 +283,105 @@ criar_nuvem:
   sw $15 -492($8)
   sw $15 16($8)
   addi $8 $8 20
+  
   jr $31
+
+
+#npc vespa
+
+npc_vespa_prep:
+	addi $8 $0 0
+	lui $8 0x1001
+	addi $8 $8 16248	#altura
+	
+	addi $25 $0 1
+	ori $10	$0 0x000000	#preto
+	ori $11	0x800007	#vermelho
+	ori $12	0x838383	#prata
+	ori $13	0xE0AD40	#amarelo
+	ori $12 0xffffff #branco
+	
+npc_vespa_draw:
+	beq $25 $0 fim
+	sw $11 -512($8)
+	sw $11 -516($8)
+	sw $11 -1028($8)
+	
+	sw $11 -500($8)
+	sw $11 -496($8)
+	sw $11 -1008($8)
+	
+	sw $11 0($8)
+	sw $11 4($8)
+	sw $11 8($8)
+	sw $11 12($8)
+	
+	sw $11 508($8)
+	sw $10 512($8)
+	sw $11 516($8)
+	sw $10 520($8)
+	sw $11 524($8)
+	
+	sw $11 1016($8)
+	sw $11 1020($8)
+	sw $11 1024($8)
+	sw $11 1028($8)
+	sw $11 1032($8)
+	sw $11 1036($8)
+	
+	sw $11 1544($8)
+	sw $11 1540($8)
+	sw $11 1536($8)
+	sw $11 1532($8)
+	
+	
+	#corpo
+	sw $10 1040($8)
+	sw $10 1044($8)
+	sw $10 1048($8)
+	sw $10 1052($8)
+	sw $10 1056($8)
+	
+	sw $10 1552($8)
+	sw $10 1556($8)
+	sw $10 1560($8)
+	sw $10 1564($8)
+	
+	sw $10 528($8)
+	sw $10 536($8)
+	sw $10 540($8)
+	
+	#tanque
+	sw $12 532($8)
+	sw $12 24($8)
+	sw $12 28($8)
+	sw $12 32($8)
+	
+	#meio entre o corpo e o rabo
+	sw $12 1572($8)
+	sw $12 2088($8)
+	
+	#rabo
+	sw $10 2600($8)
+	sw $10 2092($8)
+	
+	sw $13 3112($8)
+	sw $13 2604($8)
+	sw $13 2096($8)
+	
+	sw $10 3116($8)
+	sw $10 2608($8)
+	
+	sw $13 3628($8)
+	sw $13 3120($8)
+	sw $13 2612($8)
+	
+	sw $10 3632($8)
+	sw $10 3124($8)
+	
+	#ferrão
+	sw $12 3636($8)
+	sw $12 4152($8)
+	
+	addi $25 $25 -1
+	j npc_vespa_draw

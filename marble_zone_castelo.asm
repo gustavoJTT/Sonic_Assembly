@@ -874,7 +874,7 @@ castelo_topo_preencher_prep_11:
 	ori $9 $0 0xA7D4B1 #verde claro
 
 castelo_topo_preencher_11:
-	beq $25 $0 voltar
+	beq $25 $0 castelo_topo_desenho_prep
 	
 	sw $9 -11212($20)
 	
@@ -885,8 +885,9 @@ castelo_topo_preencher_11:
 #desenhos castelo topo
 
 castelo_topo_desenho_prep:
-	addi $25 $0 3
+	addi $25 $0 4
 	addi $20 $19 280
+	addi $20 $20 8
 	
 	ori $9 $0 0x5D956D #verde claro sombra
 	
@@ -917,7 +918,7 @@ castelo_topo_desenho_prep_2:
 	addi $25 $0 2
 	addi $20 $19 280
 	addi $20 $20 -2560
-	addi $20 $20 32
+	addi $20 $20 40
 	
 	ori $9 $0 0x5D956D #verde claro sombra
 	
