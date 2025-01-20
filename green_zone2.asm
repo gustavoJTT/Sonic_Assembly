@@ -56,8 +56,8 @@ montanha2_prep:
 montanha2:
   jal criar_montanha
 
+  sw $11 0($8)
   addi $8 $8 4
-  sw $10 0($8)
   j montanha1_prep
 
 mar_prep: 
@@ -191,6 +191,14 @@ marr_esc:
 
 fim_func_solo:
   jr $31
+
+  sw $12 -512($8)
+  sw $12 -1024($8)
+  sw $10 -1536($8)
+  sw $10 -2052($8)
+  sw $10 -2044($8)
+  sw $9 -2048($8)
+  sw $10 -2560($8)
 
 
 # função criar_montanha para criar as montanhas com as medidadas dadas
