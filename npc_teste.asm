@@ -69,6 +69,7 @@ mar:
   beq $25 $0 grama_prep
 	
   sw $10 0($8)
+  sw $10 32768($8)
   jal ondas_verif
 
   addi $8 $8 4
@@ -111,7 +112,7 @@ solo_prep:
   addi $20 $0 1 #variavel escolha tipo de cachoeira
 
 solo_laco1:
-  beq $25 $0 peixe_prep
+  beq $25 $0 ponte_prep
   addi $24 $0 53
   add $22 $0 $24
   addi $21 $24 -18
@@ -137,10 +138,8 @@ cachoeira_solo:
                 add $22 $0 $24
                 j solo_laco2
                 
-peixe_prep: addi $8 $8 -3420
-            jal func_peixe
 
-ponte_prep: addi $8 $8 -5652
+ponte_prep: addi $8 $8 -9072
             jal ponte_func
             addi $8 $8 524
             jal ponte_func
@@ -156,7 +155,21 @@ ponte_prep: addi $8 $8 -5652
             jal ponte_func
             addi $8 $8 -500
             jal ponte_func
-            
+
+peixe_prep: addi $8 $8 7608
+            addi $25 $0 20
+                  
+
+peixe_laco1: #beq $25 $0 fim
+             jal func_peixe
+             addi $8 $8 52
+             jal func_peixe
+             
+             addi $25 $25 -1
+             addi $8 $8 -552
+            # j peixe_laco1
+
+
 
 fim:
   addi $2 $0 10
@@ -271,13 +284,28 @@ ondas_draw:
   ori $9 $0 0x87B8BD #espuma das ondas
   
   sw $9 -1024($8)
+  sw $9 31744($8)
+  
   sw $9 -1040($8)
+  sw $9 31728($8)
+  
   sw $9 -516($8)
+  sw $9 32252($8)
+  
   sw $9 -520($8)
+  sw $9 32248($8)
+  
   sw $9 -512($8)
+  sw $9 32256($8)
+  
   sw $9 -524($8)
+  sw $9 32244($8)
+  
   sw $9 -528($8)
+  sw $9 32240($8)
+  
   sw $9 -532($8)
+  sw $9 32236($8)
 
   addi $23 $0 50
 	jr $31
@@ -325,7 +353,11 @@ laco1_cachoeira: beq $18 $0 fim_func_cachoeira
                   
 laco2_cachoeira: beq $19 $0 laco1_cachoeira
                  sw $10 0($8)
+                 sw $9 32768($8)
+                 
                  sw $9 4($8)
+                 sw $9 32772($8)
+                 
                  addi $8 $8 8
                  addi $19 $19 -1
                  j laco2_cachoeira
@@ -334,8 +366,14 @@ laco1_cachoeira_grama: beq $19 $0 laco2_cachoeira_grama_prep
                        beq $18 $0 fim_func_cachoeira
                        
                       sw $15 0($8)
+                      sw $15 32768($8)
+                      
                       sw $9 4($8)
+                      sw $9 32772($8)
+                      
                       sw $10 8($8)
+                      sw $10 32776($8)
+                      
                       addi $8 $8 12
                       addi $19 $19 -1
                       j laco1_cachoeira_grama
@@ -347,8 +385,14 @@ laco2_cachoeira_grama_prep: addi $18 $18 -1
 laco2_cachoeira_grama: beq $19 $0 laco1_cachoeira
                        
                       sw $10 0($8)
+                      sw $10 32768($8)
+                      
                       sw $15 4($8)
+                      sw $15 32772($8)
+                      
                       sw $9 8($8)
+                      sw $9 32772($8)
+                      
                       addi $8 $8 12
                       addi $19 $19 -1
                       j laco2_cachoeira_grama            
@@ -386,17 +430,35 @@ placa_draw:
 	
 	#moldura
 	sw $23 0($8)
+	sw $23 32768($8)
+	
 	sw $23 -512($8)
+	sw $23 32256($8)
+	
 	sw $23 -1024($8)
+	sw $23 32666($8)
+	
 	sw $23 -1536($8)
+	sw $23 31232($8)
+	
 	sw $23 -2048($8)
+	sw $23 30720($8)
 	
 	#-4
 	sw $23 -2044($8)
+	sw $23 30724($8)
+	
 	sw $23 -2040($8)
+	sw $23 30728($8)
+	
 	sw $23 -2036($8)
+	sw $23 30732($8)
+	
 	sw $23 -2032($8)
+	sw $23 30736($8)
+	
 	sw $23 -2028($8)
+	sw $23 30740($8)
 	
 	#diminui 512
 	sw $23 -2024($8)
@@ -567,17 +629,15 @@ func_peixe: ori $11 $0 0xff0000
       ori $12 $0 0x777777
       ori $13 $0 0x000000
       ori $14 $0 0xffff00
+      addi $15 $0 0
       
               
 peixe: sw $11 -1024($8)
-	#sw $11 -1020($8)
        sw $12 -512($8)
        sw $11 -508($8)
-    #   sw $11 -504($8)
        sw $11 0($8)
        sw $11 4($8)
        sw $11 8($8)
-      # sw $11 12($8)
        sw $12 512($8)
        sw $11 516($8)
        sw $13 520($8)
@@ -602,6 +662,10 @@ peixe: sw $11 -1024($8)
        sw $14 1016($8)
        sw $14 1020($8)
        sw $14 1532($8)
+       
+       lw $15 33784($8)
+       sw $15 1528($8)
+       
        
        #rabo
        
