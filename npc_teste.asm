@@ -391,7 +391,7 @@ laco2_cachoeira_grama: beq $19 $0 laco1_cachoeira
                       sw $15 32772($8)
                       
                       sw $9 8($8)
-                      sw $9 32772($8)
+                      sw $9 32776($8)
                       
                       addi $8 $8 12
                       addi $19 $19 -1
