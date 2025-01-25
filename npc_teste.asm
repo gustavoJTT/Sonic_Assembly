@@ -156,18 +156,18 @@ ponte_prep: addi $8 $8 -9072
             addi $8 $8 -500
             jal ponte_func
 
-peixe_prep: addi $8 $8 7608
+peixe_prep: addi $8 $8 4536
             addi $25 $0 20
                   
 
-peixe_laco1: #beq $25 $0 fim
+peixe_laco1: beq $25 $0 fim
              jal func_peixe
              addi $8 $8 52
              jal func_peixe
              
              addi $25 $25 -1
-             addi $8 $8 -552
-            # j peixe_laco1
+             addi $8 $8 -564
+             j peixe_laco1
 
 
 
@@ -353,7 +353,7 @@ laco1_cachoeira: beq $18 $0 fim_func_cachoeira
                   
 laco2_cachoeira: beq $19 $0 laco1_cachoeira
                  sw $10 0($8)
-                 sw $9 32768($8)
+                 sw $10 32768($8)
                  
                  sw $9 4($8)
                  sw $9 32772($8)
@@ -405,10 +405,19 @@ ponte_func: ori $11 $0 0x250000 #marrom escuro
             ori $12 $0 0x6A1B00 #marrom claro  
   
 ponte_des: sw $11 0($8)
+	   sw $11 32768($8)
+
            sw $12 4($8)
+           sw $12 32772($8)
+           
            sw $11 -508($8)
+           sw $11 32260($8)
+           
            sw $11 516($8)
+           sw $11 33284($8)
+           
            sw $11 8($8)
+           sw $11 32776($8)
            
            jr $31
            
@@ -436,7 +445,7 @@ placa_draw:
 	sw $23 32256($8)
 	
 	sw $23 -1024($8)
-	sw $23 32666($8)
+	sw $23 31744($8)
 	
 	sw $23 -1536($8)
 	sw $23 31232($8)
@@ -652,6 +661,17 @@ peixe: sw $11 -1024($8)
        sw $11 2048($8)
        sw $11 2052($8)
        
+       #corpo peixe animacao
+       
+       lw $15 35332($8)
+       sw $15 2564($8)
+       
+       lw $15 34824($8)
+       sw $15 2056($8)
+       
+       lw $15 34316($8)
+       sw $15 1548($8)
+       
        #parte baixo peixe
        
        sw $14 -516($8)
@@ -662,9 +682,14 @@ peixe: sw $11 -1024($8)
        sw $14 1016($8)
        sw $14 1020($8)
        sw $14 1532($8)
+
+       #parte baixo peixe animacao
        
-       lw $15 33784($8)
+       lw $15 34296($8)
        sw $15 1528($8)
+       
+       lw $15 34812($8)
+       sw $15 2044($8)
        
        
        #rabo
@@ -679,11 +704,33 @@ peixe: sw $11 -1024($8)
        sw $12 4100($8)
        
        
+       # rabo animacao
+       
+       lw $15 36352($8)
+       sw $15 3584($8)
+       
+       lw $15 37372($8)
+       sw $15 4604($8)
+       
+       lw $15 37380($8)
+       sw $15 4612($8)
+       
        #cabinho cabeça
        
        sw $14 1040($8)
        sw $14 1044($8)
        sw $14 1556($8)
        sw $14 1560($8)
+       
+       #cabinho cabeca animacao
+       
+       lw $15 34320($8)
+       sw $15 1552($8)
+       
+       lw $15 34836($8)
+       sw $15 2068($8)
+       
+       lw $15 34840($8)
+       sw $15 2072($8)
        
        jr $31
