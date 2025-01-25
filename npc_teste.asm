@@ -173,12 +173,26 @@ peixe_laco1: beq $25 $0 peixe_troca_pos
              
              addi $25 $25 -1
              addi $8 $8 -564
-           #  jal timer
+             jal timer
              j peixe_laco1
 
 peixe_troca_pos: jal peixe_troca_func
+                 addi $8 $8 52
+                 jal peixe_troca_func
+                 addi $8 $8 -52
 
-peixe_laco_descendo: jal peixe_descendo_func
+peixe_laco_descendo_prep: addi $25 $0 36
+
+peixe_laco_descendo: beq $25 $0 fim
+                     jal peixe_descendo_func
+                     addi $8 $8 52
+                     jal peixe_descendo_func
+                     
+                     addi $25 $25 -1
+                     addi $8 $8 460
+                     
+                     jal timer
+                     j peixe_laco_descendo
 
 
 fim:
@@ -829,6 +843,17 @@ peixe_descendo_func: ori $11 $0 0xff0000 #vermelho
                   sw $12 516($8)
                   sw $12 1024($8)
                   
+      #rabo animacao
+                  
+                  lw $15 31740($8)
+                  sw $15 -1028($8)            
+                  
+                  lw $15 31748($8)
+                  sw $15 -1020($8)
+                  
+                  lw $15 32768($8)
+                  sw $15 0($8)
+                  
                   #corpo vermelho
                   
                   sw $11 1536($8)
@@ -851,12 +876,58 @@ peixe_descendo_func: ori $11 $0 0xff0000 #vermelho
                   sw $11 4100($8)
                   sw $11 4608($8)
                   
+      #corpo vermelho animacao
+                 
+                  lw $15 33796($8)
+                  sw $15 1028($8)
+                  
+                  lw $15 34312($8)
+                  sw $15 1544($8)
+                  
+                  lw $15 34828($8)
+                  sw $15 2060($8)
+                  
       #corpo amarelo
-                  sw $14 1024($8)
+                  sw $14 1532($8)
+                  sw $14 2040($8)
+                  sw $14 2044($8)
+                  sw $14 2552($8)
+                  sw $14 2556($8)
+                  sw $14 3064($8)
+                  sw $14 3068($8)
+                  sw $14 3576($8)
+                  sw $14 3580($8)
+                  sw $14 4092($8)
+                  
+       # corpo amarelo animacao
+       
+                  lw $15 33788($8)
+                  sw $15 1020($8)
+                  
+                  lw $15 34296($8)
+                  sw $15 1528($8)
+                  
+       # cabinho amarelo cabeça
+       
+                  sw $14 2068($8)
+                  sw $14 2072($8)
+                  sw $14 2576($8)
+                  sw $14 2580($8)
+                  
+       # cabinho amarelo animacao
+       
+                  lw $15 34324($8)
+                  sw $15 1556($8)
+                  
+                  lw $15 34328($8)
+                  sw $15 1560($8)
+                  
+                  lw $15 35344($8)
+                  sw $15 2576($8)
 
 #funcao timer
 
-timer: addi $16, $0, 90000
+timer: addi $16, $0, 40000
 
 forT:  beq $16, $0, fimT
        nop
