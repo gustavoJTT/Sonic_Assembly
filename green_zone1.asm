@@ -70,6 +70,7 @@ mar:
 	
   sw $10 0($8)
   sw $10 32768($8)
+  
   jal ondas_verif
 
   addi $8 $8 4
@@ -86,9 +87,15 @@ grama_prep:
 grama: 
   beq $25 $0 solo_prep
   jal flor_verif
+  
   sw $14 0($8)
+  sw $14 32768($8)
+  
   sw $14 4($8)
+  sw $14 32772($8)
+  
   sw $13 8($8)
+  sw $13 32776($8)
 
   addi $8 $8 12
   addi $25 $25 -1
@@ -115,7 +122,7 @@ solo_laco2:
 
   addi $24 $24 -1
   addi $8 $8 8
-j solo_laco2
+	j solo_laco2
 
 npc_vespa_prep_main:
 	addi $9 $0 0
@@ -128,9 +135,17 @@ npc_vespa_prep_main:
 	
 npc_joaninha_prep_main:
 	addi $9 $9 8152	#altura
+	addi $24 $24 20
+
+npc_joaninha_laco_walk:
+	beq $24 $0 fim
+	
 	jal npc_joaninha_prep
-	#addi $9 $9 -4
-	jal npc_joaninha_prep
+	jal timer
+	
+	addi $9 $9 -4
+	addi $24 $24 -1
+	j npc_joaninha_laco_walk
 
 fim:
   addi $2 $0 10
@@ -275,12 +290,25 @@ flor_draw:
   ori $10 $0 0xF7D10F #cor flor
 
   sw $12 -512($8)
+  sw $12 32256($8)
+  
   sw $12 -1024($8)
+  sw $12 31744($8)
+  
   sw $10 -1536($8)
+  sw $10 31232($8)
+  
   sw $10 -2052($8)
+  sw $10 30716($8)
+  
   sw $10 -2044($8)
+  sw $10 30724($8)
+  
   sw $9 -2048($8)
+  sw $9 30720($8)
+  
   sw $10 -2560($8)
+  sw $10 30208($8)
 
   addi $23 $0 10
 	jr $31
@@ -315,10 +343,26 @@ criar_nuvem:
   jr $31
 
 
-#npc vespa
+#voltar para o principal
 
 voltar:
 	jr $31
+	
+	
+#timer buffer
+
+timer:
+  addi $16 $0 100000 #100000
+  
+forT:
+	beq $16 $0 voltar
+  nop
+  nop
+  addi $16 $16 -1      
+  j forT
+
+
+# npc vespa
 
 npc_vespa_prep:
 	addi $25 $0 1
@@ -430,15 +474,22 @@ npc_joaninha_draw:
 	beq $25 $0 voltar
 	
 	#peneu
-	sw $10 0($9)
 	sw $10 -4($9)
 	sw $10 -8($9)
 	sw $10 -12($9)
-	sw $10 -508($9)
 	sw $10 -512($9)
 	sw $10 -516($9)
 	sw $10 -520($9)
 	sw $10 -524($9)
+	sw $10 0($9)
+	sw $10 -508($9)
+	
+	#parte de tras do peneu com animacao
+	lw $15 32772($9) #lembrar de adicionar 4 -> (32768 - local de desenho + 4)
+	sw $15 4($9)	#loc + 4(sempre +4)
+	
+	lw $15 32264($9)
+	sw $15 -504($9)
 	
 	#corpo
 	sw $11 -1032($9)
@@ -447,37 +498,54 @@ npc_joaninha_draw:
 	sw $11 -1020($9)
 	sw $11 -1016($9)
 	
-	sw $11 -1528($9)
+	lw $15 31756($9)
+	sw $15 -1012($9)
+	
 	sw $11 -1532($9)
 	sw $11 -1536($9)
 	sw $11 -1540($9)
 	sw $11 -1544($9)
+	sw $11 -1528($9)
 	
-	sw $11 -2044($9)
+	lw $15 31244($9)
+	sw $15 -1524($9)
+	
 	sw $11 -2048($9)
 	sw $11 -2052($9)
 	sw $11 -2056($9)
-	sw $11 -2060($9)
+	sw $11 -2044($9)
 	
-	sw $11 -2560($9)
+	lw $15 30728($9)
+	sw $15 -2040($9)
+	
 	sw $11 -2564($9)
 	sw $11 -2568($9)
 	sw $11 -2572($9)
 	sw $11 -2576($9)
 	sw $11 -2580($9)
+	sw $11 -2560($9)
 	
-	sw $11 -3076($9)
+	lw $15 30212($9)
+	sw $15 -2556($9)
+	
 	sw $11 -3080($9)
 	sw $11 -3084($9)
 	sw $11 -3088($9)
+	sw $11 -3076($9)
+	
+	lw $15 29696($9)
+	sw $15 -3072($9)
 	
 	#rosto
 	sw $12 -528($9)
-	sw $12 -536($9)
 	sw $12 -1048($9)
 	sw $14 -1044($9)
 	sw $12 -1040($9)
 	sw $14 -1036($9)
+	sw $12 -536($9)
+	
+	lw $15 32232($9)
+	sw $15 -532($9)
 	
 	sw $12 -1548($9)
 	sw $10 -1552($9)
