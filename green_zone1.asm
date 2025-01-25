@@ -12,7 +12,7 @@ main:
 
   #addi $25 $0 8192 #mÃ¡ximo da tela
 
-  addi $25 $0 3303
+  addi $25 $0 3303 #mudando o ceu da certo o rastro do rabo da vespa
   addi $24 $0 2655
   addi $23 $0 2320
   addi $22 $0 2132
@@ -23,6 +23,7 @@ ceu:
   beq $25 $0 montanhas_prep
 
   sw $9 0($8)
+  sw $9 32768($8)
 
   addi $8 $8 4
   addi $25 $25 -1
@@ -61,7 +62,7 @@ montanha2:
   j montanha1_prep
 
 mar_prep: 
-  addi $25 $0 2262
+  addi $25 $0 2262 #2262
   addi $8 $8 -8
   addi $23 $0 260
 
@@ -81,8 +82,8 @@ mar:
 
 
 grama_prep: 
-  addi $25 $0 142
-  addi $23 $0 90
+  addi $25 $0 142 #142
+  addi $23 $0 90 #90
 
 grama: 
   beq $25 $0 solo_prep
@@ -103,7 +104,7 @@ grama:
   j grama
 
 solo_prep: 
-  addi $25 $25 8
+  addi $25 $25 5
   addi $8 $8 -512
 
 
@@ -125,17 +126,22 @@ solo_laco2:
 	j solo_laco2
 
 npc_vespa_prep_main:
-	addi $9 $0 0
 	lui $9 0x1001
 	addi $9 $9 15736	#altura
+	addi $24 $0 3
+	
+npc_vespa_laco_walk:
+	beq $24 $0 npc_joaninha_prep_main
 	
 	jal npc_vespa_prep
+	
 	addi $9 $9 -4
-	jal npc_vespa_prep
+	addi $24 $24 -1
+	j npc_vespa_laco_walk
 	
 npc_joaninha_prep_main:
 	addi $9 $9 8152	#altura
-	addi $24 $24 20
+	addi $24 $24 1
 
 npc_joaninha_laco_walk:
 	beq $24 $0 fim
@@ -374,18 +380,33 @@ npc_vespa_prep:
 npc_vespa_draw:
 	beq $25 $0 voltar
 	
-	sw $11 -512($9)
 	sw $11 -516($9)
+	sw $11 -512($9)
 	sw $11 -1028($9)
+	
+	lw $15 32260($9)
+	sw $15 -508($9)
+	
+	lw $15 31744($9)
+	sw $15 -1024($9)
 	
 	sw $11 -500($9)
 	sw $11 -496($9)
 	sw $11 -1008($9)
 	
+	lw $15 32276($9)
+	sw $15 -492($9)
+	
+	lw $15 31764($9)
+	sw $15 -1004($9)
+	
 	sw $11 0($9)
 	sw $11 4($9)
 	sw $11 8($9)
 	sw $11 12($9)
+	
+	lw $15 32760($9)
+	sw $15 16($9)
 	
 	sw $10 508($9)
 	sw $12 512($9)
@@ -400,11 +421,13 @@ npc_vespa_draw:
 	sw $11 1032($9)
 	sw $11 1036($9)
 	
-	sw $11 1544($9)
 	sw $11 1540($9)
 	sw $11 1536($9)
 	sw $11 1532($9)
+	sw $11 1544($9)
 	
+	lw $15 31228($9)
+	sw $15 1548($9)
 	
 	#corpo
 	sw $10 1040($9)
@@ -413,14 +436,23 @@ npc_vespa_draw:
 	sw $10 1052($9)
 	sw $10 1056($9)
 	
+	lw $15 31716($9)
+	sw $15 1060($9)
+	
 	sw $10 1552($9)
 	sw $10 1556($9)
 	sw $10 1560($9)
 	sw $10 1564($9)
 	
+	lw $15 31208($9)
+	sw $15 1568($9)
+	
 	sw $10 528($9)
 	sw $10 536($9)
 	sw $10 540($9)
+	
+	lw $15 32232($9)
+	sw $15 544($9)
 	
 	#tanque
 	sw $12 532($9)
@@ -433,8 +465,11 @@ npc_vespa_draw:
 	sw $15 36($9)
 	
 	#meio entre o corpo e o rabo
-	sw $12 1572($9)
 	sw $12 2088($9)
+	sw $12 1572($9)
+	
+	lw $15 31196($9)
+	sw $15 1576($9)
 	
 	#rabo
 	sw $10 2600($9)
@@ -444,6 +479,10 @@ npc_vespa_draw:
 	sw $13 2604($9)
 	sw $13 2096($9)
 	
+	#AJEITAR N SEI PQ N DA CERTO
+	lw $15 30676($9)
+	sw $15 2100($9)
+	
 	sw $10 3116($9)
 	sw $10 2608($9)
 	
@@ -451,12 +490,28 @@ npc_vespa_draw:
 	sw $13 3120($9)
 	sw $13 2612($9)
 	
+	#AJEITAR N SEI PQ N DA CERTO
+	lw $15 30160($9)
+	sw $15 2616($9)
+	
 	sw $10 3632($9)
 	sw $10 3124($9)
+	
+	#AJEITAR N SEI PQ N DA CERTO
+	lw $15 29648($9)
+	sw $15 3128($9)
 	
 	#ferrão
 	sw $12 3636($9)
 	sw $12 4152($9)
+	
+	#AJEITAR N SEI PQ N DA CERTO
+	lw $15 29136($9)
+	sw $15 3640($9)
+	
+	#AJEITAR N SEI PQ N DA CERTO
+	lw $15 28620($9)
+	sw $15 4156($9)
 	
 	addi $25 $25 -1
 	j npc_vespa_draw
@@ -544,7 +599,7 @@ npc_joaninha_draw:
 	sw $14 -1036($9)
 	sw $12 -536($9)
 	
-	lw $15 32232($9)
+	lw $15 32236($9)
 	sw $15 -532($9)
 	
 	sw $12 -1548($9)
