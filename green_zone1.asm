@@ -12,7 +12,7 @@ main:
 
   #addi $25 $0 8192 #mÃ¡ximo da tela
 
-  addi $25 $0 3303 #mudando o ceu da certo o rastro do rabo da vespa
+  addi $25 $0 3303
   addi $24 $0 2655
   addi $23 $0 2320
   addi $22 $0 2132
@@ -23,7 +23,6 @@ ceu:
   beq $25 $0 montanhas_prep
 
   sw $9 0($8)
-  sw $9 32768($8)
 
   addi $8 $8 4
   addi $25 $25 -1
@@ -62,7 +61,7 @@ montanha2:
   j montanha1_prep
 
 mar_prep: 
-  addi $25 $0 2262 #2262
+  addi $25 $0 2262
   addi $8 $8 -8
   addi $23 $0 260
 
@@ -71,7 +70,6 @@ mar:
 	
   sw $10 0($8)
   sw $10 32768($8)
-  
   jal ondas_verif
 
   addi $8 $8 4
@@ -82,8 +80,8 @@ mar:
 
 
 grama_prep: 
-  addi $25 $0 142 #142
-  addi $23 $0 90 #90
+  addi $25 $0 142
+  addi $23 $0 90
 
 grama: 
   beq $25 $0 solo_prep
@@ -104,12 +102,12 @@ grama:
   j grama
 
 solo_prep: 
-  addi $25 $25 5
+  addi $25 $25 8
   addi $8 $8 -512
 
 
 solo_laco1:
-  beq $25 $0 npc_vespa_prep_main
+  beq $25 $0 npc_prep_main
   addi $24 $0 64
   add $22 $0 $24
 
@@ -125,31 +123,23 @@ solo_laco2:
   addi $8 $8 8
 	j solo_laco2
 
-npc_vespa_prep_main:
+npc_prep_main:
 	lui $9 0x1001
-	addi $9 $9 15736	#altura
-	addi $24 $0 3
+	lui $25 0x1001
+	addi $9 $9 23888	#altura joaninha
+	addi $25 $25 15736	#altura vespa
 	
-npc_vespa_laco_walk:
-	beq $24 $0 npc_joaninha_prep_main
-	
-	jal npc_vespa_prep
-	
-	addi $9 $9 -4
-	addi $24 $24 -1
-	j npc_vespa_laco_walk
-	
-npc_joaninha_prep_main:
-	addi $9 $9 8152	#altura
-	addi $24 $24 1
+	addi $24 $24 20
 
 npc_joaninha_laco_walk:
 	beq $24 $0 fim
 	
+	jal npc_vespa_prep
 	jal npc_joaninha_prep
 	jal timer
 	
 	addi $9 $9 -4
+	addi $25 $25 -4
 	addi $24 $24 -1
 	j npc_joaninha_laco_walk
 
@@ -371,154 +361,154 @@ forT:
 # npc vespa
 
 npc_vespa_prep:
-	addi $25 $0 1
+	addi $23 $0 1
 	ori $10	$0 0x000000	#preto
 	ori $11	0xC60000	#vermelho
 	ori $13	0xE0AD40	#amarelo
 	ori $12 0xffffff #branco
 	
 npc_vespa_draw:
-	beq $25 $0 voltar
+	beq $23 $0 voltar
 	
-	sw $11 -516($9)
-	sw $11 -512($9)
-	sw $11 -1028($9)
+	sw $11 -516($25)
+	sw $11 -512($25)
+	sw $11 -1028($25)
 	
-	lw $15 32260($9)
-	sw $15 -508($9)
+	lw $15 32260($25)
+	sw $15 -508($25)
 	
-	lw $15 31744($9)
-	sw $15 -1024($9)
+	lw $15 31744($25)
+	sw $15 -1024($25)
 	
-	sw $11 -500($9)
-	sw $11 -496($9)
-	sw $11 -1008($9)
+	sw $11 -500($25)
+	sw $11 -496($25)
+	sw $11 -1008($25)
 	
-	lw $15 32276($9)
-	sw $15 -492($9)
+	lw $15 32276($25)
+	sw $15 -492($25)
 	
-	lw $15 31764($9)
-	sw $15 -1004($9)
+	lw $15 31764($25)
+	sw $15 -1004($25)
 	
-	sw $11 0($9)
-	sw $11 4($9)
-	sw $11 8($9)
-	sw $11 12($9)
+	sw $11 0($25)
+	sw $11 4($25)
+	sw $11 8($25)
+	sw $11 12($25)
 	
-	lw $15 32760($9)
-	sw $15 16($9)
+	lw $15 32760($25)
+	sw $15 16($25)
 	
-	sw $10 508($9)
-	sw $12 512($9)
-	sw $10 516($9)
-	sw $12 520($9)
-	sw $11 524($9)
+	sw $10 508($25)
+	sw $12 512($25)
+	sw $10 516($25)
+	sw $12 520($25)
+	sw $11 524($25)
 	
-	sw $11 1016($9)
-	sw $11 1020($9)
-	sw $11 1024($9)
-	sw $11 1028($9)
-	sw $11 1032($9)
-	sw $11 1036($9)
+	sw $11 1016($25)
+	sw $11 1020($25)
+	sw $11 1024($25)
+	sw $11 1028($25)
+	sw $11 1032($25)
+	sw $11 1036($25)
 	
-	sw $11 1540($9)
-	sw $11 1536($9)
-	sw $11 1532($9)
-	sw $11 1544($9)
+	sw $11 1540($25)
+	sw $11 1536($25)
+	sw $11 1532($25)
+	sw $11 1544($25)
 	
-	lw $15 31228($9)
-	sw $15 1548($9)
+	lw $15 31228($25)
+	sw $15 1548($25)
 	
 	#corpo
-	sw $10 1040($9)
-	sw $10 1044($9)
-	sw $10 1048($9)
-	sw $10 1052($9)
-	sw $10 1056($9)
+	sw $10 1040($25)
+	sw $10 1044($25)
+	sw $10 1048($25)
+	sw $10 1052($25)
+	sw $10 1056($25)
 	
-	lw $15 31716($9)
-	sw $15 1060($9)
+	lw $15 31716($25)
+	sw $15 1060($25)
 	
-	sw $10 1552($9)
-	sw $10 1556($9)
-	sw $10 1560($9)
-	sw $10 1564($9)
+	sw $10 1552($25)
+	sw $10 1556($25)
+	sw $10 1560($25)
+	sw $10 1564($25)
 	
-	lw $15 31208($9)
-	sw $15 1568($9)
+	lw $15 31208($25)
+	sw $15 1568($25)
 	
-	sw $10 528($9)
-	sw $10 536($9)
-	sw $10 540($9)
+	sw $10 528($25)
+	sw $10 536($25)
+	sw $10 540($25)
 	
-	lw $15 32232($9)
-	sw $15 544($9)
+	lw $15 32232($25)
+	sw $15 544($25)
 	
 	#tanque
-	sw $12 532($9)
-	sw $12 24($9)
-	sw $12 28($9)
-	sw $12 32($9)
+	sw $12 532($25)
+	sw $12 24($25)
+	sw $12 28($25)
+	sw $12 32($25)
 	
 	#parte de tras do tanque com animacao
-	lw $15 32804($9) #lembrar de adicionar 4 -> (32768 - local de desenho + 4)
-	sw $15 36($9)
+	lw $15 32804($25) #lembrar de adicionar 4 -> (32768 - local de desenho + 4)
+	sw $15 36($25)
 	
 	#meio entre o corpo e o rabo
-	sw $12 2088($9)
-	sw $12 1572($9)
+	sw $12 2088($25)
+	sw $12 1572($25)
 	
-	lw $15 31196($9)
-	sw $15 1576($9)
+	lw $15 31196($25)
+	sw $15 1576($25)
 	
 	#rabo
-	sw $10 2600($9)
-	sw $10 2092($9)
+	sw $10 2600($25)
+	sw $10 2092($25)
 	
-	sw $13 3112($9)
-	sw $13 2604($9)
-	sw $13 2096($9)
-	
-	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 30676($9)
-	sw $15 2100($9)
-	
-	sw $10 3116($9)
-	sw $10 2608($9)
-	
-	sw $13 3628($9)
-	sw $13 3120($9)
-	sw $13 2612($9)
+	sw $13 3112($25)
+	sw $13 2604($25)
+	sw $13 2096($25)
 	
 	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 30160($9)
-	sw $15 2616($9)
+	lw $15 30676($25)
+	sw $15 2100($25)
 	
-	sw $10 3632($9)
-	sw $10 3124($9)
+	sw $10 3116($25)
+	sw $10 2608($25)
+	
+	sw $13 3628($25)
+	sw $13 3120($25)
+	sw $13 2612($25)
 	
 	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 29648($9)
-	sw $15 3128($9)
+	lw $15 30160($25)
+	sw $15 2616($25)
+	
+	sw $10 3632($25)
+	sw $10 3124($25)
+	
+	#AJEITAR N SEI PQ N DA CERTO
+	lw $15 29648($25)
+	sw $15 3128($25)
 	
 	#ferrão
-	sw $12 3636($9)
-	sw $12 4152($9)
+	sw $12 3636($25)
+	sw $12 4152($25)
 	
 	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 29136($9)
-	sw $15 3640($9)
+	lw $15 29136($25)
+	sw $15 3640($25)
 	
 	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 28620($9)
-	sw $15 4156($9)
+	lw $15 28620($25)
+	sw $15 4156($25)
 	
-	addi $25 $25 -1
+	addi $23 $23 -1
 	j npc_vespa_draw
 	
 	
 npc_joaninha_prep:
-	addi $25 $0 1
+	addi $23 $0 1
 	ori $10	$0 0x000000	#preto
 	ori $11	0xC60000	#vermelho
 	ori $12 0xffffff #branco
@@ -526,7 +516,7 @@ npc_joaninha_prep:
 	ori $14 0x0000E2 #azul
 	
 npc_joaninha_draw:
-	beq $25 $0 voltar
+	beq $23 $0 voltar
 	
 	#peneu
 	sw $10 -4($9)
@@ -599,7 +589,7 @@ npc_joaninha_draw:
 	sw $14 -1036($9)
 	sw $12 -536($9)
 	
-	lw $15 32236($9)
+	lw $15 32232($9)
 	sw $15 -532($9)
 	
 	sw $12 -1548($9)
@@ -612,5 +602,5 @@ npc_joaninha_draw:
 	sw $14 -2068($9)
 	sw $14 -2072($9)
 	
-	addi $25 $25 -1
+	addi $23 $23 -1
 	j npc_joaninha_draw
