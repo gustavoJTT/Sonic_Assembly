@@ -469,8 +469,9 @@ npc_vespa_draw:
 	sw $13 2604($25)
 	sw $13 2096($25)
 	
-	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 30676($25)
+	#rabo animacao
+	
+	lw $15 34868($25)
 	sw $15 2100($25)
 	
 	sw $10 3116($25)
@@ -480,27 +481,28 @@ npc_vespa_draw:
 	sw $13 3120($25)
 	sw $13 2612($25)
 	
-	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 30160($25)
+	
+	lw $15 35384($25)
 	sw $15 2616($25)
 	
 	sw $10 3632($25)
 	sw $10 3124($25)
 	
-	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 29648($25)
+	
+	lw $15 35896($25)
 	sw $15 3128($25)
 	
 	#ferrão
 	sw $12 3636($25)
 	sw $12 4152($25)
 	
-	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 29136($25)
+
+        #ferrao com animacao
+
+	lw $15 36408($25)
 	sw $15 3640($25)
 	
-	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 28620($25)
+	lw $15 36924($25)
 	sw $15 4156($25)
 	
 	addi $23 $23 -1
