@@ -43,7 +43,7 @@ cespugli_prep: addi $25 $0 172
                addi $17 $25 -43
                addi $8 $8 16
 
-cespugli_laco1: beq $25 $0 castelo
+cespugli_laco1: beq $25 $0 grama_marble_zone_prep
 
 cespugli_laco2: beq $25 $17 cespugli_outro_strato
                jal criar_cespugli_prep
@@ -54,7 +54,7 @@ cespugli_outro_strato: addi $8 $8 1536
                        addi $17 $17 -43
                        j cespugli_laco2               
 
-castelo: 
+ 
 
 grama_marble_zone_prep: addi $8 $8 1520
 												add $20 $8 $0
@@ -66,7 +66,10 @@ grama_marble_zone_prep: addi $8 $8 1520
 
 grama_marble_zone: beq $25 $0 solo_marble_zone1
                    sw $10 0($8)
+                   sw $10 32768($8)
+                   
                    sw $9 4($8)
+                   sw $9 32772($8)
                    
                    addi $8 $8 8
                    addi $25 $25 -2
@@ -242,6 +245,8 @@ criar_cespugli_prep:
 cespugli_subindo:
   beq $23 $24 fim_cespugli_subindo
   sw $9 0($8)
+  sw $9 32768($8)
+  
   addi $23 $23 1 
   addi $8 $8 -512
   addi $22 $22 512
@@ -261,6 +266,8 @@ cespugli_descendo_prep:
 cespugli_descendo:
   beq $24 $23 fim_cespugli_descendo
   sw $10 0($8)
+  sw $10 32768($8)
+  
   addi $23 $23 1 
   addi $8 $8 -512
   addi $22 $22 512
@@ -405,6 +412,7 @@ buraco_func: addi $23 $23 -28
 
 buraco_func_laco: beq $25 $23 fim_func_buraco
                   sw $11 0($8)
+                  sw $11 32768($8)
                   
                   add $8 $8 4
                   addi $25 $25 -1
