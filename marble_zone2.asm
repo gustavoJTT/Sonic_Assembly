@@ -13,6 +13,7 @@ fundo_draw:
 	beq $25 $0 tijolo_fundo_prep
 	
 	sw $9 0($8)
+	sw $9 32768($8)
 	
 	addi $8 $8 4
 	addi $25 $25 -1
@@ -98,6 +99,8 @@ height_draw_l1:
 	beq $24 $0 height_fim
 	
 	sw $10 0($8)
+	sw $10 32768($8)
+	
 	jal brick_test
 	
 	addi $8 $8 4
@@ -122,13 +125,28 @@ brick_test:
 	
 brick_draw:
 	sw $10 -512($8)
+	sw $10 32256($8)
+	
 	sw $10 -1024($8)
+	sw $10 31744($8)
+	
 	sw $10 -1536($8)
+	sw $10 31232($8)
+	
 	sw $10 -2048($8)
+	sw $10 30720($8)
+	
 	sw $10 -2560($8)
+	sw $10 30208($8)
+	
 	sw $10 -3072($8)
+	sw $10 29696($8)
+	
 	sw $10 -3584($8)
+	sw $10 29184($8)
+	
 	sw $10 -4096($8)
+	sw $10 28672($8)
 	
 	addi $23 $0 12
 	jr $31
@@ -176,7 +194,7 @@ brick_draw_solo:
 	sw $10 -512($8)
 	sw $10 -1024($8)
 	sw $10 -1536($8)
-	sw $10 -2048($8)
+        sw $10 -2048($8)
 	sw $10 -2560($8)
 	sw $10 -3072($8)
 	
@@ -192,6 +210,8 @@ lava_draw_func:
 	ori $12 $0 0xF9FC2B #amarelo lava
 	
 	sw $10 0($8)
+	sw $10 32768($8)
+	
 	add $24 $0 $8
 	addi $23 $25 -6
 	addi $8 $8 -20612
@@ -202,8 +222,14 @@ lava_laco_start: beq $25 $23 lava_draw_laco_prep
                        
 lava_laco2_start:     beq $22 $0 lava_laco3_start_prep
                       sw $10 0($8)
+                      sw $10 32768($8)
+                      
                       sw $11 4($8)
+                      sw $11 32772($8)
+                      
                       sw $12 8($8)
+                      sw $12 32776($8)
+                      
                       addi $8 $8 12
                       addi $22 $22 -1
                       j lava_laco2_start
@@ -214,8 +240,14 @@ lava_laco3_start_prep: addi $8 $8 416
                        
 lava_laco3_start:     beq $22 $0 lava_laco_start
 		      sw $12 0($8)
-                      sw $10 4($8)                       
+		      sw $12 32768($8)
+		      
+                      sw $10 4($8) 
+                      sw $10 32772($8)
+                                                                  
                       sw $11 8($8)
+                      sw $11 32776($8)
+                      
                       addi $8 $8 12
                       addi $22 $22 -1
                       j lava_laco3_start
@@ -228,18 +260,36 @@ lava_draw_laco1: beq $25 $0 fim_func_lava
                  addi $23 $0 2
 
 lava_draw_laco2:     sw $10 0($8)
+		     sw $10 32768($8)
+
 	             sw $10 4($8)
+	             sw $10 32772($8)
+	             
 	             sw $10 8($8)
+	             sw $10 32776($8)
+	             
 	             sw $10 12($8)
+	             sw $10 32780($8)
 	             
 	             beq $23 $0 lava_draw_laco1
 	             
 	             sw $11 16($8)
+	             sw $10 32784($8)
+	             
 	             sw $11 20($8)
+	             sw $10 32788($8)
+	             
 	             sw $11 24($8)
+	             sw $10 32792($8)
+	             
 	             sw $12 28($8)
+	             sw $10 32796($8)
+	             
 	             sw $12 32($8)
+	             sw $10 32800($8)
+	             
 	             sw $12 36($8)
+	             sw $10 32804($8)
 	             
 	             addi $8 $8 40
 	             addi $23 $23 -1
