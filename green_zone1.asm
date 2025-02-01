@@ -129,10 +129,10 @@ npc_prep_main:
 	addi $9 $9 23888	#altura joaninha
 	addi $25 $25 15736	#altura vespa
 	
-	addi $24 $24 20
+	addi $24 $24 30
 
 npc_joaninha_laco_walk:
-	beq $24 $0 fim
+	beq $24 $0 sonic_prep
 	
 	jal npc_vespa_prep
 	jal npc_joaninha_prep
@@ -142,6 +142,9 @@ npc_joaninha_laco_walk:
 	addi $25 $25 -4
 	addi $24 $24 -1
 	j npc_joaninha_laco_walk
+	
+sonic_prep:
+	lui $8 0x1001
 
 fim:
   addi $2 $0 10
@@ -469,8 +472,7 @@ npc_vespa_draw:
 	sw $13 2604($25)
 	sw $13 2096($25)
 	
-	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 30676($25)
+	lw $15 34864($25)
 	sw $15 2100($25)
 	
 	sw $10 3116($25)
@@ -479,28 +481,24 @@ npc_vespa_draw:
 	sw $13 3628($25)
 	sw $13 3120($25)
 	sw $13 2612($25)
-	
-	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 30160($25)
+
+	lw $15 35380($25)
 	sw $15 2616($25)
 	
 	sw $10 3632($25)
 	sw $10 3124($25)
-	
-	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 29648($25)
+
+	lw $15 35892($25)
 	sw $15 3128($25)
 	
 	#ferrão
 	sw $12 3636($25)
 	sw $12 4152($25)
-	
-	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 29136($25)
+
+	lw $15 36404($25)
 	sw $15 3640($25)
-	
-	#AJEITAR N SEI PQ N DA CERTO
-	lw $15 28620($25)
+
+	lw $15 36920($25)
 	sw $15 4156($25)
 	
 	addi $23 $23 -1
