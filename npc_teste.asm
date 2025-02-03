@@ -163,6 +163,9 @@ ponte_prep: addi $8 $8 -9072
             jal ponte_func
             addi $8 $8 -500
             jal ponte_func
+            
+moedas_prep: addi $11 $8 -8236
+             jal moeda_desenho
 
 peixe_prep: addi $8 $8 10168
             addi $25 $0 35
@@ -195,7 +198,6 @@ peixe_laco_descendo: beq $25 $0 fim
                      
                      jal timer
                      j peixe_laco_descendo
-
 
 fim:
   addi $2 $0 10
@@ -939,3 +941,25 @@ forT:  beq $16, $0, fimT
                         
 fimT:  lw $16, 0($29)          
        jr $31
+       
+       
+##### funcao moeda
+       
+moeda_desenho: ori $9 $0 0xffff00
+               ori $10 $0 0xffffff
+               
+               sw $9 0($11)
+               sw $9 4($11)
+               sw $9 8($11)
+               sw $9 508($11)
+               sw $9 524($11)
+               sw $9 1020($11)
+               sw $9 1036($11)
+               sw $9 1532($11)
+               sw $10 1548($11)
+               sw $9 2048($11)
+               sw $10 2052($11)
+               sw $10 2056($11)
+               
+               
+               jr $31
