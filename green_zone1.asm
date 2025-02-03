@@ -124,27 +124,27 @@ solo_laco2:
 	j solo_laco2
 
 npc_prep_main:
+	lui $8 0x1001
 	lui $9 0x1001
 	lui $25 0x1001
+	addi $8 $8 23908 #altura sonic
 	addi $9 $9 23888	#altura joaninha
 	addi $25 $25 15736	#altura vespa
 	
 	addi $24 $24 30
 
 npc_joaninha_laco_walk:
-	beq $24 $0 sonic_prep
+	#beq $24 $0 fim
 	
 	jal npc_vespa_prep
 	jal npc_joaninha_prep
+	jal sonic_prep
 	jal timer
 	
 	addi $9 $9 -4
 	addi $25 $25 -4
 	addi $24 $24 -1
 	j npc_joaninha_laco_walk
-	
-sonic_prep:
-	lui $8 0x1001
 
 fim:
   addi $2 $0 10
@@ -472,13 +472,11 @@ npc_vespa_draw:
 	sw $13 2604($25)
 	sw $13 2096($25)
 	
-<<<<<<< HEAD
 	lw $15 34864($25)
-=======
+	
 	#rabo animacao
 	
 	lw $15 34868($25)
->>>>>>> 91de19ecab70eb89be8c1a45e2984146ec8b827f
 	sw $15 2100($25)
 	
 	sw $10 3116($25)
@@ -487,38 +485,29 @@ npc_vespa_draw:
 	sw $13 3628($25)
 	sw $13 3120($25)
 	sw $13 2612($25)
-<<<<<<< HEAD
 
 	lw $15 35380($25)
-=======
 	
 	
 	lw $15 35384($25)
->>>>>>> 91de19ecab70eb89be8c1a45e2984146ec8b827f
 	sw $15 2616($25)
 	
 	sw $10 3632($25)
 	sw $10 3124($25)
-<<<<<<< HEAD
-
 	lw $15 35892($25)
-=======
 	
 	
 	lw $15 35896($25)
->>>>>>> 91de19ecab70eb89be8c1a45e2984146ec8b827f
 	sw $15 3128($25)
 	
 	#ferrão
 	sw $12 3636($25)
 	sw $12 4152($25)
-<<<<<<< HEAD
 
 	lw $15 36404($25)
 	sw $15 3640($25)
 
 	lw $15 36920($25)
-=======
 	
 
         #ferrao com animacao
@@ -527,7 +516,6 @@ npc_vespa_draw:
 	sw $15 3640($25)
 	
 	lw $15 36924($25)
->>>>>>> 91de19ecab70eb89be8c1a45e2984146ec8b827f
 	sw $15 4156($25)
 	
 	addi $23 $23 -1
@@ -631,3 +619,21 @@ npc_joaninha_draw:
 	
 	addi $23 $23 -1
 	j npc_joaninha_draw
+
+		
+#movimento
+#dir:
+	#addi $8 $8 4
+
+sonic_prep:
+	ori $10	$0 0x000000 #azul sonic 1E70BD
+	addi $23 $23 1
+	
+	
+sonic_draw:
+	beq $23 $0 voltar
+
+	sw $10 0($8)
+	
+	addi $23 $23 -1
+	j sonic_draw
