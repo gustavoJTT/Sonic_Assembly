@@ -9,6 +9,8 @@ main:
   ori $13 $0 0x62FF36 #verde claro
   ori $14 $0 0x00AD2B #verde esuro
   ori $15 $0 0xFFFFFF #branco
+.text
+
 
   #addi $25 $0 8192 #mÃ¡ximo da tela
 
@@ -69,6 +71,7 @@ mar:
   beq $25 $0 grama_prep
 	
   sw $10 0($8)
+  sw $10 32768($8)
   jal ondas_verif
 
   addi $8 $8 4
@@ -85,8 +88,14 @@ grama_prep:
 grama: 
   beq $25 $0 cachoeira_prep
   sw $14 0($8)
+  sw $14 32768($8)
+  
   sw $14 4($8)
+  sw $14 32772($8)
+  
   sw $13 8($8)
+  sw $13 32776($8)
+  
   jal placa_verif
 
   addi $8 $8 12
@@ -136,24 +145,66 @@ cachoeira_solo:
                 addi $24 $24 -1
                 add $22 $0 $24
                 j solo_laco2
+                
 
 ponte_prep: addi $8 $8 -9072
-            jal ponte_des
+            jal ponte_func
             addi $8 $8 524
-            jal ponte_des
+            jal ponte_func
             addi $8 $8 524
-            jal ponte_des
+            jal ponte_func
             addi $8 $8 12
-            jal ponte_des
+            jal ponte_func
             addi $8 $8 12
-            jal ponte_des
+            jal ponte_func
             addi $8 $8 12
-            jal ponte_des
+            jal ponte_func
             addi $8 $8 -500
-            jal ponte_des
+            jal ponte_func
             addi $8 $8 -500
-            jal ponte_des
+            jal ponte_func
             
+moedas_prep: addi $11 $8 -8236
+             jal moeda_desenho
+             addi $11 $11 4184
+             jal moeda_desenho
+             addi $11 $11 52
+             jal moeda_desenho
+             addi $11 $11 52
+             jal moeda_desenho
+             
+
+peixe_prep: addi $8 $8 10168
+            addi $25 $0 35
+                  
+
+peixe_laco1: beq $25 $0 peixe_troca_pos
+             jal func_peixe
+             addi $8 $8 52
+             jal func_peixe
+             
+             addi $25 $25 -1
+             addi $8 $8 -564
+             jal timer
+             j peixe_laco1
+
+peixe_troca_pos: jal peixe_troca_func
+                 addi $8 $8 52
+                 jal peixe_troca_func
+                 addi $8 $8 -52
+
+peixe_laco_descendo_prep: addi $25 $0 36
+
+peixe_laco_descendo: beq $25 $0 fim
+                     jal peixe_descendo_func
+                     addi $8 $8 52
+                     jal peixe_descendo_func
+                     
+                     addi $25 $25 -1
+                     addi $8 $8 460
+                     
+                     jal timer
+                     j peixe_laco_descendo
 
 fim:
   addi $2 $0 10
@@ -268,13 +319,28 @@ ondas_draw:
   ori $9 $0 0x87B8BD #espuma das ondas
   
   sw $9 -1024($8)
+  sw $9 31744($8)
+  
   sw $9 -1040($8)
+  sw $9 31728($8)
+  
   sw $9 -516($8)
+  sw $9 32252($8)
+  
   sw $9 -520($8)
+  sw $9 32248($8)
+  
   sw $9 -512($8)
+  sw $9 32256($8)
+  
   sw $9 -524($8)
+  sw $9 32244($8)
+  
   sw $9 -528($8)
+  sw $9 32240($8)
+  
   sw $9 -532($8)
+  sw $9 32236($8)
 
   addi $23 $0 50
 	jr $31
@@ -322,7 +388,11 @@ laco1_cachoeira: beq $18 $0 fim_func_cachoeira
                   
 laco2_cachoeira: beq $19 $0 laco1_cachoeira
                  sw $10 0($8)
+                 sw $10 32768($8)
+                 
                  sw $9 4($8)
+                 sw $9 32772($8)
+                 
                  addi $8 $8 8
                  addi $19 $19 -1
                  j laco2_cachoeira
@@ -331,8 +401,14 @@ laco1_cachoeira_grama: beq $19 $0 laco2_cachoeira_grama_prep
                        beq $18 $0 fim_func_cachoeira
                        
                       sw $15 0($8)
+                      sw $15 32768($8)
+                      
                       sw $9 4($8)
+                      sw $9 32772($8)
+                      
                       sw $10 8($8)
+                      sw $10 32776($8)
+                      
                       addi $8 $8 12
                       addi $19 $19 -1
                       j laco1_cachoeira_grama
@@ -344,21 +420,39 @@ laco2_cachoeira_grama_prep: addi $18 $18 -1
 laco2_cachoeira_grama: beq $19 $0 laco1_cachoeira
                        
                       sw $10 0($8)
+                      sw $10 32768($8)
+                      
                       sw $15 4($8)
+                      sw $15 32772($8)
+                      
                       sw $9 8($8)
+                      sw $9 32776($8)
+                      
                       addi $8 $8 12
                       addi $19 $19 -1
                       j laco2_cachoeira_grama            
                  
 fim_func_cachoeira: jr $31  
 
-#função ponte_des para desenhar ponte      
+#função ponte_des para desenhar ponte  
+
+ponte_func: ori $11 $0 0x250000 #marrom escuro  
+            ori $12 $0 0x6A1B00 #marrom claro  
   
 ponte_des: sw $11 0($8)
+	   sw $11 32768($8)
+
            sw $12 4($8)
+           sw $12 32772($8)
+           
            sw $11 -508($8)
+           sw $11 32260($8)
+           
            sw $11 516($8)
+           sw $11 33284($8)
+           
            sw $11 8($8)
+           sw $11 32776($8)
            
            jr $31
            
@@ -380,17 +474,35 @@ placa_draw:
 	
 	#moldura
 	sw $23 0($8)
+	sw $23 32768($8)
+	
 	sw $23 -512($8)
+	sw $23 32256($8)
+	
 	sw $23 -1024($8)
+	sw $23 31744($8)
+	
 	sw $23 -1536($8)
+	sw $23 31232($8)
+	
 	sw $23 -2048($8)
+	sw $23 30720($8)
 	
 	#-4
 	sw $23 -2044($8)
+	sw $23 30724($8)
+	
 	sw $23 -2040($8)
+	sw $23 30728($8)
+	
 	sw $23 -2036($8)
+	sw $23 30732($8)
+	
 	sw $23 -2032($8)
+	sw $23 30736($8)
+	
 	sw $23 -2028($8)
+	sw $23 30740($8)
 	
 	#diminui 512
 	sw $23 -2024($8)
@@ -494,13 +606,11 @@ placa_draw:
 	
 	
 	#pele
-	sw $20 -2560($8)
+
 	sw $20 -3072($8)
 	
-	sw $20 -2564($8)
 	sw $20 -3076($8)
 	
-	sw $20 -2556($8)
 	sw $20 -3068($8)
 	sw $20 -4608($8)
 	
@@ -535,6 +645,10 @@ placa_draw:
 	sw $19 -3576($8)
 	sw $19 -4088($8)
 	sw $19 -4084($8)
+	sw $19 -4596($8)
+	sw $19 -4592($8)
+	sw $19 -4620($8)
+	sw $19 -4624($8)
 	
 	
 	#roupa
@@ -546,7 +660,314 @@ placa_draw:
 	sw $21 -2548($8)
 	sw $21 -3060($8)
 	sw $21 -2552($8)
+	sw $21 -2556($8)
+	sw $19 -2560($8)
+	sw $21 -2564($8)
 	sw $21 -3064($8)
 	
 
 	jr $31
+	
+# função desenho peixe
+	
+func_peixe: ori $11 $0 0xff0000
+      ori $12 $0 0x777777
+      ori $13 $0 0x000000
+      ori $14 $0 0xffff00
+      addi $15 $0 0
+      
+              
+peixe: sw $11 -1024($8)
+       sw $12 -512($8)
+       sw $11 -508($8)
+       sw $11 0($8)
+       sw $11 4($8)
+       sw $11 8($8)
+       sw $12 512($8)
+       sw $11 516($8)
+       sw $13 520($8)
+       sw $11 524($8)
+       sw $11 1024($8)
+       sw $11 1028($8)
+       sw $11 1032($8)
+       sw $11 1036($8)
+       sw $11 1536($8)
+       sw $11 1540($8)
+       sw $11 1544($8)
+       sw $11 2048($8)
+       sw $11 2052($8)
+       
+       #corpo peixe animacao
+       
+       lw $15 35332($8)
+       sw $15 2564($8)
+       
+       lw $15 34824($8)
+       sw $15 2056($8)
+       
+       lw $15 34316($8)
+       sw $15 1548($8)
+       
+       #parte baixo peixe
+       
+       sw $14 -516($8)
+       sw $14 -4($8)
+       sw $14 -8($8)
+       sw $14 504($8)
+       sw $14 508($8)
+       sw $14 1016($8)
+       sw $14 1020($8)
+       sw $14 1532($8)
+
+       #parte baixo peixe animacao
+       
+       lw $15 34296($8)
+       sw $15 1528($8)
+       
+       lw $15 34812($8)
+       sw $15 2044($8)
+       
+       
+       #rabo
+       
+       sw $12 2560($8)
+       sw $12 3068($8)
+       sw $12 3072($8)
+       sw $12 3076($8)
+       sw $12 3580($8)
+       sw $12 3588($8)
+       sw $12 4092($8)
+       sw $12 4100($8)
+       
+       
+       # rabo animacao
+       
+       lw $15 36352($8)
+       sw $15 3584($8)
+       
+       lw $15 37372($8)
+       sw $15 4604($8)
+       
+       lw $15 37380($8)
+       sw $15 4612($8)
+       
+       #cabinho cabeça
+       
+       sw $14 1040($8)
+       sw $14 1044($8)
+       sw $14 1556($8)
+       sw $14 1560($8)
+       
+       #cabinho cabeca animacao
+       
+       lw $15 34320($8)
+       sw $15 1552($8)
+       
+       lw $15 34836($8)
+       sw $15 2068($8)
+       
+       lw $15 34840($8)
+       sw $15 2072($8)
+       
+       jr $31
+            
+#trocar posição do peixe
+
+peixe_troca_func: 
+                  #limpar cenario rabo
+                  
+                  lw $15 32256($8)
+                  sw $15 -512($8)
+                  
+                  lw $15 32768($8)
+                  sw $15 0($8)
+                  
+                  lw $15 33272($8)
+                  sw $15 504($8)
+                  
+                  lw $15 33288($8)
+                  sw $15 520($8)
+                  
+                  lw $15 33784($8)
+                  sw $15 1016($8)
+                  
+                  lw $15 33788($8)
+                  sw $15 1020($8)
+                  
+                  lw $15 33796($8)
+                  sw $15 1028($8)
+                  
+                  lw $15 33800($8)
+                  sw $15 1032($8)
+                  
+                  lw $15 33804($8)
+                  sw $15 1036($8)
+                  
+    
+                 
+    #corpo vermelho limpa
+                
+                  lw $15 34296($8)
+                  sw $15 1528($8)
+                
+                  lw $15 34300($8)
+                  sw $15 1532($8)
+                
+                  lw $15 34312($8)
+                  sw $15 1544($8)
+    
+                  lw $15 34316($8)
+                  sw $15 1548($8)
+                  
+                  lw $15 34320($8)
+                  sw $15 1552($8)
+                  
+                  lw $15 34324($8)
+                  sw $15 1556($8)
+                  
+                  lw $15 34836($8)
+                  sw $15 2068($8)
+                  
+                  lw $15 34840($8)
+                  sw $15 2072($8)
+                  
+                  lw $15 37372($8)
+                  sw $15 4604($8)
+                  
+                  lw $15 37380($8)
+                  sw $15 4612($8)
+                  
+                  jr $31
+
+peixe_descendo_func: ori $11 $0 0xff0000 #vermelho
+                  ori $12 $0 0x777777 #cinza
+                  ori $13 $0 0x000000 #preto
+                  ori $14 $0 0xffff00 #amarelo
+                  
+                  #rabo
+                  
+                  sw $12 -516($8)
+                  sw $12 -508($8)
+                  sw $12 -4($8) #$8 = 0 no meio do rabo
+                  sw $12 4($8)
+                  sw $12 508($8)
+                  sw $12 512($8)
+                  sw $12 516($8)
+                  sw $12 1024($8)
+                  
+      #rabo animacao
+                  
+                  lw $15 31740($8)
+                  sw $15 -1028($8)            
+                  
+                  lw $15 31748($8)
+                  sw $15 -1020($8)
+                  
+                  lw $15 32768($8)
+                  sw $15 0($8)
+                  
+                  #corpo vermelho
+                  
+                  sw $11 1536($8)
+                  sw $11 1540($8)
+                  sw $11 2048($8)
+                  sw $11 2052($8)
+                  sw $11 2056($8)
+                  sw $11 2560($8)
+                  sw $11 2564($8)
+                  sw $11 2568($8)
+                  sw $11 2572($8)
+                  sw $12 3072($8)
+                  sw $11 3076($8)
+                  sw $13 3080($8)
+                  sw $11 3084($8)
+                  sw $11 3584($8)
+                  sw $11 3588($8)
+                  sw $11 3592($8)
+                  sw $12 4096($8)
+                  sw $11 4100($8)
+                  sw $11 4608($8)
+                  
+      #corpo vermelho animacao
+                 
+                  lw $15 33796($8)
+                  sw $15 1028($8)
+                  
+                  lw $15 34312($8)
+                  sw $15 1544($8)
+                  
+                  lw $15 34828($8)
+                  sw $15 2060($8)
+                  
+      #corpo amarelo
+                  sw $14 1532($8)
+                  sw $14 2040($8)
+                  sw $14 2044($8)
+                  sw $14 2552($8)
+                  sw $14 2556($8)
+                  sw $14 3064($8)
+                  sw $14 3068($8)
+                  sw $14 3576($8)
+                  sw $14 3580($8)
+                  sw $14 4092($8)
+                  
+       # corpo amarelo animacao
+       
+                  lw $15 33788($8)
+                  sw $15 1020($8)
+                  
+                  lw $15 34296($8)
+                  sw $15 1528($8)
+                  
+       # cabinho amarelo cabeça
+       
+                  sw $14 2068($8)
+                  sw $14 2072($8)
+                  sw $14 2576($8)
+                  sw $14 2580($8)
+                  
+       # cabinho amarelo animacao
+       
+                  lw $15 34324($8)
+                  sw $15 1556($8)
+                  
+                  lw $15 34328($8)
+                  sw $15 1560($8)
+                  
+                  lw $15 34832($8)
+                  sw $15 2064($8)
+
+#funcao timer
+
+timer: addi $16, $0, 8000
+
+forT:  beq $16, $0, fimT
+       nop
+       nop
+       addi $16, $16, -1      
+       j forT 
+                        
+fimT:  lw $16, 0($29)          
+       jr $31
+       
+       
+##### funcao moeda
+       
+moeda_desenho: ori $9 $0 0xffff00
+               ori $10 $0 0xffffff
+               
+               sw $9 0($11)
+               sw $9 4($11)
+               sw $9 8($11)
+               sw $9 508($11)
+               sw $9 524($11)
+               sw $9 1020($11)
+               sw $9 1036($11)
+               sw $9 1532($11)
+               sw $10 1548($11)
+               sw $9 2048($11)
+               sw $10 2052($11)
+               sw $10 2056($11)
+               
+               
+               jr $31
