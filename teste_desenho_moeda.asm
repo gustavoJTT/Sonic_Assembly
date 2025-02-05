@@ -958,7 +958,7 @@ castelo_topo_desenho_2:
 contador_prep: ori $9 $0 0x000000
                addi $25 $8 -7160
                addi $24 $0 7
-               addi $23 $0 35
+               addi $23 $0 24
                
 contador_laco1: beq $24 $0 letras        
          
@@ -970,8 +970,8 @@ contador_laco2: beq $23 $0 fim_laco_contador
                 j contador_laco2
 
 fim_laco_contador: addi $24 $24 -1  
-                   addi $25 $25 372
-                   addi $23 $0 35
+                   addi $25 $25 416
+                   addi $23 $0 24
                    
                    j contador_laco1              
 
@@ -1024,31 +1024,44 @@ desenho_numero0: sw $10 48($25)
 desenho_numero1: ori $9 $0 0x000000
                  
                  sw $9 52($25)
-                 sw $9 52($25)
+                 sw $9 568($25)
+                 sw $9 1068($25)
+                 sw $9 1080($25)
+                 sw $9 1580($25)
+                 sw $9 1592($25)
                  
                  sw $10 560($25)
                  sw $10 1072($25)
                  sw $10 1584($25)
                  sw $10 2092($25)
-                 sw $10 2096($25)
-                 sw $10 2100($25)
+             
                  
-#desenho_numero2: sw $10 56($25)             
+desenho_numero2: sw $9 560($25)
+                 sw $9 1072($25)
+
+                 sw $10 52($25)
+                 sw $10 568($25)
+                 sw $10 1076($25)
+                 sw $10 2092($25)
+                 sw $10 2104($25)
+                 
+desenho_numero3: sw $9 1584($25) 
+                 sw $9 2092($25)
+                 sw $9 2104($25)
+                 
+                 sw $10 1580($25)
+                 sw $10 1592($25)
+                              
+desenho_numero4: sw $9 48($25)
+                 sw $9 556($25)
+                 sw $9 568($25)
+                 sw $9 2096($25)
+
+                 sw $10 560($25)
+                 sw $10 564($25)
+                 sw $10 1068($25)
+                 sw $10 1584($25)
+                 sw $10 1588($25)
+                
 
 fim_func_contador: jr $31
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
