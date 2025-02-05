@@ -628,4 +628,8 @@ sonic_draw:
 	sw $10 0($8)
 	
 	addi $23 $23 -1
+<<<<<<< HEAD
 	j sonic_draw
+=======
+	j sonic_draw
+>>>>>>> ad52e4776a4b6fad9585a63246655f70ed355c8b
