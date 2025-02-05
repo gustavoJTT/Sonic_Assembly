@@ -11,9 +11,10 @@ ceu_nublado: jal ceu_nublado_func
   
 ceu_normal: jal ceu_normal_func
 
+contador: jal contador_prep
+
 montanhas_prep:
   addi $22 $0 4
-  ori $9 $0 0x250000 #marrom escuro
 
 montanha1_prep:
   beq  $22 $0 montanha3
@@ -66,7 +67,9 @@ grama_marble_zone_prep: addi $8 $8 1520
 
 grama_marble_zone: beq $25 $0 solo_marble_zone1
                    sw $10 0($8)
+                   sw $10 32768($8)
                    sw $9 4($8)
+                   sw $9 32772($8)
                    
                    addi $8 $8 8
                    addi $25 $25 -2
@@ -242,6 +245,8 @@ criar_cespugli_prep:
 cespugli_subindo:
   beq $23 $24 fim_cespugli_subindo
   sw $9 0($8)
+  sw $9 32768($8)
+  
   addi $23 $23 1 
   addi $8 $8 -512
   addi $22 $22 512
@@ -261,6 +266,8 @@ cespugli_descendo_prep:
 cespugli_descendo:
   beq $24 $23 fim_cespugli_descendo
   sw $10 0($8)
+  sw $10 32768($8)
+  
   addi $23 $23 1 
   addi $8 $8 -512
   addi $22 $22 512
@@ -405,6 +412,7 @@ buraco_func: addi $23 $23 -28
 
 buraco_func_laco: beq $25 $23 fim_func_buraco
                   sw $11 0($8)
+                  sw $11 32768($8)
                   
                   add $8 $8 4
                   addi $25 $25 -1
@@ -944,3 +952,51 @@ castelo_topo_desenho_2:
 	addi $25 $25 -1
 	addi $20 $20 32
 	j castelo_topo_desenho_2
+	
+# função contador moedas
+
+contador_prep: ori $9 $0 0x000000
+               addi $25 $8 -7160
+               addi $24 $0 5
+               addi $23 $0 15
+               
+contador_laco1: beq $24 $0 letras        
+         
+contador_laco2: beq $23 $0 fim_laco_contador
+                sw $9 0($25)
+                
+                addi $25 $25 4
+                addi $23 $23 -1
+                j contador_laco2
+
+fim_laco_contador: addi $24 $24 -1  
+                   addi $25 $25 452
+                   addi $23 $0 15
+                   
+                   j contador_laco1              
+
+letras: ori $9 $0 0xffffff
+        addi $25 $8 -6644
+        
+        #letra m
+        
+        sw $9 0($25)
+        sw $9 512($25)
+
+fim_func_contador: jr $31
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -69,6 +69,7 @@ mar:
   beq $25 $0 grama_prep
 	
   sw $10 0($8)
+  sw $10 32768($8)
   jal ondas_verif
 
   addi $8 $8 4
@@ -85,9 +86,15 @@ grama_prep:
 grama: 
   beq $25 $0 solo_prep
   jal flor_verif
+  
   sw $14 0($8)
+  sw $14 32768($8)
+  
   sw $14 4($8)
+  sw $14 32772($8)
+  
   sw $13 8($8)
+  sw $13 32776($8)
 
   addi $8 $8 12
   addi $25 $25 -1
@@ -100,7 +107,7 @@ solo_prep:
 
 
 solo_laco1:
-  beq $25 $0 npc_vespa_prep_main
+  beq $25 $0 npc_prep_main
   addi $24 $0 64
   add $22 $0 $24
 
@@ -114,10 +121,30 @@ solo_laco2:
 
   addi $24 $24 -1
   addi $8 $8 8
-j solo_laco2
+	j solo_laco2
 
-npc_vespa_prep_main:
-	j npc_vespa_prep
+npc_prep_main:
+	lui $8 0x1001
+	lui $9 0x1001
+	lui $25 0x1001
+	addi $8 $8 23908 #altura sonic
+	addi $9 $9 23888	#altura joaninha
+	addi $25 $25 15736	#altura vespa
+	
+	addi $24 $24 30
+
+npc_joaninha_laco_walk:
+	#beq $24 $0 fim
+	
+	jal npc_vespa_prep
+	jal npc_joaninha_prep
+	jal sonic_prep
+	jal timer
+	
+	addi $9 $9 -4
+	addi $25 $25 -4
+	addi $24 $24 -1
+	j npc_joaninha_laco_walk
 
 fim:
   addi $2 $0 10
@@ -223,13 +250,28 @@ ondas_draw:
   ori $9 $0 0x87B8BD #espuma das ondas
   
   sw $9 -1024($8)
+  sw $9 31744($8)
+  
   sw $9 -1040($8)
+  sw $9 31728($8)
+  
   sw $9 -516($8)
+  sw $9 32252($8)
+  
   sw $9 -520($8)
+  sw $9 32248($8)
+  
   sw $9 -512($8)
+  sw $9 32256($8)
+  
   sw $9 -524($8)
+  sw $9 32244($8)
+  
   sw $9 -528($8)
+  sw $9 32240($8)
+  
   sw $9 -532($8)
+  sw $9 32236($8)
 
   addi $23 $0 50
 	jr $31
@@ -247,12 +289,25 @@ flor_draw:
   ori $10 $0 0xF7D10F #cor flor
 
   sw $12 -512($8)
+  sw $12 32256($8)
+  
   sw $12 -1024($8)
+  sw $12 31744($8)
+  
   sw $10 -1536($8)
+  sw $10 31232($8)
+  
   sw $10 -2052($8)
+  sw $10 30716($8)
+  
   sw $10 -2044($8)
+  sw $10 30724($8)
+  
   sw $9 -2048($8)
+  sw $9 30720($8)
+  
   sw $10 -2560($8)
+  sw $10 30208($8)
 
   addi $23 $0 10
 	jr $31
@@ -287,23 +342,290 @@ criar_nuvem:
   jr $31
 
 
-#npc vespa
+#voltar para o principal
+
+voltar:
+	jr $31
+	
+	
+#timer buffer
+
+timer:
+  addi $16 $0 100000 #100000
+  
+forT:
+	beq $16 $0 voltar
+  nop
+  nop
+  addi $16 $16 -1      
+  j forT
+
+
+# npc vespa
 
 npc_vespa_prep:
-	addi $8 $0 0
-	lui $8 0x1001
-	addi $8 $8 17272	#altura
-	
-	addi $25 $0 2
+	addi $23 $0 1
 	ori $10	$0 0x000000	#preto
-	ori $11	0x800007	#vermelho
-	ori $12	0x838383	#prata
+	ori $11	0xC60000	#vermelho
 	ori $13	0xE0AD40	#amarelo
+	ori $12 0xffffff #branco
 	
 npc_vespa_draw:
-	beq $25 $0 fim
+	beq $23 $0 voltar
+	
+	sw $11 -516($25)
+	sw $11 -512($25)
+	sw $11 -1028($25)
+	
+	lw $15 32260($25)
+	sw $15 -508($25)
+	
+	lw $15 31744($25)
+	sw $15 -1024($25)
+	
+	sw $11 -500($25)
+	sw $11 -496($25)
+	sw $11 -1008($25)
+	
+	lw $15 32276($25)
+	sw $15 -492($25)
+	
+	lw $15 31764($25)
+	sw $15 -1004($25)
+	
+	sw $11 0($25)
+	sw $11 4($25)
+	sw $11 8($25)
+	sw $11 12($25)
+	
+	lw $15 32784($25)
+	sw $15 16($25)
+	
+	sw $10 508($25)
+	sw $12 512($25)
+	sw $10 516($25)
+	sw $12 520($25)
+	sw $11 524($25)
+	
+	sw $11 1016($25)
+	sw $11 1020($25)
+	sw $11 1024($25)
+	sw $11 1028($25)
+	sw $11 1032($25)
+	sw $11 1036($25)
+	
+	sw $11 1540($25)
+	sw $11 1536($25)
+	sw $11 1532($25)
+	sw $11 1544($25)
+	
+	lw $15 31228($25)
+	sw $15 1548($25)
+	
+	#corpo
+	sw $10 1040($25)
+	sw $10 1044($25)
+	sw $10 1048($25)
+	sw $10 1052($25)
+	sw $10 1056($25)
+	
+	lw $15 33828($25)
+	sw $15 1060($25)
+	
+	sw $10 1552($25)
+	sw $10 1556($25)
+	sw $10 1560($25)
+	sw $10 1564($25)
+	
+	lw $15 314336($25)
+	sw $15 1568($25)
+	
+	sw $10 528($25)
+	sw $10 536($25)
+	sw $10 540($25)
+	
+	lw $15 33312($25)
+	sw $15 544($25)
+	
+	#tanque
+	sw $12 532($25)
+	sw $12 24($25)
+	sw $12 28($25)
+	sw $12 32($25)
+	
+	#parte de tras do tanque com animacao
+	lw $15 32804($25) #lembrar de adicionar 4 -> (32768 - local de desenho + 4)
+	sw $15 36($25)
+	
+	#meio entre o corpo e o rabo
+	sw $12 2088($25)
+	sw $12 1572($25)
+	
+	lw $15 34344($25)
+	sw $15 1576($25)
+	
+	#rabo
+	sw $10 2600($25)
+	sw $10 2092($25)
+	
+	sw $13 3112($25)
+	sw $13 2604($25)
+	sw $13 2096($25)
+
+	
+	#rabo animacao
+	
+	lw $15 34868($25)
+	sw $15 2100($25)
+	
+	sw $10 3116($25)
+	sw $10 2608($25)
+	
+	sw $13 3628($25)
+	sw $13 3120($25)
+	sw $13 2612($25)
+	
+	
+	lw $15 35384($25)
+	sw $15 2616($25)
+	
+	sw $10 3632($25)
+	sw $10 3124($25)
+
+	
+	lw $15 35896($25)
+	sw $15 3128($25)
+	
+	#ferrão
+	sw $12 3636($25)
+	sw $12 4152($25)
+
+	
+
+        #ferrao com animacao
+
+	lw $15 36408($25)
+	sw $15 3640($25)
+	
+	lw $15 36924($25)
+	sw $15 4156($25)
+	
+	addi $23 $23 -1
+	j npc_vespa_draw
+	
+	
+npc_joaninha_prep:
+	addi $23 $0 1
+	ori $10	$0 0x000000	#preto
+	ori $11	0xC60000	#vermelho
+	ori $12 0xffffff #branco
+	ori $13	0xE0AD40	#amarelo
+	ori $14 0x0000E2 #azul
+	
+npc_joaninha_draw:
+	beq $23 $0 voltar
+	
+	#peneu
+	sw $10 -4($9)
+	sw $10 -8($9)
+	sw $10 -12($9)
+	sw $10 -512($9)
+	sw $10 -516($9)
+	sw $10 -520($9)
+	sw $10 -524($9)
+	sw $10 0($9)
+	sw $10 -508($9)
+	
+	#parte de tras do peneu com animacao
+	lw $15 32772($9) #lembrar de adicionar 4 -> (32768 - local de desenho + 4)
+	sw $15 4($9)	#loc + 4(sempre +4)
+	
+	lw $15 32264($9)
+	sw $15 -504($9)
+	
+	#corpo
+	sw $11 -1032($9)
+	sw $11 -1028($9)
+	sw $11 -1024($9)
+	sw $11 -1020($9)
+	sw $11 -1016($9)
+	
+	lw $15 31756($9)
+	sw $15 -1012($9)
+	
+	sw $11 -1532($9)
+	sw $11 -1536($9)
+	sw $11 -1540($9)
+	sw $11 -1544($9)
+	sw $11 -1528($9)
+	
+	lw $15 31244($9)
+	sw $15 -1524($9)
+	
+	sw $11 -2048($9)
+	sw $11 -2052($9)
+	sw $11 -2056($9)
+	sw $11 -2044($9)
+	
+	lw $15 30728($9)
+	sw $15 -2040($9)
+	
+	sw $11 -2564($9)
+	sw $11 -2568($9)
+	sw $11 -2572($9)
+	sw $11 -2576($9)
+	sw $11 -2580($9)
+	sw $11 -2560($9)
+	
+	lw $15 30212($9)
+	sw $15 -2556($9)
+	
+	sw $11 -3080($9)
+	sw $11 -3084($9)
+	sw $11 -3088($9)
+	sw $11 -3076($9)
+	
+	lw $15 29696($9)
+	sw $15 -3072($9)
+	
+	#rosto
+	sw $12 -528($9)
+	sw $12 -1048($9)
+	sw $14 -1044($9)
+	sw $12 -1040($9)
+	sw $14 -1036($9)
+	sw $12 -536($9)
+	
+	lw $15 32232($9)
+	sw $15 -532($9)
+	
+	sw $12 -1548($9)
+	sw $10 -1552($9)
+	sw $12 -1556($9)
+	sw $10 -1560($9)
+	
+	sw $14 -2060($9)
+	sw $14 -2064($9)
+	sw $14 -2068($9)
+	sw $14 -2072($9)
+	
+	addi $23 $23 -1
+	j npc_joaninha_draw
+
+		
+#movimento
+#dir:
+	#addi $8 $8 4
+
+sonic_prep:
+	ori $10	$0 0x000000 #azul sonic 1E70BD
+	addi $23 $23 1
+	
+	
+sonic_draw:
+	beq $23 $0 voltar
+
 	sw $10 0($8)
 	
-	addi $8 $8 4
-	addi $25 $25 -1
-	j npc_vespa_draw
+	addi $23 $23 -1
+	j sonic_draw
