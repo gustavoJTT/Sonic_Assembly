@@ -10,13 +10,13 @@ main:
   ori $14 $0 0x00AD2B #verde esuro
   ori $15 $0 0xFFFFFF #branco
 
-  #addi $25 $0 8192 #m√É¬°ximo da tela
+  #addi $25 $0 8192 #m√°ximo da tela
 
   addi $25 $0 3303
-  addi $24 $0 2655
+  addi $24 $0 2605
   addi $23 $0 2320
-  addi $22 $0 2132
-  addi $21 $0 1338
+  addi $22 $0 2142
+  addi $21 $0 1368
   addi $20 $0 908
 
 ceu:
@@ -127,11 +127,12 @@ npc_prep_main:
 	lui $8 0x1001
 	lui $9 0x1001
 	lui $25 0x1001
-	addi $8 $8 23908 #altura sonic
-	addi $9 $9 23888	#altura joaninha
+	addi $8 $8 23588 #altura sonic
+	addi $9 $9 23788	#altura joaninha
 	addi $25 $25 15736	#altura vespa
+	lui $18 0xffff #registrador movimento !!!!!! proibido usar
+	addi $17 $0 0 # lÍ o registrador movimento !!!!!!!!!!! proibido usar
 	
-	addi $24 $24 30
 
 npc_joaninha_laco_walk:
 	#beq $24 $0 fim
@@ -143,8 +144,35 @@ npc_joaninha_laco_walk:
 	
 	addi $9 $9 -4
 	addi $25 $25 -4
-	addi $24 $24 -1
-	j npc_joaninha_laco_walk
+	
+	lw $17 0($18)
+	beq $17 $0 jump_green_zone1
+	lw $17 4($18)
+	
+	beq $17 'a' esquerda
+	beq $17 's' baixo
+	beq $17 'd' direita
+	beq $17 'w' pulo
+	
+	j jump_green_zone1
+
+jump_green_zone1: j npc_joaninha_laco_walk
+
+esquerda: addi $8 $8 -4
+          
+          j jump_green_zone1
+
+direita: addi $8 $8 4
+          
+         j jump_green_zone1
+
+baixo: addi $8 $8 512
+          
+        j jump_green_zone1
+
+pulo: addi $8 $8 -512
+          
+      j jump_green_zone1
 
 fim:
   addi $2 $0 10
@@ -152,7 +180,7 @@ fim:
 
 #----------------------func-----------------------
 
-#fun√ß√£o solo para prencher o solo de jeito alternado
+#funÁ„o solo para prencher o solo de jeito alternado
 
 solo: 
   lw $23 -4($8)
@@ -184,7 +212,7 @@ fim_func_solo:
   jr $31
 
 
-# fun√ß√£o criar_montanha para criar as montanhas com as medidadas dadas
+# funÁ„o criar_montanha para criar as montanhas com as medidadas dadas
 criar_montanha:
   addi $21 $0 0
   addi $20 $0 1
@@ -313,7 +341,7 @@ flor_draw:
 	jr $31
 
 
-#fun√ß√£o criar_nuvem 
+#funÁ„o criar_nuvem 
 criar_nuvem: 
   sw $15 -516($8)
   sw $15 -520($8)
@@ -351,7 +379,7 @@ voltar:
 #timer buffer
 
 timer:
-  addi $16 $0 100000 #100000
+  addi $16 $0 15000 #100000
   
 forT:
 	beq $16 $0 voltar
@@ -366,9 +394,9 @@ forT:
 npc_vespa_prep:
 	addi $23 $0 1
 	ori $10	$0 0x000000	#preto
-	ori $11	0xC60000	#vermelho
-	ori $13	0xE0AD40	#amarelo
-	ori $12 0xffffff #branco
+	ori $11	$0 0xC60000	#vermelho
+	ori $13	$0 0xE0AD40	#amarelo
+	ori $12 $0 0xffffff #branco
 	
 npc_vespa_draw:
 	beq $23 $0 voltar
@@ -496,7 +524,7 @@ npc_vespa_draw:
 	lw $15 35896($25)
 	sw $15 3128($25)
 	
-	#ferr√£o
+	#ferr„o
 	sw $12 3636($25)
 	sw $12 4152($25)
 
@@ -517,10 +545,10 @@ npc_vespa_draw:
 npc_joaninha_prep:
 	addi $23 $0 1
 	ori $10	$0 0x000000	#preto
-	ori $11	0xC60000	#vermelho
-	ori $12 0xffffff #branco
-	ori $13	0xE0AD40	#amarelo
-	ori $14 0x0000E2 #azul
+	ori $11	$0 0xC60000	#vermelho
+	ori $12 $0 0xffffff #branco
+	ori $13	$0 0xE0AD40	#amarelo
+	ori $14 $0 0x0000E2 #azul
 	
 npc_joaninha_draw:
 	beq $23 $0 voltar
@@ -618,18 +646,189 @@ npc_joaninha_draw:
 	#addi $8 $8 4
 
 sonic_prep:
-	ori $10	$0 0x000000 #azul sonic 1E70BD
+	ori $10	$0 0x000000 #preto
+	ori $11 $0 0x5D60C1	#azul luz
+	ori $12 $0 0x1C2182 #azul sombra
+	ori $13 $0 0xC60000 #vermelho luz
+	ori $14 $0 0x8E0000 #vermelho sombra
+	ori $15 $0 0xEDA137 #pele
+	#ori $16 0xE0E0E0 #branco luvas
+	ori $17 $0 0xE0E0E0 #branco olhos
+	
 	addi $23 $23 1
 	
 	
 sonic_draw:
 	beq $23 $0 voltar
 
-	sw $10 0($8)
+	#sapato luz
+	sw $13 0($8)
+	sw $13 -4($8)
+	sw $13 -8($8)
+	sw $13 -12($8)
+	sw $13 -516($8)
+	sw $13 -520($8)
+	sw $13 -524($8)
+	
+	#sapato sombra
+	sw $14 4($8)
+	sw $14 8($8)
+	sw $14 12($8)
+	sw $14 -508($8)
+	sw $14 -504($8)
+	
+	#pernas
+	sw $12 -1032($8)
+	sw $12 -1544($8)
+	sw $12 -1540($8)
+	sw $12 -1536($8)
+	
+	sw $12 -1020($8)
+	sw $12 -1532($8)
+	
+	#barriga
+	sw $12 -2056($8)
+	sw $12 -2060($8)
+	sw $12 -2576($8)
+	sw $12 -3084($8)
+	sw $12 -3592($8)
+	sw $12 -4104($8)
+	sw $12 -4100($8)
+	sw $12 -4096($8)
+	sw $12 -4092($8)
+	sw $12 -3576($8)
+	sw $12 -3060($8)
+	sw $12 -2548($8)
+	sw $12 -2040($8)
+	sw $12 -2044($8)
+	
+	sw $15 -3588($8)
+	sw $15 -3584($8)
+	sw $15 -3580($8)
+	
+	sw $15 -3080($8)
+	sw $15 -3076($8)
+	sw $15 -3072($8)
+	sw $15 -3068($8)
+	sw $15 -3064($8)
+	
+	sw $12 -2572($8)
+	sw $15 -2568($8)
+	sw $15 -2564($8)
+	sw $15 -2560($8)
+	sw $15 -2556($8)
+	sw $15 -2552($8)
+	
+	sw $15 -2052($8)
+	sw $15 -2048($8)
+	
+	#braco
+	sw $15 -3596($8)
+	sw $15 -3600($8)
+	sw $15 -3604($8)
+	
+	sw $15 -3092($8)
+	sw $15 -3088($8)
+	sw $15 -2580($8)
+	sw $15 -2576($8)
+	
+	sw $17 -2072($8)
+	sw $17 -2068($8)
+	sw $17 -2064($8)
+	sw $17 -1556($8)
+	sw $17 -1552($8)
+	sw $17 -1044($8)
+	
+	#rosto
+	sw $15 -4608($8)
+	sw $15 -4604($8)
+	sw $15 -4600($8)
+	sw $15 -4596($8)
+	
+	sw $15 -5120($8)
+	sw $15 -5116($8)
+	sw $15 -5112($8)
+	sw $15 -5108($8)
+	
+	sw $15 -5632($8)
+	sw $15 -5628($8)
+	sw $15 -5624($8)
+	sw $15 -5620($8)
+	
+	sw $12 -4612($8)
+	sw $12 -4616($8)
+	sw $12 -4620($8)
+	sw $12 -4624($8)
+	sw $12 -4628($8)
+	
+	sw $12 -5124($8)
+	sw $12 -5128($8)
+	sw $12 -5132($8)
+	sw $12 -5136($8)
+	sw $12 -5140($8)
+	sw $12 -5144($8)
+	sw $12 -5148($8)
+	
+	sw $12 -5636($8)
+	sw $12 -5640($8)
+	sw $12 -5644($8)
+	sw $12 -5648($8)
+	sw $12 -5652($8)
+	sw $12 -5656($8)
+	
+	sw $12 -6148($8)
+	sw $12 -6152($8)
+	sw $12 -6156($8)
+	sw $12 -6160($8)
+	sw $12 -6164($8)
+	
+	sw $12 -6660($8)
+	sw $12 -6664($8)
+	sw $12 -6668($8)
+	sw $12 -6672($8)
+	sw $12 -6676($8)
+	sw $12 -6680($8)
+	sw $12 -6684($8)
+	sw $12 -6688($8)
+	
+	sw $10 -6644($8)
+	sw $10 -6132($8)
+	sw $17 -6648($8)
+	sw $17 -6136($8)
+	sw $10 -6652($8)
+	sw $10 -6140($8)
+	sw $17 -6656($8)
+	sw $17 -6144($8)
+	
+	sw $12 -7156($8)
+	sw $12 -7160($8)
+	sw $12 -7164($8)
+	sw $12 -7168($8)
+	sw $12 -7172($8)
+	sw $12 -7176($8)
+	sw $15 -7180($8)
+	sw $15 -7184($8)
+	sw $12 -7188($8)
+	sw $12 -7192($8)
+	sw $12 -7196($8)
+	
+	#sw $12 -7668($8)
+	sw $12 -7672($8)
+	sw $12 -7676($8)
+	sw $12 -7680($8)
+	sw $12 -7684($8)
+	sw $12 -7688($8)
+	sw $12 -7692($8)
+	sw $15 -7696($8)
+	sw $12 -7700($8)
+	sw $12 -7704($8)
+	
+	sw $12 -8196($8)
+	sw $12 -8200($8)
+	sw $12 -8204($8)
+	sw $15 -8208($8)
+	sw $12 -8212($8)
+	
 	
 	addi $23 $23 -1
-<<<<<<< HEAD
 	j sonic_draw
-=======
-	j sonic_draw
->>>>>>> ad52e4776a4b6fad9585a63246655f70ed355c8b
