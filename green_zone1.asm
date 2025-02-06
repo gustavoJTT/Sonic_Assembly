@@ -127,8 +127,8 @@ npc_prep_main:
 	lui $8 0x1001
 	lui $9 0x1001
 	lui $25 0x1001
-	addi $8 $8 23588 #altura sonic
-	addi $9 $9 23788	#altura joaninha
+	addi $8 $8 23588 #altura sonic  !!!!!!!! proibido usar
+	addi $9 $9 23788	#altura joaninha !!!!!!!! proibido usar
 	addi $25 $25 15736	#altura vespa
 	lui $18 0xffff #registrador movimento !!!!!! proibido usar
 	addi $17 $0 0 # lê o registrador movimento !!!!!!!!!!! proibido usar
@@ -145,34 +145,26 @@ npc_joaninha_laco_walk:
 	addi $9 $9 -4
 	addi $25 $25 -4
 	
-	lw $17 0($18)
-	beq $17 $0 jump_green_zone1
+	
 	lw $17 4($18)
 	
-	beq $17 'a' esquerda
-	beq $17 's' baixo
-	beq $17 'd' direita
-	beq $17 'w' pulo
 	
-	j jump_green_zone1
+	jal sonic_andando
+	
+	j npc_joaninha_laco_walk
 
-jump_green_zone1: j npc_joaninha_laco_walk
 
 esquerda: addi $8 $8 -4
-          
-          j jump_green_zone1
+          j npc_joaninha_laco_walk
 
-direita: addi $8 $8 4
-          
-         j jump_green_zone1
+frente: addi $8 $8 4
+        j npc_joaninha_laco_walk
 
 baixo: addi $8 $8 512
-          
-        j jump_green_zone1
+       j npc_joaninha_laco_walk
 
 pulo: addi $8 $8 -512
-          
-      j jump_green_zone1
+      j npc_joaninha_laco_walk
 
 fim:
   addi $2 $0 10
@@ -641,24 +633,19 @@ npc_joaninha_draw:
 	j npc_joaninha_draw
 
 		
-#movimento
-#dir:
-	#addi $8 $8 4
-
 sonic_prep:
 	ori $10	$0 0x000000 #preto
-	ori $11 $0 0x5D60C1	#azul luz
 	ori $12 $0 0x1C2182 #azul sombra
 	ori $13 $0 0xC60000 #vermelho luz
 	ori $14 $0 0x8E0000 #vermelho sombra
 	ori $15 $0 0xEDA137 #pele
-	#ori $16 0xE0E0E0 #branco luvas
-	ori $17 $0 0xE0E0E0 #branco olhos
+	ori $16 $0 0xE0E0E0 #branco olhos
+	addi $24 $0 0
 	
 	addi $23 $23 1
 	
 	
-sonic_draw:
+sonic_draw_frente:
 	beq $23 $0 voltar
 
 	#sapato luz
@@ -670,12 +657,25 @@ sonic_draw:
 	sw $13 -520($8)
 	sw $13 -524($8)
 	
+	# sapato luz animação
+	
+	lw $24 32752($8)
+	sw $24 -16($8)
+	
+	lw $24 32240($8)
+	sw $24 -528($8)
+	
 	#sapato sombra
 	sw $14 4($8)
 	sw $14 8($8)
 	sw $14 12($8)
 	sw $14 -508($8)
 	sw $14 -504($8)
+	
+	# sapato sombra animação
+	
+	lw $24 32256($8)
+	sw $24 -512($8)
 	
 	#pernas
 	sw $12 -1032($8)
@@ -685,6 +685,17 @@ sonic_draw:
 	
 	sw $12 -1020($8)
 	sw $12 -1532($8)
+	
+	# pernas animação 
+	
+	lw $24 31220($8)
+	sw $24 -1548($8)
+	
+	lw $24 31732($8)
+	sw $24 -1036($8)
+	
+	lw $24 31744($8)
+	sw $24 -1024($8)
 	
 	#barriga
 	sw $12 -2056($8)
@@ -722,6 +733,11 @@ sonic_draw:
 	sw $15 -2052($8)
 	sw $15 -2048($8)
 	
+	# barriga animação
+	
+	lw $24 28660($8)
+	sw $24 -4108($8)
+	
 	#braco
 	sw $15 -3596($8)
 	sw $15 -3600($8)
@@ -732,12 +748,32 @@ sonic_draw:
 	sw $15 -2580($8)
 	sw $15 -2576($8)
 	
-	sw $17 -2072($8)
-	sw $17 -2068($8)
-	sw $17 -2064($8)
-	sw $17 -1556($8)
-	sw $17 -1552($8)
-	sw $17 -1044($8)
+	sw $16 -2072($8)
+	sw $16 -2068($8)
+	sw $16 -2064($8)
+	sw $16 -1556($8)
+	sw $16 -1552($8)
+	sw $16 -1044($8)
+	
+	#braço animação
+	
+	lw $24 29160($8)
+	sw $24 -3608($8)
+	
+	lw $24 29672($8)
+	sw $24 -3096($8)
+	
+	lw $24 30184($8)
+	sw $24 -2584($8)
+	
+	lw $24 30692($8)
+	sw $24 -2076($8)
+	
+	lw $24 31208($8)
+	sw $24 -1560($8)
+	
+	lw $24 31720($8)
+	sw $24 -1048($8)
 	
 	#rosto
 	sw $15 -4608($8)
@@ -793,12 +829,12 @@ sonic_draw:
 	
 	sw $10 -6644($8)
 	sw $10 -6132($8)
-	sw $17 -6648($8)
-	sw $17 -6136($8)
+	sw $16 -6648($8)
+	sw $16 -6136($8)
 	sw $10 -6652($8)
 	sw $10 -6140($8)
-	sw $17 -6656($8)
-	sw $17 -6144($8)
+	sw $16 -6656($8)
+	sw $16 -6144($8)
 	
 	sw $12 -7156($8)
 	sw $12 -7160($8)
@@ -812,7 +848,6 @@ sonic_draw:
 	sw $12 -7192($8)
 	sw $12 -7196($8)
 	
-	#sw $12 -7668($8)
 	sw $12 -7672($8)
 	sw $12 -7676($8)
 	sw $12 -7680($8)
@@ -829,6 +864,21 @@ sonic_draw:
 	sw $15 -8208($8)
 	sw $12 -8212($8)
 	
+	#rosto animação
+	
+	lw $24 24552($8)
+	sw $24 -8216($8)
+	
+	lw $24 25060($8)
+	sw $24 -7708($8)
 	
 	addi $23 $23 -1
-	j sonic_draw
+	j sonic_draw_frente
+	
+sonic_andando: beq $17 'a' esquerda
+               beq $17 's' baixo
+               beq $17 'd' frente
+               beq $17 'w' pulo
+               
+               jr $31
+               
