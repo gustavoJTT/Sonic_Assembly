@@ -81,15 +81,16 @@ canhao_main:
 npc_prep_main:
 	lui $8 0x1001
 	lui $9 0x1001
-	addi $8 $8 23108 #altura sonic
-	addi $9 $9 23888	#altura doc
+	addi $8 $8 19492 #altura sonic
+	addi $9 $9 19772	#altura doc
 	
-	addi $24 $0 30
+	addi $24 $0 1
 
 npc_joaninha_laco_walk:
-	#beq $24 $0 fim
+	beq $24 $0 fim
 	
 	jal sonic_prep
+	jal doc_prep
 	jal timer
 	
 	#addi $25 $25 -4
@@ -444,7 +445,7 @@ sonic_prep:
 	ori $15 $0 0xEDA137 #pele
 	ori $16 $0 0xE0E0E0 #branco olhos
 	
-	addi $23 $23 1
+	addi $23 $0 1
 	
 	
 sonic_draw:
@@ -620,3 +621,52 @@ sonic_draw:
 	
 	addi $23 $23 -1
 	j sonic_draw
+
+doc_prep:
+	ori $10	$0 0x000000 #preto
+	ori $11 $0 0x8E0000 #vermelho sombra
+	ori $12 $0 0xE0E0E0 #branco olhos
+	ori $13 $0 0xff7e00 #laranja roupa
+	ori $13 $0 0x5c230b #marrom barba
+	ori $15 $0 0xEDA137 #pele
+	ori $16 $0 0xed1c24 #vermelho nariz
+	
+	addi $23 $0 1
+	
+doc_draw:
+	beq $23 $0 voltar
+	
+	#perna esq
+	sw $10 -1532($9)
+	sw $10 -1020($9)
+	sw $10 -508($9)
+	sw $10 -512($9)
+	sw $10 -4($9)
+	sw $10 0($9)
+	sw $10 4($9)
+	
+	#perna dir
+	sw $10 -1516($9)
+	sw $10 -1004($9)
+	sw $10 -492($9)
+	sw $10 -488($9)
+	sw $10 20($9)
+	sw $10 24($9)
+	sw $10 28($9)
+	
+	#barriga
+	sw $10 -2036($9) #do meio
+	sw $10 -2040($9)
+	sw $10 -2044($9)
+	sw $10 -2048($9)
+	
+	sw $10 -2548($9)
+	sw $10 -2552($9)
+	sw $10 -2556($9)
+	sw $10 -2560($9)
+	sw $10 -2564($9)
+	sw $10 -2568($9)
+
+	
+	addi $23 $23 -1
+	j doc_draw

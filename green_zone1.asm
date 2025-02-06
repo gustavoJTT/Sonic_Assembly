@@ -131,7 +131,7 @@ npc_prep_main:
 	addi $9 $9 23888	#altura joaninha
 	addi $25 $25 15736	#altura vespa
 	
-	addi $24 $24 30
+	addi $24 $0 30
 
 npc_joaninha_laco_walk:
 	#beq $24 $0 fim
@@ -141,8 +141,8 @@ npc_joaninha_laco_walk:
 	jal sonic_prep
 	jal timer
 	
-	addi $9 $9 -4
-	addi $25 $25 -4
+	#addi $9 $9 -4
+	#addi $25 $25 -4
 	addi $24 $24 -1
 	j npc_joaninha_laco_walk
 
