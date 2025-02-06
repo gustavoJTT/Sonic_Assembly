@@ -366,9 +366,9 @@ forT:
 npc_vespa_prep:
 	addi $23 $0 1
 	ori $10	$0 0x000000	#preto
-	ori $11	0xC60000	#vermelho
-	ori $13	0xE0AD40	#amarelo
-	ori $12 0xffffff #branco
+	ori $11	$0 0xC60000	#vermelho
+	ori $13	$0 0xE0AD40	#amarelo
+	ori $12 $0 0xffffff #branco
 	
 npc_vespa_draw:
 	beq $23 $0 voltar
@@ -517,10 +517,10 @@ npc_vespa_draw:
 npc_joaninha_prep:
 	addi $23 $0 1
 	ori $10	$0 0x000000	#preto
-	ori $11	0xC60000	#vermelho
-	ori $12 0xffffff #branco
-	ori $13	0xE0AD40	#amarelo
-	ori $14 0x0000E2 #azul
+	ori $11	$0 0xC60000	#vermelho
+	ori $12 $0 0xffffff #branco
+	ori $13	$0 0xE0AD40	#amarelo
+	ori $14 $0 0x0000E2 #azul
 	
 npc_joaninha_draw:
 	beq $23 $0 voltar
@@ -624,8 +624,7 @@ sonic_prep:
 	ori $13 $0 0xC60000 #vermelho luz
 	ori $14 $0 0x8E0000 #vermelho sombra
 	ori $15 $0 0xEDA137 #pele
-	#ori $16 0xE0E0E0 #branco luvas
-	ori $17 $0 0xE0E0E0 #branco olhos
+	ori $16 $0 0xE0E0E0 #branco olhos
 	
 	addi $23 $23 1
 	
@@ -704,12 +703,12 @@ sonic_draw:
 	sw $15 -2580($8)
 	sw $15 -2576($8)
 	
-	sw $17 -2072($8)
-	sw $17 -2068($8)
-	sw $17 -2064($8)
-	sw $17 -1556($8)
-	sw $17 -1552($8)
-	sw $17 -1044($8)
+	sw $16 -2072($8)
+	sw $16 -2068($8)
+	sw $16 -2064($8)
+	sw $16 -1556($8)
+	sw $16 -1552($8)
+	sw $16 -1044($8)
 	
 	#rosto
 	sw $15 -4608($8)
@@ -765,12 +764,12 @@ sonic_draw:
 	
 	sw $10 -6644($8)
 	sw $10 -6132($8)
-	sw $17 -6648($8)
-	sw $17 -6136($8)
+	sw $16 -6648($8)
+	sw $16 -6136($8)
 	sw $10 -6652($8)
 	sw $10 -6140($8)
-	sw $17 -6656($8)
-	sw $17 -6144($8)
+	sw $16 -6656($8)
+	sw $16 -6144($8)
 	
 	sw $12 -7156($8)
 	sw $12 -7160($8)

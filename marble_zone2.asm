@@ -64,7 +64,7 @@ tijolo_solo_prep:
 	addi $24 $0 0
 	
 tijolo_solo_draw:
-	beq $25 $0 canhao_main #jujijoqam
+	beq $25 $0 canhao_main
 	
 	jal teste_height_solo
 	
@@ -76,6 +76,27 @@ tijolo_solo_draw:
 # canhao
 canhao_main:
 	jal corrente_func_prep
+	
+	
+npc_prep_main:
+	lui $8 0x1001
+	lui $9 0x1001
+	addi $8 $8 23908 #altura sonic
+	addi $9 $9 23888	#altura joaninha
+	
+	addi $24 $24 30
+
+npc_joaninha_laco_walk:
+	#beq $24 $0 fim
+	
+	jal sonic_prep
+	jal timer
+	
+	#addi $9 $9 -4
+	#addi $25 $25 -4
+	addi $24 $24 -1
+	j npc_joaninha_laco_walk
+
 
 fim:
   addi $2 $0 10
