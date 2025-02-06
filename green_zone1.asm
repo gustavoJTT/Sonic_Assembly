@@ -131,40 +131,30 @@ npc_prep_main:
 	addi $9 $9 23788	#altura joaninha !!!!!!!! proibido usar
 	addi $25 $25 15736	#altura vespa
 	lui $18 0xffff #registrador movimento !!!!!! proibido usar
-	addi $17 $0 0 # lê o registrador movimento !!!!!!!!!!! proibido usar
-	
+	addi $17 $0 0 # lï¿½ o registrador movimento !!!!!!!!!!! proibido usar
+	jal sonic_prep
 
 npc_joaninha_laco_walk:
 	#beq $24 $0 fim
 	
 	jal npc_vespa_prep
 	jal npc_joaninha_prep
-	jal sonic_prep
-	jal timer
 	
 	addi $9 $9 -4
 	addi $25 $25 -4
+	jal timer
 	
+	add $11 $0 $17
+	
+	lw $17 0($18)
+	beq $17 $0 npc_joaninha_laco_walk
 	
 	lw $17 4($18)
 	
+	jal sonic_prep
 	
-	jal sonic_andando
-	
-	j npc_joaninha_laco_walk
-
-
-esquerda: addi $8 $8 -4
-          j npc_joaninha_laco_walk
-
-frente: addi $8 $8 4
-        j npc_joaninha_laco_walk
-
-baixo: addi $8 $8 512
+	      
        j npc_joaninha_laco_walk
-
-pulo: addi $8 $8 -512
-      j npc_joaninha_laco_walk
 
 fim:
   addi $2 $0 10
@@ -172,7 +162,7 @@ fim:
 
 #----------------------func-----------------------
 
-#função solo para prencher o solo de jeito alternado
+#funï¿½ï¿½o solo para prencher o solo de jeito alternado
 
 solo: 
   lw $23 -4($8)
@@ -204,7 +194,7 @@ fim_func_solo:
   jr $31
 
 
-# função criar_montanha para criar as montanhas com as medidadas dadas
+# funÃ§Ã£o criar_montanha para criar as montanhas com as medidadas dadas
 criar_montanha:
   addi $21 $0 0
   addi $20 $0 1
@@ -333,7 +323,7 @@ flor_draw:
 	jr $31
 
 
-#função criar_nuvem 
+#funï¿½ï¿½o criar_nuvem 
 criar_nuvem: 
   sw $15 -516($8)
   sw $15 -520($8)
@@ -516,7 +506,7 @@ npc_vespa_draw:
 	lw $15 35896($25)
 	sw $15 3128($25)
 	
-	#ferrão
+	#ferrï¿½o
 	sw $12 3636($25)
 	sw $12 4152($25)
 
@@ -642,11 +632,32 @@ sonic_prep:
 	ori $16 $0 0xE0E0E0 #branco olhos
 	addi $24 $0 0
 	
-	addi $23 $23 1
+	beq $17 'a' esquerda
+        beq $17 's' baixo
+        beq $17 'd' direita
+        beq $17 'w' pulo
+        beq $17 $0 sonic_draw_direita
+
+
+esquerda: addi $8 $8 -4
+          
+          j sonic_costas_prep
+
+direita: addi $8 $8 4
+
+	j sonic_draw_direita
+
+baixo: addi $8 $8 512
+      
+       jr $31
+
+pulo: addi $8 $8 -512
+      
+      beq $11 'd' sonic_draw_direita
+      beq $11 'a' sonic_draw_esquerda
 	
 	
-sonic_draw_frente:
-	beq $23 $0 voltar
+sonic_draw_direita: 
 
 	#sapato luz
 	sw $13 0($8)
@@ -657,7 +668,7 @@ sonic_draw_frente:
 	sw $13 -520($8)
 	sw $13 -524($8)
 	
-	# sapato luz animação
+	# sapato luz animaï¿½ï¿½o
 	
 	lw $24 32752($8)
 	sw $24 -16($8)
@@ -672,7 +683,7 @@ sonic_draw_frente:
 	sw $14 -508($8)
 	sw $14 -504($8)
 	
-	# sapato sombra animação
+	# sapato sombra animaï¿½ï¿½o
 	
 	lw $24 32256($8)
 	sw $24 -512($8)
@@ -686,7 +697,7 @@ sonic_draw_frente:
 	sw $12 -1020($8)
 	sw $12 -1532($8)
 	
-	# pernas animação 
+	# pernas animaï¿½ï¿½o 
 	
 	lw $24 31220($8)
 	sw $24 -1548($8)
@@ -733,7 +744,7 @@ sonic_draw_frente:
 	sw $15 -2052($8)
 	sw $15 -2048($8)
 	
-	# barriga animação
+	# barriga animaï¿½ï¿½o
 	
 	lw $24 28660($8)
 	sw $24 -4108($8)
@@ -755,7 +766,7 @@ sonic_draw_frente:
 	sw $16 -1552($8)
 	sw $16 -1044($8)
 	
-	#braço animação
+	#braï¿½o animaï¿½ï¿½o
 	
 	lw $24 29160($8)
 	sw $24 -3608($8)
@@ -864,7 +875,7 @@ sonic_draw_frente:
 	sw $15 -8208($8)
 	sw $12 -8212($8)
 	
-	#rosto animação
+	#rosto animaï¿½ï¿½o
 	
 	lw $24 24552($8)
 	sw $24 -8216($8)
@@ -889,14 +900,359 @@ sonic_draw_frente:
 	
 	lw $24 28136($8)
 	sw $24 -4632($8)
-	
-	addi $23 $23 -1
-	j sonic_draw_frente
-	
-sonic_andando: beq $17 'a' esquerda
-               beq $17 's' baixo
-               beq $17 'd' frente
-               beq $17 'w' pulo
                
                jr $31
                
+sonic_costas_prep:
+
+        ori $10	$0 0x000000 #preto
+	ori $12 $0 0x1C2182 #azul sombra
+	ori $13 $0 0xC60000 #vermelho luz
+	ori $14 $0 0x8E0000 #vermelho sombra
+	ori $15 $0 0xEDA137 #pele
+	ori $16 $0 0xE0E0E0 #branco olhos
+	addi $24 $0 0
+	
+	
+	beq $11 'd' limpa_sonic_frente
+	
+limpa_sonic_frente:# addi $11 $11 -1
+                    
+	lw $24 31224($8)
+	sw $24 -1548($8)
+	
+	lw $24 31748($8)
+	sw $24 -1020($8)
+
+	lw $24 30708($8)
+	sw $24 -2060($8)
+
+	lw $24 29172($8)
+	sw $24 -3596($8)
+	lw $24 29168($8)
+	sw $24 -3600($8)
+	lw $24 29164($8)
+	sw $24 -3604($8)
+	
+	lw $24 29676($8)
+	sw $24 -3092($8)
+	lw $24 29680($8)
+	sw $24 -3088($8)
+	lw $24 30188($8)
+	sw $24 -2580($8)
+	lw $24 30192($8)
+	sw $24 -2576($8)
+	
+	lw $24 30696($8)
+	sw $24 -2072($8)
+	lw $24 30700($8)
+	sw $24 -2068($8)
+	lw $24 30704($8)
+	sw $24 -2064($8)
+	lw $24 31212($8)
+	sw $24 -1556($8)
+	lw $24 31216($8)
+	sw $24 -1552($8)
+	lw $24 31720($8)
+	sw $24 -1048($8)
+
+	lw $24 28140($8)
+	sw $24 -4628($8)
+	
+	lw $24 27628($8)
+	sw $24 -5140($8)
+	lw $24 27624($8)
+	sw $24 -5144($8)
+	lw $24 27620($8)
+	sw $24 -5148($8)
+	
+	lw $24 27116($8)
+	sw $24 -5652($8)
+	lw $24 27112($8)
+	sw $24 -5656($8)
+	
+	lw $24 26604($8)
+	sw $24 -6164($8)
+	
+	lw $24 26092($8)
+	sw $24 -6676($8)
+	lw $24 26088($8)
+	sw $24 -6680($8)
+	lw $24 26084($8)
+	sw $24 -6684($8)
+	lw $24 26080($8)
+	sw $24 -6688($8)
+	
+	lw $24 25580($8)
+	sw $24 -7188($8)
+	lw $24 25576($8)
+	sw $24 -7192($8)
+	lw $24 25572($8)
+	sw $24 -7196($8)
+	
+	lw $24 25072($8)
+	sw $24 -7696($8)
+	lw $24 25068($8)
+	sw $24 -7700($8)
+	lw $24 25064($8)
+	sw $24 -7704($8)
+	
+	lw $24 24572($8)
+	sw $24 -8196($8)
+	lw $24 24568($8)
+	sw $24 -8200($8)
+	lw $24 24564($8)
+	sw $24 -8204($8)
+	lw $24 24560($8)
+	sw $24 -8208($8)
+	lw $24 24556($8)
+	sw $24 -8212($8)
+	
+    
+sonic_draw_esquerda: 
+	
+	#sapato luz
+	sw $13 0($8)
+	sw $13 4($8)
+	sw $13 8($8)
+	sw $13 12($8)
+	sw $13 -508($8)
+	sw $13 -504($8)
+	sw $13 -500($8)
+	
+	# sapato luz animaÃ§Ã£o
+	
+	lw $24 32784($8) 
+	sw $24 16($8) 
+	
+	lw $24 32272($8)
+	sw $24 -496($8) 
+	
+	#sapato sombra
+	sw $14 -4($8)
+	sw $14 -8($8)
+	sw $14 -12($8)
+	sw $14 -516($8)
+	sw $14 -520($8)
+	
+	# sapato sombra animaÃ§Ã£o
+	
+	lw $24 32256($8)
+	sw $24 -512($8)
+	
+	#pernas
+	sw $12 -1028($8)
+	sw $12 -1540($8)
+	sw $12 -1536($8)
+	sw $12 -1532($8)
+	
+	sw $12 -1016($8)
+	sw $12 -1528($8)
+	
+	# pernas animaÃ§Ã£o 
+	
+	lw $24 31244($8)
+	sw $24 -1524($8)
+	
+	lw $24 31756($8)
+	sw $24 -1012($8) 
+	
+	lw $24 31744($8)
+	sw $24 -1024($8)
+	
+	#barriga
+	sw $12 -2036($8)
+	sw $12 -2040($8)
+	sw $12 -2052($8)
+	sw $12 -2056($8)
+	sw $12 -2572($8)
+	sw $12 -3084($8)
+	sw $12 -3592($8)
+	sw $12 -4104($8)
+	sw $12 -4100($8)
+	sw $12 -4096($8)
+	sw $12 -4092($8)
+	sw $12 -3576($8)
+	sw $12 -3060($8)
+	sw $12 -2548($8)
+	
+	sw $15 -3588($8)
+	sw $15 -3584($8)
+	sw $15 -3580($8)
+	
+	sw $15 -3080($8)
+	sw $15 -3076($8)
+	sw $15 -3072($8)
+	sw $15 -3068($8)
+	sw $15 -3064($8)
+	
+	
+	sw $15 -2568($8)
+	sw $15 -2564($8)
+	sw $15 -2560($8)
+	sw $15 -2556($8)
+	sw $15 -2552($8)
+	
+	sw $15 -2048($8)
+	sw $15 -2044($8)
+	
+	# barriga animaÃ§Ã£o
+	
+	lw $24 28680($8)
+	sw $24 -4088($8) 
+	
+	#braco
+	sw $15 -3572($8)
+	sw $15 -3568($8)
+	sw $15 -3564($8)
+	
+	sw $15 -3056($8)
+	sw $15 -3052($8)
+	
+	sw $15 -2544($8)
+	sw $15 -2540($8)
+	
+	sw $16 -2024($8)
+	sw $16 -2028($8)
+	sw $16 -2032($8)
+	sw $16 -1520($8)
+	sw $16 -1516($8)
+	sw $16 -1004($8)
+	
+	#braÃ§o animaÃ§Ã£o
+	
+	lw $24 29208($8)
+	sw $24 -3560($8) 
+	
+	lw $24 29720($8)
+	sw $24 -3048($8) 
+	
+	lw $24 30232($8)
+	sw $24 -2536($8) 
+	
+	lw $24 30748($8)
+	sw $24 -2020($8) 
+	
+	lw $24 31256($8)
+	sw $24 -1512($8)
+	
+	lw $24 31768($8)
+	sw $24 -1000($8) 
+	
+	#rosto
+	
+	sw $15 -4624($8)
+	sw $15 -4620($8)
+	sw $15 -4616($8)
+	sw $15 -4612($8)
+	
+	sw $15 -5136($8)
+	sw $15 -5132($8)
+	sw $15 -5128($8)
+	sw $15 -5124($8)
+	
+	sw $15 -5648($8) 
+	sw $15 -5644($8)
+	sw $15 -5640($8)
+	sw $15 -5636($8)
+	
+	sw $12 -4608($8)
+	sw $12 -4604($8)
+	sw $12 -4600($8)
+	sw $12 -4596($8)
+	sw $12 -4592($8)
+	
+	sw $12 -5120($8)
+	sw $12 -5116($8)
+	sw $12 -5112($8)
+	sw $12 -5108($8)
+	sw $12 -5104($8)
+	sw $12 -5100($8)
+	sw $12 -5096($8)
+	
+	sw $12 -5632($8)
+	sw $12 -5628($8)
+	sw $12 -5624($8)
+	sw $12 -5620($8)
+	sw $12 -5616($8)
+	sw $12 -5612($8)
+	
+	sw $12 -6144($8)
+	sw $12 -6140($8)
+	sw $12 -6136($8)
+	sw $12 -6132($8)
+	sw $12 -6128($8)
+	
+	sw $12 -6656($8)
+	sw $12 -6652($8)
+	sw $12 -6648($8)
+	sw $12 -6644($8)
+	sw $12 -6640($8)
+	sw $12 -6636($8)
+	sw $12 -6632($8)
+	sw $12 -6628($8)
+	
+	sw $10 -6672($8)
+	sw $10 -6160($8)
+	sw $16 -6668($8)
+	sw $16 -6156($8)
+	sw $10 -6664($8)
+	sw $10 -6152($8)
+	sw $16 -6660($8)
+	sw $16 -6148($8)
+	
+	sw $12 -7184($8)
+	sw $12 -7180($8)
+	sw $12 -7176($8)
+	sw $12 -7172($8)
+	sw $12 -7168($8)
+	sw $12 -7164($8)
+	sw $15 -7160($8)
+	sw $15 -7156($8)
+	sw $12 -7152($8)
+	sw $12 -7148($8)
+	sw $12 -7144($8)
+	
+	sw $12 -7692($8)
+	sw $12 -7688($8)
+	sw $12 -7684($8)
+	sw $12 -7680($8)
+	sw $12 -7676($8)
+	sw $12 -7672($8)
+	sw $15 -7668($8) 
+	sw $12 -7664($8)
+	sw $12 -7660($8)
+	
+	sw $12 -8192($8)
+	sw $12 -8188($8)
+	sw $12 -8184($8)
+	sw $15 -8180($8)
+	sw $12 -8176($8)
+	
+	#rosto animaÃ§Ã£o
+	
+	lw $24 24596($8)
+	sw $24 -8172($8) 
+	
+	lw $24 25116($8)
+	sw $24 -7656($8)
+	
+	lw $24 25628($8)
+	sw $24 -7140($8)
+	
+	lw $24 26144($8)
+	sw $24 -6624($8)
+	
+	lw $24 26644($8)
+	sw $24 -6124($8)
+	
+	lw $24 27160($8)
+	sw $24 -5608($8)
+	
+	lw $24 27676($8)
+	sw $24 -5092($8)
+	
+	lw $24 28180($8)
+	sw $24 -4588($8)
+	
+	jr $31        
