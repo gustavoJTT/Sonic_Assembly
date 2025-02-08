@@ -1,4 +1,4 @@
-.text
+ .text
 
 main:
   lui $8 0x1001
@@ -361,7 +361,7 @@ voltar:
 #timer buffer
 
 timer:
-  addi $16 $0 15000 #100000
+  addi $16 $0 100000 #100000
   
 forT:
 	beq $16 $0 voltar
@@ -902,7 +902,10 @@ sonic_draw_direita:
 	sw $24 -4632($8)
                
                jr $31
+ 
                
+       # desenho sonic andando pela esquerda
+                                                  
 sonic_costas_prep:
 
         ori $10	$0 0x000000 #preto
@@ -1256,3 +1259,10 @@ sonic_draw_esquerda:
 	sw $24 -4588($8)
 	
 	jr $31        
+
+# desenho sonic virando bola
+
+
+
+
+
