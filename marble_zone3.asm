@@ -440,7 +440,7 @@ doc_prep:	#movimento com o $20 pq no $15 já tem cor
 	
 	addi $23 $0 1
 	
-	j doc_draw_dir
+	#j doc_draw_dir
 	
 doc_draw_esq:
 	beq $23 $0 voltar
