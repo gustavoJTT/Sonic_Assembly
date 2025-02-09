@@ -83,7 +83,7 @@ npc_prep_main:
 	lui $8 0x1001
 	lui $9 0x1001
 	addi $8 $8 19492 #altura sonic
-	addi $9 $9 19700	#altura doc
+	addi $9 $9 14752	#altura bala do canhao
 	
 	addi $24 $0 30
 
@@ -91,6 +91,7 @@ npc_joaninha_laco_walk:
 	beq $24 $0 fim
 	
 	jal sonic_prep
+	jal bala_canhao_prep
 	jal timer
 	
 	addi $9 $9 -4
@@ -340,7 +341,7 @@ corrente_func_prep:
 	ori $10 $0 0x5F5F5F #cinza corrente
 	
 	addi $8 $8 -22148
-	addi $8 $8 48
+	addi $8 $8 68
 	addi $25 $0 4
 
 corrente_func_draw:
@@ -671,3 +672,55 @@ sonic_draw:
 	
 	addi $23 $23 -1
 	j sonic_draw
+	
+bala_canhao_prep:
+	ori $10	$0 0x000000 #preto
+	
+	addi $23 $0 1
+	
+bala_canhao_draw:
+	beq $23 $0 voltar
+	
+	sw $10 -1032($9)
+	sw $10 -1036($9)
+	sw $10 -1040($9)
+	
+	lw $20 31740($9)
+	sw $20 -1028($9)
+	
+	sw $10 -516($9)
+	sw $10 -520($9)
+	sw $10 -524($9)
+	sw $10 -528($9)
+	sw $10 -532($9)
+	
+	lw $20 32256($9)
+	sw $20 -512($9)
+	
+	sw $10 -4($9)
+	sw $10 -8($9)
+	sw $10 -12($9)
+	sw $10 -16($9)
+	sw $10 -20($9)
+	
+	lw $20 32768($9)
+	sw $20 0($9)
+	
+	sw $10 508($9)
+	sw $10 504($9)
+	sw $10 500($9)
+	sw $10 496($9)
+	sw $10 492($9)
+	
+	lw $20 33280($9)
+	sw $20 512($9)
+	
+	sw $10 1016($9)
+	sw $10 1012($9)
+	sw $10 1008($9)
+
+	lw $20 33788($9)
+	sw $20 1020($9)
+	
+	addi $23 $23 -1
+	j bala_canhao_draw
