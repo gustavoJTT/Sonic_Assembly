@@ -128,14 +128,19 @@ npc_prep_main:
 	lui $9 0x1001
 	lui $25 0x1001
 	addi $8 $8 23588 #altura sonic  !!!!!!!! proibido usar
-	addi $9 $9 23788	#altura joaninha !!!!!!!! proibido usar
+	addi $9 $9 23788	#altura peixe !!!!!!!! proibido usar
 	addi $25 $25 15736	#altura vespa
 	lui $18 0xffff #registrador movimento !!!!!! proibido usar
-	addi $17 $0 0 # l� o registrador movimento !!!!!!!!!!! proibido usar
+	addi $17 $0 0 # l  o registrador movimento !!!!!!!!!!! proibido usar
 	jal sonic_prep
 
 npc_joaninha_laco_walk:
-	#beq $24 $0 fim
+	lui $10 0x1001
+	addi $10 $10 24048 #final da tela
+	
+	beq $8 $10 green_zone_2
+	#beq $8 $25 main
+	#beq $8 $9 main
 	
 	jal npc_vespa_prep
 	jal npc_joaninha_prep
@@ -162,7 +167,7 @@ fim:
 
 #----------------------func-----------------------
 
-#fun��o solo para prencher o solo de jeito alternado
+#fun  o solo para prencher o solo de jeito alternado
 
 solo: 
   lw $23 -4($8)
@@ -323,7 +328,7 @@ flor_draw:
 	jr $31
 
 
-#fun��o criar_nuvem 
+#fun  o criar_nuvem 
 criar_nuvem: 
   sw $15 -516($8)
   sw $15 -520($8)
@@ -506,7 +511,7 @@ npc_vespa_draw:
 	lw $15 35896($25)
 	sw $15 3128($25)
 	
-	#ferr�o
+	#ferr o
 	sw $12 3636($25)
 	sw $12 4152($25)
 
@@ -668,7 +673,7 @@ sonic_draw_direita:
 	sw $13 -520($8)
 	sw $13 -524($8)
 	
-	# sapato luz anima��o
+	# sapato luz anima  o
 	
 	lw $24 32752($8)
 	sw $24 -16($8)
@@ -683,7 +688,7 @@ sonic_draw_direita:
 	sw $14 -508($8)
 	sw $14 -504($8)
 	
-	# sapato sombra anima��o
+	# sapato sombra anima  o
 	
 	lw $24 32256($8)
 	sw $24 -512($8)
@@ -697,7 +702,7 @@ sonic_draw_direita:
 	sw $12 -1020($8)
 	sw $12 -1532($8)
 	
-	# pernas anima��o 
+	# pernas anima  o 
 	
 	lw $24 31220($8)
 	sw $24 -1548($8)
@@ -744,7 +749,7 @@ sonic_draw_direita:
 	sw $15 -2052($8)
 	sw $15 -2048($8)
 	
-	# barriga anima��o
+	# barriga anima  o
 	
 	lw $24 28660($8)
 	sw $24 -4108($8)
@@ -766,7 +771,7 @@ sonic_draw_direita:
 	sw $16 -1552($8)
 	sw $16 -1044($8)
 	
-	#bra�o anima��o
+	#bra o anima  o
 	
 	lw $24 29160($8)
 	sw $24 -3608($8)
@@ -875,7 +880,7 @@ sonic_draw_direita:
 	sw $15 -8208($8)
 	sw $12 -8212($8)
 	
-	#rosto anima��o
+	#rosto anima  o
 	
 	lw $24 24552($8)
 	sw $24 -8216($8)
@@ -1256,3 +1261,938 @@ sonic_draw_esquerda:
 	sw $24 -4588($8)
 	
 	jr $31        
+
+##################################### Green zone 2 ###################################
+
+green_zone_2:
+  lui $8 0x1001
+  ori $9 $0 0x1D009F #azul ceu_gz_2
+  ori $10 $0 0x0082E0 #azul mar_gz_2
+  ori $11 $0 0x250000 #marrom escuro
+  ori $12 $0 0x6A1B00 #marrom claro
+  ori $13 $0 0x62FF36 #verde claro
+  ori $14 $0 0x00AD2B #verde esuro
+  ori $15 $0 0xFFFFFF #branco
+
+  #addi $25 $0 8192 #mÃ¡ximo da tela
+
+  addi $25 $0 3303
+  addi $24 $0 2580
+  addi $23 $0 2294
+  addi $22 $0 2022
+  addi $21 $0 1338
+  addi $20 $0 735
+
+ceu_gz_2:
+  beq $25 $0 montanhas_prep_gz_2
+
+  sw $9 0($8)
+
+  addi $8 $8 4
+  addi $25 $25 -1
+  beq $25 $24 nuvem_gz_2
+  beq $25 $23 nuvem_gz_2
+  beq $25 $22 nuvem_gz_2 
+  beq $25 $21 nuvem_gz_2 
+  beq $25 $20 nuvem_gz_2 
+  j ceu_gz_2
+
+nuvem_gz_2:
+  jal criar_nuvem_gz_2
+  j ceu_gz_2
+
+montanhas_prep_gz_2:
+  addi $22 $0 10
+
+montanha1_prep_gz_2:
+  beq  $22 $0 mar_prep_gz_2
+  addi $22 $22 -1
+  addi $24 $0 7 #$24 > altura montanha 
+  addi $23 $0 1
+
+montanha1_gz_2:
+  jal criar_montanha_gz_2
+
+montanha2_prep_gz_2:
+  addi $24 $0 5
+  addi $23 $0 1 
+
+montanha2_gz_2:
+  jal criar_montanha_gz_2
+
+  sw $11 0($8)
+  addi $8 $8 4
+  j montanha1_prep_gz_2
+
+mar_prep_gz_2: 
+  addi $25 $0 2176
+  addi $8 $8 -8
+  addi $23 $0 260
+
+mar_gz_2:   
+  beq $25 $0 grama_prep_gz_2
+	
+  sw $10 0($8)
+  jal ondas_verif_gz_2
+
+  addi $8 $8 4
+  addi $25 $25 -1
+  addi $23 $23 -1
+  j mar_gz_2 
+
+
+
+grama_prep_gz_2: 
+  addi $25 $0 171
+  addi $23 $0 81
+
+grama_gz_2: 
+  beq $25 $0 cachoeira_prep_gz_2
+  sw $14 0($8)
+  sw $14 4($8)
+  sw $13 8($8)
+  jal placa_verif_gz_2
+
+  addi $8 $8 12
+  addi $25 $25 -1
+  addi $23 $23 -1
+  j grama_gz_2
+
+cachoeira_prep_gz_2: addi $8 $8 -1908
+                addi $25 $0 2
+                addi $20 $0 0 #variavel escolha tipo de cachoeira
+                
+cachoeira_grama_gz_2: beq $25 $0 solo_prep_gz_2
+                 jal desenho_cachoeira_gz_2
+                 addi $25 $25 -1
+                 addi $8 $8 416
+                 j cachoeira_grama_gz_2
+
+solo_prep_gz_2: 
+  addi $25 $25 8
+  addi $8 $8 -656
+
+  addi $20 $0 1 #variavel escolha tipo de cachoeira
+
+solo_laco1_gz_2:
+  beq $25 $0 ponte_prep_gz_2
+  addi $24 $0 53
+  add $22 $0 $24
+  addi $21 $24 -18
+
+  
+  addi $8 $8 512
+  addi $25 $25 -1
+
+solo_laco2_gz_2:
+  beq $24 $0 solo_laco1_gz_2
+
+  beq $21 $24 cachoeira_solo_gz_2
+  jal solo_gz_2
+  
+  addi $24 $24 -1
+  addi $8 $8 8
+  j solo_laco2_gz_2
+
+cachoeira_solo_gz_2: 
+                jal desenho_cachoeira_gz_2
+                addi $8 $8 -512
+                addi $24 $24 -1
+                add $22 $0 $24
+                j solo_laco2_gz_2
+
+ponte_prep_gz_2: addi $8 $8 -9072
+            jal ponte_des_gz_2
+            addi $8 $8 524
+            jal ponte_des_gz_2
+            addi $8 $8 524
+            jal ponte_des_gz_2
+            addi $8 $8 12
+            jal ponte_des_gz_2
+            addi $8 $8 12
+            jal ponte_des_gz_2
+            addi $8 $8 12
+            jal ponte_des_gz_2
+            addi $8 $8 -500
+            jal ponte_des_gz_2
+            addi $8 $8 -500
+            jal ponte_des_gz_2
+            
+npc_prep_main_gz2:
+	lui $8 0x1001
+	lui $9 0x1001
+	lui $25 0x1001
+	addi $8 $8 23588 #altura sonic  !!!!!!!! proibido usar
+	addi $9 $9 23788	#altura joaninha !!!!!!!! proibido usar
+	addi $25 $25 15736	#altura vespa
+	lui $18 0xffff #registrador movimento !!!!!! proibido usar
+	addi $17 $0 0 # l  o registrador movimento !!!!!!!!!!! proibido usar
+	jal sonic_prep
+
+npc_joaninha_laco_walk_gz_2:
+	lui $10 0x1001
+	addi $10 $10 24048 #final da tela
+	
+	beq $8 $10 fim
+	#beq $8 $25 main
+	#beq $8 $9 main
+	
+	jal peixe_prep
+	
+	addi $9 $9 -4
+	addi $25 $25 -4
+	jal timer
+	
+	add $11 $0 $17
+	
+	lw $17 0($18)
+	beq $17 $0 npc_joaninha_laco_walk_gz_2
+	
+	lw $17 4($18)
+	
+	jal sonic_prep
+	
+	      
+       j npc_joaninha_laco_walk_gz_2
+       
+fim_gz_2:
+  addi $2 $0 10
+  syscall
+
+#----------------------func-----------------------
+
+#função solo_gz_2 para prencher o solo_gz_2 de jeito alternado
+
+solo_gz_2: 
+  lw $23 -4($8)
+  beq $22 $24 escolha_solo_gz_2
+
+  beq $23 $12 marr_esc_gz_2
+  j marr_claro_gz_2
+
+
+escolha_solo_gz_2: 
+  lw $23 -512($8)
+  bne $23 $11 marr_esc_gz_2 
+
+marr_claro_gz_2:
+  sw $12 0($8)
+  sw $12 4($8)
+  sw $12 512($8)
+  sw $12 516($8)
+  j fim_func_solo_gz_2
+
+marr_esc_gz_2:
+  sw $11 0($8)
+  sw $11 4($8)
+  sw $11 512($8)
+  sw $11 516($8)
+  j fim_func_solo_gz_2
+
+fim_func_solo_gz_2:
+  jr $31
+
+  sw $12 -512($8)
+  sw $12 -1024($8)
+  sw $10 -1536($8)
+  sw $10 -2052($8)
+  sw $10 -2044($8)
+  sw $9 -2048($8)
+  sw $10 -2560($8)
+
+
+# função criar_montanha_gz_2 para criar as montanhas com as medidadas dadas
+criar_montanha_gz_2:
+  addi $21 $0 0
+  addi $20 $0 1
+  addi $19 $0 0
+  addi $24 $24 2
+  addi $8 $8 512
+
+montanha_subindo_gz_2:
+  beq $24 $23 montanha_descendo_prep_gz_2
+
+montanha_subindo2_gz_2:
+  beq $21 $23 fim_montanha_subindo_gz_2
+  sw $11 -512($8)
+  addi $21 $21 1 
+  addi $8 $8 -512
+  addi $19 $19 512
+  j montanha_subindo2_gz_2
+
+fim_montanha_subindo_gz_2:
+  addi $23 $23 2
+  addi $21 $0 0
+  add $8 $8 $19
+  addi $19 $0 0
+  addi $8 $8 4
+  j montanha_subindo_gz_2
+
+montanha_descendo_prep_gz_2:
+  addi $23 $23 -2
+
+montanha_descendo_gz_2:
+  beq $23 $20 fim_func_montanhas_gz_2
+  addi $23 $23 -2
+
+
+montanha_descendo2_gz_2:
+  beq $21 $23 fim_montanha_descendo_gz_2
+  sw $11 -512($8)
+  addi $21 $21 1 
+  addi $8 $8 -512
+  addi $19 $19 512
+  j montanha_descendo2_gz_2
+
+fim_montanha_descendo_gz_2:
+  addi $21 $0 0
+  add $8 $8 $19
+  addi $19 $0 0
+  addi $8 $8 4
+  j montanha_descendo_gz_2                  
+
+
+fim_func_montanhas_gz_2: 
+  addi $8 $8 -512
+  jr $31
+  
+#função ondas
+      
+ondas_verif_gz_2:
+	beq $23 $0 ondas_draw_gz_2
+	
+	jr $31
+	
+ondas_draw_gz_2:
+	addi $9 $0 0
+  ori $9 $0 0x87B8BD #espuma das ondas
+  
+  sw $9 -1024($8)
+  sw $9 -1040($8)
+  sw $9 -516($8)
+  sw $9 -520($8)
+  sw $9 -512($8)
+  sw $9 -524($8)
+  sw $9 -528($8)
+  sw $9 -532($8)
+
+  addi $23 $0 50
+	jr $31
+
+#função criar_nuvem_gz_2 
+
+criar_nuvem_gz_2: 
+  sw $15 -516($8)
+  sw $15 -520($8)
+  sw $15 -1028($8)
+  sw $15 0($8)
+  sw $15 -512($8)
+  sw $15 -1024($8)
+  sw $15 4($8)
+  sw $15 -508($8)
+  sw $15 -1020($8)
+  sw $15 -1532($8)
+  sw $15 8($8)
+  sw $15 -504($8)
+  sw $15 -1016($8)
+  sw $15 -1528($8)
+  sw $15 12($8)
+  sw $15 -1012($8)
+  sw $15 -1008($8)
+  sw $15 -1004($8)
+  sw $15 -500($8)
+  sw $15 -496($8)
+  sw $15 -492($8)
+  sw $15 16($8)
+  addi $8 $8 20
+  jr $31
+  
+# função desenho_cachoeira_gz_2
+  
+desenho_cachoeira_gz_2: 
+                   addi $18 $0 2
+                   addi $8 $8 -416
+                      
+laco1_cachoeira_gz_2: beq $18 $0 fim_func_cachoeira_gz_2
+                 addi $18 $18 -1
+                 addi $8 $8 416 
+                 addi $19 $0 8
+                 beq $20 $0 laco1_cachoeira_grama_gz_2
+                 addi $19 $0 12
+                  
+laco2_cachoeira_gz_2: beq $19 $0 laco1_cachoeira_gz_2
+                 sw $10 0($8)
+                 sw $12 32768($8)
+                 
+                 sw $9 4($8)
+                 sw $12 32772($8)
+                 
+                 addi $8 $8 8
+                 addi $19 $19 -1
+                 j laco2_cachoeira_gz_2
+                 
+laco1_cachoeira_grama_gz_2: beq $19 $0 laco2_cachoeira_grama_prep_gz_2
+                       beq $18 $0 fim_func_cachoeira_gz_2
+                       
+                      sw $15 0($8)
+                      sw $12 32768($8)
+                      
+                      sw $9 4($8)
+                      sw $12 32772($8)
+                      
+                      sw $10 8($8)
+                      sw $12 32776($8)
+                      
+                      addi $8 $8 12
+                      addi $19 $19 -1
+                      j laco1_cachoeira_grama_gz_2
+                     
+laco2_cachoeira_grama_prep_gz_2: addi $18 $18 -1
+                            addi $8 $8 416 
+                            addi $19 $0 8    
+                            
+laco2_cachoeira_grama_gz_2: beq $19 $0 laco1_cachoeira_gz_2
+                       
+                      sw $10 0($8)
+                      sw $10 32768($8)
+                      
+                      sw $15 4($8)
+                      sw $15 32772($8)
+                      
+                      sw $9 8($8)
+                      sw $9 32776($8)
+                      
+                      addi $8 $8 12
+                      addi $19 $19 -1
+                      j laco2_cachoeira_grama_gz_2            
+                 
+fim_func_cachoeira_gz_2: jr $31  
+
+#função ponte_des_gz_2 para desenhar ponte      
+  
+ponte_des_gz_2: sw $11 0($8)
+           sw $12 4($8)
+           sw $12 32772($8)
+           
+           sw $11 -508($8)
+           sw $12 32260($8)
+           
+           sw $11 516($8)
+           sw $12 33284($8)
+           
+           sw $11 8($8)
+           sw $12 32776($8)
+           
+           jr $31
+           
+           
+#função placa no final
+
+placa_verif_gz_2:
+	beq $23 $0 placa_draw_gz_2
+	
+	jr $31
+	
+placa_draw_gz_2:
+	ori $23 $0 0x919493 #cinza moldura placa
+	ori $22 $0 0xF4FF2F #amarelo fundo placa
+	ori $21 $0 0xFF0000 #vermelho jaqueta / vermelho nariz
+	ori $20 $0 0xFFB797 #pele
+	ori $19 $0 0x4F0005 #marrom barba
+	ori $18 $0 0x2A72F4 #azul olhos
+	
+	#moldura
+	sw $23 0($8)
+	sw $23 -512($8)
+	sw $23 -1024($8)
+	sw $23 -1536($8)
+	sw $23 -2048($8)
+	
+	#-4
+	sw $23 -2044($8)
+	sw $23 -2040($8)
+	sw $23 -2036($8)
+	sw $23 -2032($8)
+	sw $23 -2028($8)
+	
+	#diminui 512
+	sw $23 -2024($8)
+	sw $23 -2536($8)
+	sw $23 -3048($8)
+	sw $23 -3560($8)
+	sw $23 -4072($8)
+	sw $23 -4584($8)
+	sw $23 -5096($8)
+	sw $23 -5608($8)
+	
+	#+4
+	sw $23 -2052($8)
+	sw $23 -2056($8)
+	sw $23 -2060($8)
+	sw $23 -2064($8)
+	sw $23 -2068($8)
+	
+	#aumenta 512
+	sw $23 -6168($8)
+	sw $23 -5656($8)
+	sw $23 -5144($8)
+	sw $23 -4632($8)
+	sw $23 -4120($8)
+	sw $23 -3608($8)
+	sw $23 -3096($8)
+	sw $23 -2584($8)
+	sw $23 -2072($8)
+	
+	#diminuir 4
+	sw $23 -6164($8)
+	sw $23 -6160($8)
+	sw $23 -6156($8)
+	sw $23 -6152($8)
+	sw $23 -6148($8)
+	sw $23 -6144($8)
+	sw $23 -6140($8)
+	sw $23 -6136($8)
+	sw $23 -6132($8)
+	sw $23 -6128($8)
+	sw $23 -6124($8)
+	sw $23 -6120($8)
+	
+	#fundo amarelo
+	sw $22 -5632($8)
+	sw $22 -3596($8)
+	
+	sw $22 -3572($8)
+	sw $22 -4596($8)
+	sw $22 -5108($8)
+	sw $22 -5112($8)
+	sw $22 -5624($8)
+	sw $22 -5628($8)
+	sw $22 -5620($8)
+	sw $22 -5636($8)
+	
+	#aumenta 512
+	sw $22 -5644($8)
+	sw $22 -5132($8)
+	sw $22 -4620($8)
+
+	#aaumenta 512
+	sw $22 -5640($8)
+	sw $22 -5128($8)
+	
+	#aumenta 512
+	sw $22 -5648($8)
+	sw $22 -5136($8)
+	sw $22 -4624($8)
+	sw $22 -4112($8)
+	sw $22 -3600($8)
+	sw $22 -3088($8)
+	sw $22 -2576($8)
+	
+	#aumenta 512
+	sw $22 -5652($8)
+	sw $22 -5140($8)
+	sw $22 -4628($8)
+	sw $22 -4116($8)
+	sw $22 -3604($8)
+	sw $22 -3092($8)
+	sw $22 -2580($8)
+	
+	#aumentar 512
+	sw $22 -5616($8)
+	sw $22 -5104($8)
+	sw $22 -4592($8)
+	sw $22 -4080($8)
+	sw $22 -3568($8)
+	sw $22 -3056($8)
+	sw $22 -2544($8)
+	
+	#aumentar 512
+	sw $22 -5612($8)
+	sw $22 -5100($8)
+	sw $22 -4588($8)
+	sw $22 -4076($8)
+	sw $22 -3564($8)
+	sw $22 -3052($8)
+	sw $22 -2540($8)
+	
+	
+	#pele
+	sw $20 -2560($8)
+	sw $20 -3072($8)
+	
+	sw $20 -2564($8)
+	sw $20 -3076($8)
+	
+	sw $20 -2556($8)
+	sw $20 -3068($8)
+	sw $20 -4608($8)
+	
+	sw $20 -4600($8)
+	sw $20 -4616($8)
+	
+	sw $20 -5120($8)
+	sw $20 -5124($8)
+	sw $20 -5116($8)
+	
+	
+	#nariz
+	sw $21 -4096($8)
+	
+	
+	#olhos
+	sw $18 -4604($8)
+	sw $18 -4612($8)
+	
+	
+	#barba
+	sw $19 -3584($8)
+	
+	sw $19 -3588($8)
+	sw $19 -4100($8)
+	sw $19 -3592($8)
+	sw $19 -4104($8)
+	sw $19 -4108($8)
+	
+	sw $19 -3580($8)
+	sw $19 -4092($8)
+	sw $19 -3576($8)
+	sw $19 -4088($8)
+	sw $19 -4084($8)
+	
+	
+	#roupa
+	sw $21 -2568($8)
+	sw $21 -3080($8)
+	sw $21 -2572($8)
+	sw $21 -3084($8)
+	
+	sw $21 -2548($8)
+	sw $21 -3060($8)
+	sw $21 -2552($8)
+	sw $21 -3064($8)
+	
+
+	jr $31
+
+# função desenho peixe
+	
+func_peixe: ori $11 $0 0xff0000
+      ori $12 $0 0x777777
+      ori $13 $0 0x000000
+      ori $14 $0 0xffff00
+      addi $15 $0 0
+      
+              
+peixe: sw $11 -1024($9)
+       sw $12 -512($9)
+       sw $11 -508($9)
+       sw $11 0($9)
+       sw $11 4($9)
+       sw $11 8($9)
+       sw $12 512($9)
+       sw $11 516($9)
+       sw $13 520($9)
+       sw $11 524($9)
+       sw $11 1024($9)
+       sw $11 1028($9)
+       sw $11 1032($9)
+       sw $11 1036($9)
+       sw $11 1536($9)
+       sw $11 1540($9)
+       sw $11 1544($9)
+       sw $11 2048($9)
+       sw $11 2052($9)
+       
+       #corpo peixe animacao
+       
+       lw $15 35332($9)
+       sw $15 2564($9)
+       
+       lw $15 34824($9)
+       sw $15 2056($9)
+       
+       lw $15 34316($9)
+       sw $15 1548($9)
+       
+       #parte baixo peixe
+       
+       sw $14 -516($9)
+       sw $14 -4($9)
+       sw $14 -8($9)
+       sw $14 504($9)
+       sw $14 508($9)
+       sw $14 1016($9)
+       sw $14 1020($9)
+       sw $14 1532($9)
+
+       #parte baixo peixe animacao
+       
+       lw $15 34296($9)
+       sw $15 1528($9)
+       
+       lw $15 34812($9)
+       sw $15 2044($9)
+       
+       
+       #rabo
+       
+       sw $12 2560($9)
+       sw $12 3068($9)
+       sw $12 3072($9)
+       sw $12 3076($9)
+       sw $12 3580($9)
+       sw $12 3588($9)
+       sw $12 4092($9)
+       sw $12 4100($9)
+       
+       
+       # rabo animacao
+       
+       lw $15 36352($9)
+       sw $15 3584($9)
+       
+       lw $15 37372($9)
+       sw $15 4604($9)
+       
+       lw $15 37380($9)
+       sw $15 4612($9)
+       
+       #cabinho cabeça
+       
+       sw $14 1040($9)
+       sw $14 1044($9)
+       sw $14 1556($9)
+       sw $14 1560($9)
+       
+       #cabinho cabeca animacao
+       
+       lw $15 34320($9)
+       sw $15 1552($9)
+       
+       lw $15 34836($9)
+       sw $15 2068($9)
+       
+       lw $15 34840($9)
+       sw $15 2072($9)
+       
+       jr $31
+            
+#trocar posição do peixe
+
+peixe_troca_func: 
+                  #limpar cenario rabo
+                  
+                  lw $15 32256($9)
+                  sw $15 -512($9)
+                  
+                  lw $15 32768($9)
+                  sw $15 0($9)
+                  
+                  lw $15 33272($9)
+                  sw $15 504($9)
+                  
+                  lw $15 33288($9)
+                  sw $15 520($9)
+                  
+                  lw $15 33784($9)
+                  sw $15 1016($9)
+                  
+                  lw $15 33788($9)
+                  sw $15 1020($9)
+                  
+                  lw $15 33796($9)
+                  sw $15 1028($9)
+                  
+                  lw $15 33800($9)
+                  sw $15 1032($9)
+                  
+                  lw $15 33804($9)
+                  sw $15 1036($9)
+                  
+    
+                 
+    #corpo vermelho limpa
+                
+                  lw $15 34296($9)
+                  sw $15 1528($9)
+                
+                  lw $15 34300($9)
+                  sw $15 1532($9)
+                
+                  lw $15 34312($9)
+                  sw $15 1544($9)
+    
+                  lw $15 34316($9)
+                  sw $15 1548($9)
+                  
+                  lw $15 34320($9)
+                  sw $15 1552($9)
+                  
+                  lw $15 34324($9)
+                  sw $15 1556($9)
+                  
+                  lw $15 34836($9)
+                  sw $15 2068($9)
+                  
+                  lw $15 34840($9)
+                  sw $15 2072($9)
+                  
+                  lw $15 37372($9)
+                  sw $15 4604($9)
+                  
+                  lw $15 37380($9)
+                  sw $15 4612($9)
+                  
+                  jr $31
+
+peixe_descendo_func: ori $11 $0 0xff0000 #vermelho
+                  ori $12 $0 0x777777 #cinza
+                  ori $13 $0 0x000000 #preto
+                  ori $14 $0 0xffff00 #amarelo
+                  
+                  #rabo
+                  
+                  sw $12 -516($9)
+                  sw $12 -508($9)
+                  sw $12 -4($9) #$9 = 0 no meio do rabo
+                  sw $12 4($9)
+                  sw $12 508($9)
+                  sw $12 512($9)
+                  sw $12 516($9)
+                  sw $12 1024($9)
+                  
+      #rabo animacao
+                  
+                  lw $15 31740($9)
+                  sw $15 -1028($9)            
+                  
+                  lw $15 31748($9)
+                  sw $15 -1020($9)
+                  
+                  lw $15 32768($9)
+                  sw $15 0($9)
+                  
+                  #corpo vermelho
+                  
+                  sw $11 1536($9)
+                  sw $11 1540($9)
+                  sw $11 2048($9)
+                  sw $11 2052($9)
+                  sw $11 2056($9)
+                  sw $11 2560($9)
+                  sw $11 2564($9)
+                  sw $11 2568($9)
+                  sw $11 2572($9)
+                  sw $12 3072($9)
+                  sw $11 3076($9)
+                  sw $13 3080($9)
+                  sw $11 3084($9)
+                  sw $11 3584($9)
+                  sw $11 3588($9)
+                  sw $11 3592($9)
+                  sw $12 4096($9)
+                  sw $11 4100($9)
+                  sw $11 4608($9)
+                  
+      #corpo vermelho animacao
+                 
+                  lw $15 33796($9)
+                  sw $15 1028($9)
+                  
+                  lw $15 34312($9)
+                  sw $15 1544($9)
+                  
+                  lw $15 34828($9)
+                  sw $15 2060($9)
+                  
+      #corpo amarelo
+                  sw $14 1532($9)
+                  sw $14 2040($9)
+                  sw $14 2044($9)
+                  sw $14 2552($9)
+                  sw $14 2556($9)
+                  sw $14 3064($9)
+                  sw $14 3068($9)
+                  sw $14 3576($9)
+                  sw $14 3580($9)
+                  sw $14 4092($9)
+                  
+       # corpo amarelo animacao
+       
+                  lw $15 33788($9)
+                  sw $15 1020($9)
+                  
+                  lw $15 34296($9)
+                  sw $15 1528($9)
+                  
+       # cabinho amarelo cabeça
+       
+                  sw $14 2068($9)
+                  sw $14 2072($9)
+                  sw $14 2576($9)
+                  sw $14 2580($9)
+                  
+       # cabinho amarelo animacao
+       
+                  lw $15 34324($9)
+                  sw $15 1556($9)
+                  
+                  lw $15 34328($9)
+                  sw $15 1560($9)
+                  
+                  lw $15 34832($9)
+                  sw $15 2064($9)
+       
+       
+##### funcao moeda
+       
+moeda_desenho: ori $9 $0 0xffff00
+               ori $10 $0 0xffffff
+               
+               sw $9 0($11)
+               sw $9 4($11)
+               sw $9 8($11)
+               sw $9 508($11)
+               sw $9 524($11)
+               sw $9 1020($11)
+               sw $9 1036($11)
+               sw $9 1532($11)
+               sw $10 1548($11)
+               sw $9 2048($11)
+               sw $10 2052($11)
+               sw $10 2056($11)
+               
+               
+               jr $31
+               
+peixe_prep: addi $9 $9 10168
+            addi $25 $0 35
+                  
+
+peixe_laco1: beq $25 $0 peixe_troca_pos
+             jal func_peixe
+             addi $9 $9 52
+             jal func_peixe
+             
+             addi $25 $25 -1
+             addi $9 $9 -564
+             jal timer
+             j peixe_laco1
+
+peixe_troca_pos: jal peixe_troca_func
+                 addi $9 $9 52
+                 jal peixe_troca_func
+                 addi $9 $9 -52
+
+peixe_laco_descendo_prep: addi $25 $0 36
+
+peixe_laco_descendo: beq $25 $0 voltar
+                     jal peixe_descendo_func
+                     addi $9 $9 52
+                     jal peixe_descendo_func
+                     
+                     addi $25 $25 -1
+                     addi $8 $8 460
+                     
+                     jal timer
+                     j peixe_laco_descendo

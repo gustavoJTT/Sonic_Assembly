@@ -1,89 +1,89 @@
 .text
 
-main:
+marble_zone_3:
   lui $8 0x1001
   
   #desenhar fundo
-fundo_prep:
+fundo_prep_mz_3:
 	ori $9 $0 0x1F001F #roxo escuro fundo
 	#8192
 	addi $25 $0 5120
 	
-fundo_draw:
-	beq $25 $0 tijolo_fundo_prep
+fundo_draw_mz_3:
+	beq $25 $0 tijolo_fundo_prep_mz_3
 	
 	sw $9 0($8)
 	sw $9 32768($8)
 	
 	addi $8 $8 4
 	addi $25 $25 -1
-	j fundo_draw
+	j fundo_draw_mz_3
 
 
-tijolo_fundo_prep:
+tijolo_fundo_prep_mz_3:
 	addi $8 $0 0
 	lui $8 0x1001
 	addi $25 $0 4481 #4504
 	addi $24 $0 896
 	
-tijolo_fundo_draw:
-	beq $25 $0 janelas_prep
+tijolo_fundo_draw_mz_3:
+	beq $25 $0 janelas_prep_mz_3
 	
-	jal teste_height
+	jal teste_height_mz_3
 	
 	addi $8 $8 4
 	addi $24 $24 -1
 	addi $25 $25 -1
 	addi $22 $0 -1
-	j tijolo_fundo_draw
+	j tijolo_fundo_draw_mz_3
 
 #desenhar janelas
 
-janelas_prep: addi $25 $25 3
+janelas_prep_mz_3: addi $25 $25 3
               add $20 $0 $8
               addi $8 $8 -17320
             
-janelas_laco: beq $25 $0 solo_prep
-              jal janelas_func
+janelas_laco_mz_3: beq $25 $0 solo_prep_mz_3
+              jal janelas_func_mz_3
               
               addi $8 $8 -1880
               addi $25 $25 -1
-              j janelas_laco
+              j janelas_laco_mz_3
 
 
 	#desenhar solo
-solo_prep:
+solo_prep_mz_3:
         add $8 $0 $20
 	addi $8 $8 -4
 	add $15 $0 $8
 	ori $9 $0 0x9C73B9 #roxo solo
 	addi $25 $0 3072
 	
-solo_draw:
-	beq $25 $0 tijolo_solo_prep
+solo_draw_mz_3:
+	beq $25 $0 tijolo_solo_prep_mz_3
 	
 	sw $9 0($8)
 	
 	addi $8 $8 4
 	addi $25 $25 -1
-	j solo_draw
+	j solo_draw_mz_3
 	
 	
-tijolo_solo_prep:
+tijolo_solo_prep_mz_3:
 	addi $25 $0 3072 #4504
 	addi $24 $0 0
 	
-tijolo_solo_draw:
-	beq $25 $0 npc_prep_main
+tijolo_solo_draw_mz_3:
+	beq $25 $0 npc_prep_main_mz_3
 	
-	jal teste_height_solo
+	jal teste_height_solo_mz_3
 	
 	addi $8 $8 -4
 	addi $24 $24 -1
 	addi $25 $25 -1
-	j tijolo_solo_draw
+	j tijolo_solo_draw_mz_3
 
-npc_prep_main:
+npc_prep_main_mz_3:
 	lui $8 0x1001
 	lui $9 0x1001
 	addi $8 $8 19492 #altura sonic
@@ -91,8 +91,8 @@ npc_prep_main:
 	
 	addi $24 $0 30
 
-npc_joaninha_laco_walk:
-	beq $24 $0 fim
+npc_joaninha_laco_walk_mz_3:
+	beq $24 $0 fim_mz_3
 	
 	#jal sonic_prep
 	jal doc_prep
@@ -100,41 +100,41 @@ npc_joaninha_laco_walk:
 	
 	addi $9 $9 -4
 	addi $24 $24 -1
-	j npc_joaninha_laco_walk
+	j npc_joaninha_laco_walk_mz_3
 
 
-fim:
+fim_mz_3:
   addi $2 $0 10
   syscall
 
 #----------------------func-----------------------
 	#funcao linhas hoorizontais fundo
 	
-teste_height:
-	beq $24 $0 height_draw
+teste_height_mz_3:
+	beq $24 $0 height_draw_mz_3
 	
 	jr $31
 
-height_draw:
+height_draw_mz_3:
 	addi $24 $0 128
 	add $20 $0 $31
 	ori $10 $0 0x48214F #roxo linha fundo
 		
-height_draw_l1:
-	beq $24 $0 height_fim
+height_draw_l1_mz_3:
+	beq $24 $0 height_fim_mz_3
 	
 	sw $10 0($8)
 	sw $10 32768($8)
 	
-	jal brick_test
+	jal brick_test_mz_3
 	
 	addi $8 $8 4
 	addi $24 $24 -1
 	addi $23 $23 -1
 	
-	j height_draw_l1
+	j height_draw_l1_mz_3
 	
-height_fim:
+height_fim_mz_3:
 	addi $24 $0 896
 	
 	jr $20
@@ -143,12 +143,12 @@ height_fim:
 	
 	#funcao linhas verticais fundo
 	
-brick_test:
-	beq $23 $0 brick_draw
+brick_test_mz_3:
+	beq $23 $0 brick_draw_mz_3
 	
 	jr $31
 	
-brick_draw:
+brick_draw_mz_3:
 	sw $10 -512($8)
 	sw $10 32256($8)
 	
@@ -180,29 +180,29 @@ brick_draw:
 
 	#funcao solo linhas horizontais
 	
-teste_height_solo:
-	beq $24 $0 height_draw_solo
+teste_height_solo_mz_3:
+	beq $24 $0 height_draw_solo_mz_3
 	
 	jr $31
 
-height_draw_solo:
+height_draw_solo_mz_3:
 	addi $24 $0 128
 	add $20 $0 $31
 	ori $10 $0 0x6A3F84 #roxo linha fundo
 		
-height_draw_solo_l1:
-	beq $24 $0 height_fim_solo
+height_draw_solo_l1_mz_3:
+	beq $24 $0 height_fim_solo_mz_3
 	
 	sw $10 0($8)
-	jal brick_test_solo
+	jal brick_test_solo_mz_3
 	
 	addi $8 $8 4
 	addi $24 $24 -1
 	addi $23 $23 -1
 	
-	j height_draw_solo_l1
+	j height_draw_solo_l1_mz_3
 	
-height_fim_solo:
+height_fim_solo_mz_3:
 	addi $24 $0 896
 	
 	jr $20
@@ -210,12 +210,12 @@ height_fim_solo:
 
 
 	#funcao tijolo solo
-brick_test_solo:
-	beq $23 $0 brick_draw_solo
+brick_test_solo_mz_3:
+	beq $23 $0 brick_draw_solo_mz_3
 	
 	jr $31
 	
-brick_draw_solo:
+brick_draw_solo_mz_3:
 	sw $10 -512($8)
 	sw $10 -1024($8)
 	sw $10 -1536($8)
@@ -228,7 +228,7 @@ brick_draw_solo:
 	
 ############### função janelas ############
 
-janelas_func: ori $9 $0 0xAF7B1F #amarelo cornice
+janelas_func_mz_3: ori $9 $0 0xAF7B1F #amarelo cornice
               ori $10 $0 0x000066 #azul dentro janela
               ori $11 $0 0x4F4F4F #cinza grade
               ori $12 $0 0xFFFFFF #branco
@@ -241,47 +241,47 @@ janelas_func: ori $9 $0 0xAF7B1F #amarelo cornice
               sw $9 32768($8)
               addi $8 $8 -4
               
-janelas_borda1: beq $24 $0 janelas_grade_prep
+janelas_borda1_mz_3: beq $24 $0 janelas_grade_prep_mz_3
                      add $8 $8 512
                      sw $9 0($8)
                      sw $9 32768($8)
                      addi $8 $8 4
                      
-janelas_ceu1: beq $23 $22 janelas_grade_meio
+janelas_ceu1_mz_3: beq $23 $22 janelas_grade_meio_mz_3
               sw $10 0($8)
               sw $10 32768($8)
               
               addi $8 $8 4
               addi $22 $22 1
-              j janelas_ceu1
+              j janelas_ceu1_mz_3
 
-janelas_grade_meio: sw $11 0($8)
+janelas_grade_meio_mz_3: sw $11 0($8)
 										sw $11 32768($8)
                     addi $8 $8 4
                     addi $21 $21 -8
 
                     
-janelas_ceu2: beq $0 $22 janelas_borda2
+janelas_ceu2_mz_3: beq $0 $22 janelas_borda2_mz_3
               sw $10 0($8)
               sw $10 32768($8)
               
               addi $8 $8 4
               addi $22 $22 -1
-              j janelas_ceu2                                      
+              j janelas_ceu2_mz_3                                      
 
-janelas_borda2: sw $9 0($8)
+janelas_borda2_mz_3: sw $9 0($8)
 								sw $9 32768($8)
                 addi $8 $8 4  
                 
                 addi $24 $24 -1
                 addi $23 $23 1
                 add $8 $8 $21
-                j janelas_borda1 
+                j janelas_borda1_mz_3 
 
-janelas_grade_prep: addi $24 $0 3
+janelas_grade_prep_mz_3: addi $24 $0 3
                     addi $8 $8 4
                                                           
-janelas_grade_laco: beq $24 $0 janelas_borda_baixo
+janelas_grade_laco_mz_3: beq $24 $0 janelas_borda_baixo_mz_3
                     addi $8 $8 512
                     addi $24 $24 -1
                     addi $23 $0 6
@@ -319,7 +319,7 @@ janelas_grade_laco: beq $24 $0 janelas_borda_baixo
                     sw $9 40($8)
                     sw $9 32808($8)
 
-janelas_laco_func: beq $23 $0 janelas_grade_laco
+janelas_laco_func_mz_3: beq $23 $0 janelas_grade_laco_mz_3
 
               addi $8 $8 512
               sw $9 0($8)
@@ -356,10 +356,10 @@ janelas_laco_func: beq $23 $0 janelas_grade_laco
               sw $9 32808($8)
               
               addi $23 $23 -1
-              j janelas_laco_func
+              j janelas_laco_func_mz_3
 
                                         
-janelas_borda_baixo: addi $8 $8 512
+janelas_borda_baixo_mz_3: addi $8 $8 512
                sw $9 0($8)
                sw $9 32768($8)
                  
@@ -393,7 +393,7 @@ janelas_borda_baixo: addi $8 $8 512
 	             sw $9 40($8)
 	             sw $9 32808($8)
 
-janela_estrelas: addi $8 $8 -11760
+janela_estrelas_mz_3: addi $8 $8 -11760
                  sw $12 0($8)
                  sw $12 32768($8)
                  

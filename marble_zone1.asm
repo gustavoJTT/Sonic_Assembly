@@ -1,62 +1,62 @@
 .text
 
-main:
+marble_zone_1:
   lui $8 0x1001
 
 
-ceu_prep: addi $25 $0 1704
+ceu_prep_mz_1: addi $25 $0 1704
           addi $24 $0 744
 
-ceu_nublado: jal ceu_nublado_func
+ceu_nublado_mz_1: jal ceu_nublado_func_mz_1
   
-ceu_normal: jal ceu_normal_func
+ceu_normal_mz_1: jal ceu_normal_func_mz_1
 
-montanhas_prep:
+montanhas_prep_mz_1:
   addi $22 $0 4
   ori $9 $0 0x250000 #marrom escuro
 
-montanha1_prep:
-  beq  $22 $0 montanha3
+montanha1_prep_mz_1:
+  beq  $22 $0 montanha3_mz_1
   addi $22 $22 -1
   addi $24 $0 7 #$24 > altura montanha 
 
 
-montanha1:
-  jal criar_montanha
+montanha1_mz_1:
+  jal criar_montanha_mz_1
 
-montanha2_prep:
+montanha2_prep_mz_1:
   addi $24 $0 9 
 
-montanha2:
-  jal criar_montanha
+montanha2_mz_1:
+  jal criar_montanha_mz_1
   addi $8 $8 -4
  
-  j montanha1_prep
+  j montanha1_prep_mz_1
 
-montanha3: addi $24 $0 7
-           jal criar_montanha
+montanha3_mz_1: addi $24 $0 7
+           jal criar_montanha_mz_1
            
            addi $8 $8 -20
            
-cespugli_prep: addi $25 $0 172
+cespugli_prep_mz_1: addi $25 $0 172
                addi $24 $0 4
                addi $17 $25 -43
                addi $8 $8 16
 
-cespugli_laco1: beq $25 $0 castelo
+cespugli_laco1_mz_1: beq $25 $0 castelo_mz_1
 
-cespugli_laco2: beq $25 $17 cespugli_outro_strato
-               jal criar_cespugli_prep
+cespugli_laco2_mz_1: beq $25 $17 cespugli_outro_strato_mz_1
+               jal criar_cespugli_prep_mz_1
                addi $25 $25 -1      
-               j cespugli_laco1 
+               j cespugli_laco1_mz_1 
                
-cespugli_outro_strato: addi $8 $8 1536
+cespugli_outro_strato_mz_1: addi $8 $8 1536
                        addi $17 $17 -43
-                       j cespugli_laco2               
+                       j cespugli_laco2_mz_1               
 
-castelo: 
+castelo_mz_1: 
 
-grama_marble_zone_prep: addi $8 $8 1520
+grama_marble_zone_prep_mz_1: addi $8 $8 1520
 												add $20 $8 $0
 												add $19 $8 $0
                         ori $9 $0 0x00AD2B #verde escuro
@@ -64,55 +64,55 @@ grama_marble_zone_prep: addi $8 $8 1520
                         addi $25 $0 384
                         
 
-grama_marble_zone: beq $25 $0 solo_marble_zone1
+grama_marble_zone_mz_1: beq $25 $0 solo_marble_zone1_mz_1
                    sw $10 0($8)
                    sw $9 4($8)
                    
                    addi $8 $8 8
                    addi $25 $25 -2
-                   j grama_marble_zone
+                   j grama_marble_zone_mz_1
                    
-solo_marble_zone1: addi $25 $25 3712
+solo_marble_zone1_mz_1: addi $25 $25 3712
                    addi $24 $25 -256
                    addi $23 $25 -34
                    
-                   jal solo_marble_zone_func                 
+                   jal solo_marble_zone_func_mz_1                 
 
-castelo_base_luz_main:
-	jal castelo_luz_prep_func
+castelo_base_luz_main_mz_1:
+	jal castelo_luz_prep_func_mz_1
 
-castelo_base_sombra_main:
-	jal castelo_sombra_prep_func
+castelo_base_sombra_main_mz_1:
+	jal castelo_sombra_prep_func_mz_1
 	
-castelo_coluna_luz_main:
+castelo_coluna_luz_main_mz_1:
 	addi $20 $19 296
-	jal castelo_coluna_luz_prep_func
+	jal castelo_coluna_luz_prep_func_mz_1
 	
-castelo_coluna_sombra_main:
+castelo_coluna_sombra_main_mz_1:
 	addi $20 $19 296
-	jal castelo_coluna_sombra_prep_func
+	jal castelo_coluna_sombra_prep_func_mz_1
 
 
-castelo_base_luz_main_2:
+castelo_base_luz_main_2_mz_1:
 	addi $20 $19 108
-	jal castelo_luz_prep_func
+	jal castelo_luz_prep_func_mz_1
 
-castelo_base_sombra_main_2:
-	jal castelo_sombra_prep_func
+castelo_base_sombra_main_2_mz_1:
+	jal castelo_sombra_prep_func_mz_1
 	
-castelo_coluna_luz_main_2:
+castelo_coluna_luz_main_2_mz_1:
 	addi $20 $19 404
-	jal castelo_coluna_luz_prep_func
+	jal castelo_coluna_luz_prep_func_mz_1
 	
-castelo_coluna_sombra_main_2:
+castelo_coluna_sombra_main_2_mz_1:
 	addi $20 $19 404
-	jal castelo_coluna_sombra_prep_func
+	jal castelo_coluna_sombra_prep_func_mz_1
 	
-castelo_topo_main:
+castelo_topo_main_mz_1:
 	addi $20 $19 280
-	jal castelo_topo_prep_func
+	jal castelo_topo_prep_func_mz_1
 
-fim: addi $2 $0 10
+fim_mz_1: addi $2 $0 10
      syscall
   
   
@@ -120,15 +120,15 @@ fim: addi $2 $0 10
 
 # funcão ceu nublado  
 
-ceu_nublado_func: ori $9 $0 0x0082E0 # azul nuvem
+ceu_nublado_func_mz_1: ori $9 $0 0x0082E0 # azul nuvem
                   ori $10 $0 0x87B8BD # azul ondas
                   ori $11 $0 0x1D009F # azul ceu
                   ori $12 $0 0xFFFFFF # branco
                                     
-prep_laco_ceu_nublado: beq $25 $24 fim_func_ceu_nublado
+prep_laco_ceu_nublado_mz_1: beq $25 $24 fim_func_ceu_nublado_mz_1
                        addi $23 $25 -132
 
-laco_ceu_nublado: beq $23 $25 laco_ceu_nublado2_prep
+laco_ceu_nublado_mz_1: beq $23 $25 laco_ceu_nublado2_prep_mz_1
 
                   sw $9 0($8)
                   sw $9 4($8)
@@ -139,11 +139,11 @@ laco_ceu_nublado: beq $23 $25 laco_ceu_nublado2_prep
                   
                   addi $8 $8 24
                   subi $25 $25 6
-                  j laco_ceu_nublado
+                  j laco_ceu_nublado_mz_1
                   
-laco_ceu_nublado2_prep: addi $23 $23 -108
+laco_ceu_nublado2_prep_mz_1: addi $23 $23 -108
 
-laco_ceu_nublado2: beq $23 $25 prep_laco_ceu_nublado
+laco_ceu_nublado2_mz_1: beq $23 $25 prep_laco_ceu_nublado_mz_1
                    sw $9 0($8)  
                    sw $9 4($8)   
                    sw $11 8($8)
@@ -153,27 +153,27 @@ laco_ceu_nublado2: beq $23 $25 prep_laco_ceu_nublado
                    
                    addi $8 $8 24
                   subi $25 $25 4
-                  j laco_ceu_nublado2       
+                  j laco_ceu_nublado2_mz_1       
                   
-fim_func_ceu_nublado: jr $31
+fim_func_ceu_nublado_mz_1: jr $31
   
 #func ceu normal
 
-ceu_normal_func: ori $9 $0 0x1D009F # azul ceu
+ceu_normal_func_mz_1: ori $9 $0 0x1D009F # azul ceu
 
-laco_ceu_normal: beq $25 $0 fim_func_ceu_normal
+laco_ceu_normal_mz_1: beq $25 $0 fim_func_ceu_normal_mz_1
                  sw $9 0($8)
                  
                  addi $8 $8 4
                  addi $25 $25 -1
                  
-                 j laco_ceu_normal
+                 j laco_ceu_normal_mz_1
   
-fim_func_ceu_normal: jr $31  
+fim_func_ceu_normal_mz_1: jr $31  
   
 # função montanhas marble zone
 
-criar_montanha:
+criar_montanha_mz_1:
                 ori $9 $0 0x48214F #roxo montanhas
                 addi $23 $0 1
   		addi $21 $0 0
@@ -182,56 +182,56 @@ criar_montanha:
  	        addi $24 $24 1
  	        addi $8 $8 512
 
-montanha_subindo:
-  beq $24 $23 montanha_descendo_prep
+montanha_subindo_mz_1:
+  beq $24 $23 montanha_descendo_prep_mz_1
 
-montanha_subindo2:
-  beq $21 $23 fim_montanha_subindo
+montanha_subindo2_mz_1:
+  beq $21 $23 fim_montanha_subindo_mz_1
   sw $9 -512($8)
   addi $21 $21 1 
   addi $8 $8 -512
   addi $19 $19 512
-  j montanha_subindo2
+  j montanha_subindo2_mz_1
 
-fim_montanha_subindo:
+fim_montanha_subindo_mz_1:
   addi $23 $23 1
   addi $21 $0 0
   add $8 $8 $19
   addi $19 $0 0
   addi $8 $8 4
-  j montanha_subindo
+  j montanha_subindo_mz_1
 
-montanha_descendo_prep:
+montanha_descendo_prep_mz_1:
   addi $23 $23 -1
 
-montanha_descendo:
-  beq $23 $20 fim_func_montanhas
+montanha_descendo_mz_1:
+  beq $23 $20 fim_func_montanhas_mz_1
   addi $23 $23 -1
 
 
-montanha_descendo2:
-  beq $21 $23 fim_montanha_descendo
+montanha_descendo2_mz_1:
+  beq $21 $23 fim_montanha_descendo_mz_1
   sw $9 -512($8)
   addi $21 $21 1 
   addi $8 $8 -512
   addi $19 $19 512
-  j montanha_descendo2
+  j montanha_descendo2_mz_1
 
-fim_montanha_descendo:
+fim_montanha_descendo_mz_1:
   addi $21 $0 0
   add $8 $8 $19
   addi $19 $0 0
   addi $8 $8 4
-  j montanha_descendo                  
+  j montanha_descendo_mz_1                  
 
 
-fim_func_montanhas: 
+fim_func_montanhas_mz_1: 
   addi $8 $8 -512
   jr $31  
   
 #função criar cespugli marble zone
   
-criar_cespugli_prep:
+criar_cespugli_prep_mz_1:
                 ori $9 $0 0x62FF36 #verde claro
                 ori $10 $0 0x067826 #verde mais escuro
   		addi $20 $0 4
@@ -239,161 +239,161 @@ criar_cespugli_prep:
   		addi $22 $0 0
  	        addi $8 $8 1536
 
-cespugli_subindo:
-  beq $23 $24 fim_cespugli_subindo
+cespugli_subindo_mz_1:
+  beq $23 $24 fim_cespugli_subindo_mz_1
   sw $9 0($8)
   addi $23 $23 1 
   addi $8 $8 -512
   addi $22 $22 512
-  j cespugli_subindo
+  j cespugli_subindo_mz_1
 
-fim_cespugli_subindo:
+fim_cespugli_subindo_mz_1:
   addi $24 $24 2
   addi $23 $0 0
   add $8 $8 $22
   addi $22 $0 0
   addi $8 $8 4
 
-cespugli_descendo_prep:
-  beq $24 $20 fim_func_cespugli
+cespugli_descendo_prep_mz_1:
+  beq $24 $20 fim_func_cespugli_mz_1
   addi $24 $24 -1
 
-cespugli_descendo:
-  beq $24 $23 fim_cespugli_descendo
+cespugli_descendo_mz_1:
+  beq $24 $23 fim_cespugli_descendo_mz_1
   sw $10 0($8)
   addi $23 $23 1 
   addi $8 $8 -512
   addi $22 $22 512
-  j cespugli_descendo
+  j cespugli_descendo_mz_1
 
-fim_cespugli_descendo:
+fim_cespugli_descendo_mz_1:
   addi $23 $0 0
   ori $10 $0 0x00AD2B #verde escuro
   add $8 $8 $22
   addi $22 $0 0
   addi $8 $8 4
-  j cespugli_descendo_prep             
+  j cespugli_descendo_prep_mz_1             
 
 
-fim_func_cespugli: 
+fim_func_cespugli_mz_1: 
   addi $8 $8 -1536
   jr $31 
   
 # função solo marble zone
 
-solo_marble_zone_func: ori $9 $0 0x6A3F84 #roxo escuro solo
+solo_marble_zone_func_mz_1: ori $9 $0 0x6A3F84 #roxo escuro solo
                        ori $10 $0 0x9C73B9 #roxo claro solo
                        ori $11 $0 0x48214F #roxo montanhas
                        add $22 $0 $31
 
-laco1_solo_marble_zone_func: beq $25 $24 laco2_solo_marble_zone_func_prep
-                            beq $25 $23 buraco_func_laco1
+laco1_solo_marble_zone_func_mz_1: beq $25 $24 laco2_solo_marble_zone_func_prep_mz_1
+                            beq $25 $23 buraco_func_laco1_mz_1
 
                             sw $9 0($8)
                             
                             addi $25 $25 -1
                             addi $8 $8 4
-                            j laco1_solo_marble_zone_func
+                            j laco1_solo_marble_zone_func_mz_1
                             
-buraco_func_laco1: jal buraco_func  
-                   j laco1_solo_marble_zone_func                       
+buraco_func_laco1_mz_1: jal buraco_func_mz_1  
+                   j laco1_solo_marble_zone_func_mz_1                       
 
-laco2_solo_marble_zone_func_prep: addi $24 $24 -128
+laco2_solo_marble_zone_func_prep_mz_1: addi $24 $24 -128
 
-laco2_solo_marble_zone_func: beq $25 $24 solo_marble_zone_func_linha_prep
-                             beq $25 $23 buraco_func_laco2
+laco2_solo_marble_zone_func_mz_1: beq $25 $24 solo_marble_zone_func_linha_prep_mz_1
+                             beq $25 $23 buraco_func_laco2_mz_1
                              sw $10 0($8)
                              sw $9 4($8)
                              
                              addi $8 $8 8
                              addi $25 $25 -2
-                             j laco2_solo_marble_zone_func 
+                             j laco2_solo_marble_zone_func_mz_1 
    
-buraco_func_laco2: jal buraco_func
-                   j laco2_solo_marble_zone_func 
+buraco_func_laco2_mz_1: jal buraco_func_mz_1
+                   j laco2_solo_marble_zone_func_mz_1 
 
-solo_marble_zone_func_linha_prep: addi $24 $24 -128
+solo_marble_zone_func_linha_prep_mz_1: addi $24 $24 -128
 
-solo_marble_zone_func_linha: beq $24 $25 laco3_solo_marble_zone_func
-                                   beq $25 $23 buraco_func_linha
+solo_marble_zone_func_linha_mz_1: beq $24 $25 laco3_solo_marble_zone_func_mz_1
+                                   beq $25 $23 buraco_func_linha_mz_1
                                    sw $9 0($8)
                                    
                                    addi $8 $8 4
                                    addi $25 $25 -1
-                                   j solo_marble_zone_func_linha 
+                                   j solo_marble_zone_func_linha_mz_1 
     
-buraco_func_linha: jal buraco_func
-                         j solo_marble_zone_func_linha
+buraco_func_linha_mz_1: jal buraco_func_mz_1
+                         j solo_marble_zone_func_linha_mz_1
         
-laco3_solo_marble_zone_func: beq $0 $25 fim_solo_marble_zone_func
+laco3_solo_marble_zone_func_mz_1: beq $0 $25 fim_solo_marble_zone_func_mz_1
 
-laco3_solo_marble_zone_func_prep: addi $24 $0 50
+laco3_solo_marble_zone_func_prep_mz_1: addi $24 $0 50
 
-laco3_solo_marble_zone_func_parte1: beq $24 $0 solo_marble_zone_func_linha_laco3_prep
-                             beq $25 $0 fim_solo_marble_zone_func
+laco3_solo_marble_zone_func_parte1_mz_1: beq $24 $0 solo_marble_zone_func_linha_laco3_prep_mz_1
+                             beq $25 $0 fim_solo_marble_zone_func_mz_1
                              sw $10 0($8)
                              sw $10 4($8)
                              addi $25 $25 -2
                              addi $8 $8 8
-                             beq $25 $23 buraco_func_laco3
+                             beq $25 $23 buraco_func_laco3_mz_1
                              
-laco3_solo_marble_zone_func_parte2: sw $10 0($8)
+laco3_solo_marble_zone_func_parte2_mz_1: sw $10 0($8)
                                     sw $9 4($8)   
                                     addi $24 $24 -1
                                     addi $8 $8 8
                                     addi $25 $25 -2                     
-                                    j laco3_solo_marble_zone_func_parte1
+                                    j laco3_solo_marble_zone_func_parte1_mz_1
   
-buraco_func_laco3: jal buraco_func
-                   j laco3_solo_marble_zone_func_parte2  
+buraco_func_laco3_mz_1: jal buraco_func_mz_1
+                   j laco3_solo_marble_zone_func_parte2_mz_1  
                    
-solo_marble_zone_func_linha_laco3_prep: addi $24 $25 -128
+solo_marble_zone_func_linha_laco3_prep_mz_1: addi $24 $25 -128
 
-solo_marble_zone_func_linha_laco3: beq $24 $25 laco4_solo_marble_zone_func_parte1_prep
-                                   beq $25 $23 buraco_func_linha_laco3
+solo_marble_zone_func_linha_laco3_mz_1: beq $24 $25 laco4_solo_marble_zone_func_parte1_prep_mz_1
+                                   beq $25 $23 buraco_func_linha_laco3_mz_1
                                    sw $9 0($8)
                                    
                                    addi $8 $8 4
                                    addi $25 $25 -1
-                                   j solo_marble_zone_func_linha_laco3
+                                   j solo_marble_zone_func_linha_laco3_mz_1
                                    
-buraco_func_linha_laco3: jal buraco_func
-                         j solo_marble_zone_func_linha_laco3                                  
+buraco_func_linha_laco3_mz_1: jal buraco_func_mz_1
+                         j solo_marble_zone_func_linha_laco3_mz_1                                  
       
-laco4_solo_marble_zone_func_parte1_prep: addi $24 $0 50
+laco4_solo_marble_zone_func_parte1_prep_mz_1: addi $24 $0 50
 
-laco4_solo_marble_zone_func_parte1: beq $24 $0 solo_marble_zone_func_linha_laco4_prep
+laco4_solo_marble_zone_func_parte1_mz_1: beq $24 $0 solo_marble_zone_func_linha_laco4_prep_mz_1
                              sw $10 0($8)
                              sw $9 4($8)
                              addi $25 $25 -2
                              addi $8 $8 8
-                             beq $25 $23 buraco_func_laco4
+                             beq $25 $23 buraco_func_laco4_mz_1
                              
-laco4_solo_marble_zone_func_parte2: sw $10 0($8)
+laco4_solo_marble_zone_func_parte2_mz_1: sw $10 0($8)
                                     sw $10 4($8)   
                                     addi $24 $24 -1
                                     addi $8 $8 8
                                     addi $25 $25 -2                     
-                                    j laco4_solo_marble_zone_func_parte1    
+                                    j laco4_solo_marble_zone_func_parte1_mz_1    
                                     
-buraco_func_laco4: jal buraco_func
-                   j laco4_solo_marble_zone_func_parte2    
+buraco_func_laco4_mz_1: jal buraco_func_mz_1
+                   j laco4_solo_marble_zone_func_parte2_mz_1    
                   
-solo_marble_zone_func_linha_laco4_prep: addi $24 $25 -128
+solo_marble_zone_func_linha_laco4_prep_mz_1: addi $24 $25 -128
 
-solo_marble_zone_func_linha_laco4: beq $24 $25 laco3_solo_marble_zone_func
-                                   beq $25 $23 buraco_func_linha_laco4
+solo_marble_zone_func_linha_laco4_mz_1: beq $24 $25 laco3_solo_marble_zone_func_mz_1
+                                   beq $25 $23 buraco_func_linha_laco4_mz_1
                                    sw $9 0($8)
                                    
                                    addi $8 $8 4
                                    
                                    addi $25 $25 -1
-                                   j solo_marble_zone_func_linha_laco4
+                                   j solo_marble_zone_func_linha_laco4_mz_1
                                    
-buraco_func_linha_laco4: jal buraco_func
-                         j solo_marble_zone_func_linha_laco4                                
+buraco_func_linha_laco4_mz_1: jal buraco_func_mz_1
+                         j solo_marble_zone_func_linha_laco4_mz_1                                
                                                       
-fim_solo_marble_zone_func: add $31 $0 $22 
+fim_solo_marble_zone_func_mz_1: add $31 $0 $22 
                            jr $31
                            
 
@@ -401,30 +401,30 @@ fim_solo_marble_zone_func: add $31 $0 $22
 
 
 
-buraco_func: addi $23 $23 -28
+buraco_func_mz_1: addi $23 $23 -28
 
-buraco_func_laco: beq $25 $23 fim_func_buraco
+buraco_func_laco_mz_1: beq $25 $23 fim_func_buraco_mz_1
                   sw $11 0($8)
                   
                   add $8 $8 4
                   addi $25 $25 -1
-                  j buraco_func_laco
+                  j buraco_func_laco_mz_1
 
-fim_func_buraco: addi $23 $23 -100
+fim_func_buraco_mz_1: addi $23 $23 -100
                  jr $31
 
 
 
-	#func castelo
+	#func castelo_mz_1
 	
-voltar:
+voltar_mz_1:
 	jr $31
 	
-voltar_alternativo:
+voltar_alternativo_mz_1:
 	jr $18
 	
 	#base clara
-castelo_luz_prep_func:
+castelo_luz_prep_func_mz_1:
 	addi $20 $20 280 #final da grama + dist para dps do buraco
 	addi $25 $0 3
 	
@@ -448,8 +448,8 @@ castelo_luz_prep_func:
 	sw $9 -1004($20)
 	sw $9 -1000($20)
 
-castelo_base_luz_func:
-	beq $25 $0 voltar
+castelo_base_luz_func_mz_1:
+	beq $25 $0 voltar_mz_1
 	
 	sw $9 1024($20)
 	sw $9 512($20)
@@ -465,11 +465,11 @@ castelo_base_luz_func:
 	
 	addi $20 $20 8
 	addi $25 $25 -1
-	j castelo_base_luz_func
+	j castelo_base_luz_func_mz_1
 	
 	
 	#base escura
-castelo_sombra_prep_func:
+castelo_sombra_prep_func_mz_1:
 	addi $20 $20 4
 	addi $25 $0 3
 	
@@ -493,8 +493,8 @@ castelo_sombra_prep_func:
 	sw $9 -1004($20)
 	sw $9 -1000($20)
 
-castelo_base_sombra_func:
-	beq $25 $0 voltar
+castelo_base_sombra_func_mz_1:
+	beq $25 $0 voltar_mz_1
 	
 	sw $10 1024($20)
 	sw $10 512($20)
@@ -510,18 +510,18 @@ castelo_base_sombra_func:
 	
 	addi $20 $20 8
 	addi $25 $25 -1
-	j castelo_base_sombra_func
+	j castelo_base_sombra_func_mz_1
 	
 	
 	#coluna clara
-castelo_coluna_luz_prep_func:
+castelo_coluna_luz_prep_func_mz_1:
 	addi $25 $0 2
 	
 	ori $9 $0 0xA9DFAF #verde claro luz
 	ori $10 $0 0x72987B #verde escuro luz
 	
-castelo_coluna_luz_func:
-	beq $25 $0 voltar
+castelo_coluna_luz_func_mz_1:
+	beq $25 $0 voltar_mz_1
 	
 	sw $9 -1552($20)
 	sw $9 -1548($20)
@@ -565,17 +565,17 @@ castelo_coluna_luz_func:
 	
 	addi $20 $20 -2560
 	addi $25 $25 -1
-	j castelo_coluna_luz_func
+	j castelo_coluna_luz_func_mz_1
 	
 	#coluna sombra
-castelo_coluna_sombra_prep_func:
+castelo_coluna_sombra_prep_func_mz_1:
 	addi $25 $0 2
 	
 	ori $9 $0 0x5D956D #verde claro sombra
 	ori $10 $0 0x0D6334 #verde escuro sombra
 	
-castelo_coluna_sombra_func:
-	beq $25 $0 voltar
+castelo_coluna_sombra_func_mz_1:
+	beq $25 $0 voltar_mz_1
 	
 	sw $9 -1524($20)
 	sw $9 -1520($20)
@@ -619,49 +619,49 @@ castelo_coluna_sombra_func:
 	
 	addi $20 $20 -2560
 	addi $25 $25 -1
-	j castelo_coluna_sombra_func
+	j castelo_coluna_sombra_func_mz_1
 	
 	
-	#topo do castelo
-castelo_topo_prep_func:
+	#topo do castelo_mz_1
+castelo_topo_prep_func_mz_1:
 	addi $25 $0 49
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 	ori $10 $0 0x89B996 #verde escuro
 	
-castelo_topo_base:
-	beq $25 $0 castelo_topo_lateral_prep
+castelo_topo_base_mz_1:
+	beq $25 $0 castelo_topo_lateral_prep_mz_1
 	
 	sw $10 -6672($20)	#inicio do triagulo em cima
 	
 	addi $25 $25 -1
 	addi $20 $20 4
-	j castelo_topo_base
+	j castelo_topo_base_mz_1
 	
-castelo_topo_lateral_prep:
+castelo_topo_lateral_prep_mz_1:
 	addi $25 $0 2
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 	
-castelo_topo_lateral:
-	beq $25 $0 castelo_topo_lateral_esquerda_prep
+castelo_topo_lateral_mz_1:
+	beq $25 $0 castelo_topo_lateral_esquerda_prep_mz_1
 	
 	sw $9 -6672($20)	#esquerda
 	sw $9 -6480($20)	#direita
 	
 	addi $25 $25 -1
 	addi $20 $20 -512
-	j castelo_topo_lateral
+	j castelo_topo_lateral_mz_1
 	
-castelo_topo_lateral_esquerda_prep:
+castelo_topo_lateral_esquerda_prep_mz_1:
 	addi $25 $0 9
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 	
-castelo_topo_lateral_esquerda:
-	beq $25 $0 castelo_topo_lateral_direita_prep
+castelo_topo_lateral_esquerda_mz_1:
+	beq $25 $0 castelo_topo_lateral_direita_prep_mz_1
 	
 	sw $9 -7692($20)
 	sw $9 -7688($20)
@@ -670,17 +670,17 @@ castelo_topo_lateral_esquerda:
 	addi $25 $25 -1
 	addi $20 $20 8
 	addi $20 $20 -512
-	j castelo_topo_lateral_esquerda
+	j castelo_topo_lateral_esquerda_mz_1
 
 
-castelo_topo_lateral_direita_prep:
+castelo_topo_lateral_direita_prep_mz_1:
 	addi $25 $0 9
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 	
-castelo_topo_lateral_direita:
-	beq $25 $0 castelo_topo_cima_prep
+castelo_topo_lateral_direita_mz_1:
+	beq $25 $0 castelo_topo_cima_prep_mz_1
 	
 	sw $9 -7508($20)
 	sw $9 -7512($20)
@@ -688,211 +688,211 @@ castelo_topo_lateral_direita:
 	addi $25 $25 -1
 	addi $20 $20 -8
 	addi $20 $20 -512
-	j castelo_topo_lateral_direita
+	j castelo_topo_lateral_direita_mz_1
 
 
-castelo_topo_cima_prep:
+castelo_topo_cima_prep_mz_1:
 	addi $25 $0 12
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 	
-castelo_topo_cima:
-	beq $25 $0 castelo_topo_preencher_prep
+castelo_topo_cima_mz_1:
+	beq $25 $0 castelo_topo_preencher_prep_mz_1
 	
 	sw $9 -11676($20)
 	
 	addi $25 $25 -1
 	addi $20 $20 -4
-	j castelo_topo_cima
+	j castelo_topo_cima_mz_1
 	
-#topo do castelo preencher 1
-castelo_topo_preencher_prep:
+#topo do castelo_mz_1 preencher 1
+castelo_topo_preencher_prep_mz_1:
 	addi $25 $0 47
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 	
-castelo_topo_preencher:
-	beq $25 $0 castelo_topo_preencher_prep_2
+castelo_topo_preencher_mz_1:
+	beq $25 $0 castelo_topo_preencher_prep_2_mz_1
 	
 	sw $9 -7180($20)
 	
 	addi $25 $25 -1
 	addi $20 $20 4
-	j castelo_topo_preencher
+	j castelo_topo_preencher_mz_1
 	
-#topo do castelo preencher 2
-castelo_topo_preencher_prep_2:
+#topo do castelo_mz_1 preencher 2
+castelo_topo_preencher_prep_2_mz_1:
 	addi $25 $0 43
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 
-castelo_topo_preencher_2:
-	beq $25 $0 castelo_topo_preencher_prep_3
+castelo_topo_preencher_2_mz_1:
+	beq $25 $0 castelo_topo_preencher_prep_3_mz_1
 	
 	sw $9 -7684($20)
 	
 	addi $25 $25 -1
 	addi $20 $20 4
-	j castelo_topo_preencher_2
+	j castelo_topo_preencher_2_mz_1
 	
-#topo do castelo preencher 3
-castelo_topo_preencher_prep_3:
+#topo do castelo_mz_1 preencher 3
+castelo_topo_preencher_prep_3_mz_1:
 	addi $25 $0 39
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 
-castelo_topo_preencher_3:
-	beq $25 $0 castelo_topo_preencher_prep_4
+castelo_topo_preencher_3_mz_1:
+	beq $25 $0 castelo_topo_preencher_prep_4_mz_1
 	
 	sw $9 -8188($20)
 	
 	addi $25 $25 -1
 	addi $20 $20 4
-	j castelo_topo_preencher_3
+	j castelo_topo_preencher_3_mz_1
 	
-#topo do castelo preencher 4
-castelo_topo_preencher_prep_4:
+#topo do castelo_mz_1 preencher 4
+castelo_topo_preencher_prep_4_mz_1:
 	addi $25 $0 35
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 
-castelo_topo_preencher_4:
-	beq $25 $0 castelo_topo_preencher_prep_5
+castelo_topo_preencher_4_mz_1:
+	beq $25 $0 castelo_topo_preencher_prep_5_mz_1
 	
 	sw $9 -8692($20)
 	
 	addi $25 $25 -1
 	addi $20 $20 4
-	j castelo_topo_preencher_4
+	j castelo_topo_preencher_4_mz_1
 	
-#topo do castelo preencher 5
-castelo_topo_preencher_prep_5:
+#topo do castelo_mz_1 preencher 5
+castelo_topo_preencher_prep_5_mz_1:
 	addi $25 $0 31
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 
-castelo_topo_preencher_5:
-	beq $25 $0 castelo_topo_preencher_prep_6
+castelo_topo_preencher_5_mz_1:
+	beq $25 $0 castelo_topo_preencher_prep_6_mz_1
 	
 	sw $9 -9196($20)
 	
 	addi $25 $25 -1
 	addi $20 $20 4
-	j castelo_topo_preencher_5
+	j castelo_topo_preencher_5_mz_1
 	
-#topo do castelo preencher 6
-castelo_topo_preencher_prep_6:
+#topo do castelo_mz_1 preencher 6
+castelo_topo_preencher_prep_6_mz_1:
 	addi $25 $0 25
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 
-castelo_topo_preencher_6:
-	beq $25 $0 castelo_topo_preencher_prep_7
+castelo_topo_preencher_6_mz_1:
+	beq $25 $0 castelo_topo_preencher_prep_7_mz_1
 	
 	sw $9 -9196($20)
 	
 	addi $25 $25 -1
 	addi $20 $20 4
-	j castelo_topo_preencher_6
+	j castelo_topo_preencher_6_mz_1
 	
-#topo do castelo preencher 7
-castelo_topo_preencher_prep_7:
+#topo do castelo_mz_1 preencher 7
+castelo_topo_preencher_prep_7_mz_1:
 	addi $25 $0 21
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 
-castelo_topo_preencher_7:
-	beq $25 $0 castelo_topo_preencher_prep_8
+castelo_topo_preencher_7_mz_1:
+	beq $25 $0 castelo_topo_preencher_prep_8_mz_1
 	
 	sw $9 -9196($20)
 	
 	addi $25 $25 -1
 	addi $20 $20 4
-	j castelo_topo_preencher_7
+	j castelo_topo_preencher_7_mz_1
 
-#topo do castelo preencher 8
-castelo_topo_preencher_prep_8:
+#topo do castelo_mz_1 preencher 8
+castelo_topo_preencher_prep_8_mz_1:
 	addi $25 $0 27
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 
-castelo_topo_preencher_8:
-	beq $25 $0 castelo_topo_preencher_prep_9
+castelo_topo_preencher_8_mz_1:
+	beq $25 $0 castelo_topo_preencher_prep_9_mz_1
 	
 	sw $9 -9700($20)
 	
 	addi $25 $25 -1
 	addi $20 $20 4
-	j castelo_topo_preencher_8
+	j castelo_topo_preencher_8_mz_1
 	
-#topo do castelo preencher 9
-castelo_topo_preencher_prep_9:
+#topo do castelo_mz_1 preencher 9
+castelo_topo_preencher_prep_9_mz_1:
 	addi $25 $0 23
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 
-castelo_topo_preencher_9:
-	beq $25 $0 castelo_topo_preencher_prep_10
+castelo_topo_preencher_9_mz_1:
+	beq $25 $0 castelo_topo_preencher_prep_10_mz_1
 	
 	sw $9 -10204($20)
 	
 	addi $25 $25 -1
 	addi $20 $20 4
-	j castelo_topo_preencher_9
+	j castelo_topo_preencher_9_mz_1
 	
-#topo do castelo preencher 10
-castelo_topo_preencher_prep_10:
+#topo do castelo_mz_1 preencher 10
+castelo_topo_preencher_prep_10_mz_1:
 	addi $25 $0 19
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 
-castelo_topo_preencher_10:
-	beq $25 $0 castelo_topo_preencher_prep_11
+castelo_topo_preencher_10_mz_1:
+	beq $25 $0 castelo_topo_preencher_prep_11_mz_1
 	
 	sw $9 -10708($20)
 	
 	addi $25 $25 -1
 	addi $20 $20 4
-	j castelo_topo_preencher_10
+	j castelo_topo_preencher_10_mz_1
 	
-#topo do castelo preencher 11
-castelo_topo_preencher_prep_11:
+#topo do castelo_mz_1 preencher 11
+castelo_topo_preencher_prep_11_mz_1:
 	addi $25 $0 15
 	addi $20 $19 280
 	
 	ori $9 $0 0xA7D4B1 #verde claro
 
-castelo_topo_preencher_11:
-	beq $25 $0 castelo_topo_desenho_prep
+castelo_topo_preencher_11_mz_1:
+	beq $25 $0 castelo_topo_desenho_prep_mz_1
 	
 	sw $9 -11212($20)
 	
 	addi $25 $25 -1
 	addi $20 $20 4
-	j castelo_topo_preencher_11
+	j castelo_topo_preencher_11_mz_1
 	
-#desenhos castelo topo
+#desenhos castelo_mz_1 topo
 
-castelo_topo_desenho_prep:
+castelo_topo_desenho_prep_mz_1:
 	addi $25 $0 4
 	addi $20 $19 280
 	addi $20 $20 8
 	
 	ori $9 $0 0x5D956D #verde claro sombra
 	
-castelo_topo_desenho:
-	beq $25 $0 castelo_topo_desenho_prep_2
+castelo_topo_desenho_mz_1:
+	beq $25 $0 castelo_topo_desenho_prep_2_mz_1
 	
 	sw $9 -8180($20)
 	sw $9 -8176($20)
@@ -912,9 +912,9 @@ castelo_topo_desenho:
 	
 	addi $25 $25 -1
 	addi $20 $20 32
-	j castelo_topo_desenho
+	j castelo_topo_desenho_mz_1
 	
-castelo_topo_desenho_prep_2:
+castelo_topo_desenho_prep_2_mz_1:
 	addi $25 $0 2
 	addi $20 $19 280
 	addi $20 $20 -2560
@@ -922,8 +922,8 @@ castelo_topo_desenho_prep_2:
 	
 	ori $9 $0 0x5D956D #verde claro sombra
 	
-castelo_topo_desenho_2:
-	beq $25 $0 voltar
+castelo_topo_desenho_2_mz_1:
+	beq $25 $0 voltar_mz_1
 	
 	sw $9 -8180($20)
 	sw $9 -8176($20)
@@ -943,4 +943,4 @@ castelo_topo_desenho_2:
 	
 	addi $25 $25 -1
 	addi $20 $20 32
-	j castelo_topo_desenho_2
+	j castelo_topo_desenho_2_mz_1

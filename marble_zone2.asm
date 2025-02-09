@@ -1,85 +1,85 @@
 .text
 
-main:
+marble_zone_2:
   lui $8 0x1001
   
   #desenhar fundo
-fundo_prep:
+fundo_prep_mz_2:
 	ori $9 $0 0x1F001F #roxo escuro fundo
 	#8192
 	addi $25 $0 5120
 	
-fundo_draw:
-	beq $25 $0 tijolo_fundo_prep
+fundo_draw_mz_2:
+	beq $25 $0 tijolo_fundo_prep_mz_2
 	
 	sw $9 0($8)
 	sw $9 32768($8)
 	
 	addi $8 $8 4
 	addi $25 $25 -1
-	j fundo_draw
+	j fundo_draw_mz_2
 
 
-tijolo_fundo_prep:
+tijolo_fundo_prep_mz_2:
 	addi $8 $0 0
 	lui $8 0x1001
 	addi $25 $0 4481 #4504
 	addi $24 $0 896
 	
-tijolo_fundo_draw:
-	beq $25 $0 lava_prep
+tijolo_fundo_draw_mz_2:
+	beq $25 $0 lava_prep_mz_2
 	
-	jal teste_height
+	jal teste_height_mz_2
 	
 	addi $8 $8 4
 	addi $24 $24 -1
 	addi $25 $25 -1
 	addi $22 $0 -1
-	j tijolo_fundo_draw
+	j tijolo_fundo_draw_mz_2
 
-lava_prep:
+lava_prep_mz_2:
 	addi $25 $0 39
 	
-lava_draw:
-	jal lava_draw_func
+lava_draw_mz_2:
+	jal lava_draw_func_mz_2
 
 	#desenhar solo
-solo_prep:
+solo_prep_mz_2:
 	addi $8 $8 -4
 	add $15 $0 $8
 	ori $9 $0 0x9C73B9 #roxo solo
 	addi $25 $0 3072
 	
-solo_draw:
-	beq $25 $0 tijolo_solo_prep
+solo_draw_mz_2:
+	beq $25 $0 tijolo_solo_prep_mz_2
 	
-	sw $9 0($8)
+	sw $9_mz_2 0($8)
 	
 	addi $8 $8 4
 	addi $25 $25 -1
-	j solo_draw
+	j solo_draw_mz_2
 	
 	
-tijolo_solo_prep:
+tijolo_solo_prep_mz_2:
 	addi $25 $0 3072 #4504
 	addi $24 $0 0
 	
-tijolo_solo_draw:
-	beq $25 $0 canhao_main
+tijolo_solo_draw_mz_2:
+	beq $25 $0 canhao_main_mz_2
 	
-	jal teste_height_solo
+	jal teste_height_solo_mz_2
 	
 	addi $8 $8 -4
 	addi $24 $24 -1
 	addi $25 $25 -1
-	j tijolo_solo_draw
+	j tijolo_solo_draw_mz_2
 
 # canhao
-canhao_main:
-	jal corrente_func_prep
+canhao_main_mz_2:
+	jal corrente_func_prep_mz_2
 	
 	
-npc_prep_main:
+npc_prep_main_mz_2:
 	addi $22 $0 20
 	lui $8 0x1001
 	lui $9 0x1001
@@ -88,62 +88,62 @@ npc_prep_main:
 	addi $9 $9 14748	#altura bala do canhao !!!!!!!! proibido usar
 	lui $18 0xffff #registrador movimento !!!!!! proibido usar
 	addi $17 $0 0 # l� o registrador movimento !!!!!!!!!!! proibido usar
-	jal sonic_prep
+	jal sonic_prep_mz_2
 
-npc_joaninha_laco_walk:
-	#beq $24 $0 fim
+npc_joaninha_laco_walk_mz_2:
+	#beq $24 $0 fim_mz_2
 	
-	jal bala_canhao_prep
+	jal bala_canhao_prep_mz_2
 	
 	addi $9 $9 -12
 	addi $25 $25 -4
 	jal timer
-	jal reset_bala_verif
+	jal reset_bala_verif_mz_2
 	
 	add $11 $0 $17
 	
 	lw $17 0($18)
-	beq $17 $0 npc_joaninha_laco_walk
+	beq $17 $0 npc_joaninha_laco_walk_mz_2
 	
 	lw $17 4($18)
 	
-	jal sonic_prep
+	jal sonic_prep_mz_2
 	
 	      
-       j npc_joaninha_laco_walk
+       j npc_joaninha_laco_walk_mz_2
 
-fim:
+fim_mz_2:
   addi $2 $0 10
   syscall
 
 #----------------------func-----------------------
 	#funcao linhas hoorizontais fundo
 	
-teste_height:
-	beq $24 $0 height_draw
+teste_height_mz_2:
+	beq $24 $0 height_draw_mz_2
 	
 	jr $31
 
-height_draw:
+height_draw_mz_2:
 	addi $24 $0 128
 	add $20 $0 $31
 	ori $10 $0 0x48214F #roxo linha fundo
 		
-height_draw_l1:
-	beq $24 $0 height_fim
+height_draw_l1_mz_2:
+	beq $24 $0 height_fim_mz_2
 	
 	sw $10 0($8)
 	sw $10 32768($8)
 	
-	jal brick_test
+	jal brick_test_mz_2
 	
 	addi $8 $8 4
 	addi $24 $24 -1
 	addi $23 $23 -1
 	
-	j height_draw_l1
+	j height_draw_l1_mz_2
 	
-height_fim:
+height_fim_mz_2:
 	addi $24 $0 896
 	
 	jr $20
@@ -152,12 +152,12 @@ height_fim:
 	
 	#funcao linhas verticais fundo
 	
-brick_test:
-	beq $23 $0 brick_draw
+brick_test_mz_2:
+	beq $23 $0 brick_draw_mz_2
 	
 	jr $31
 	
-brick_draw:
+brick_draw_mz_2:
 	sw $10 -512($8)
 	sw $10 32256($8)
 	
@@ -189,29 +189,29 @@ brick_draw:
 
 	#funcao solo linhas horizontais
 	
-teste_height_solo:
-	beq $24 $0 height_draw_solo
+teste_height_solo_mz_2:
+	beq $24 $0 height_draw_solo_mz_2
 	
 	jr $31
 
-height_draw_solo:
+height_draw_solo_mz_2:
 	addi $24 $0 128
 	add $20 $0 $31
 	ori $10 $0 0x6A3F84 #roxo linha fundo
 		
-height_draw_solo_l1:
-	beq $24 $0 height_fim_solo
+height_draw_solo_l1_mz_2:
+	beq $24 $0 height_fim_solo_mz_2
 	
 	sw $10 0($8)
-	jal brick_test_solo
+	jal brick_test_solo_mz_2
 	
 	addi $8 $8 4
 	addi $24 $24 -1
 	addi $23 $23 -1
 	
-	j height_draw_solo_l1
+	j height_draw_solo_l1_mz_2
 	
-height_fim_solo:
+height_fim_solo_mz_2:
 	addi $24 $0 896
 	
 	jr $20
@@ -219,12 +219,12 @@ height_fim_solo:
 
 
 	#funcao tijolo solo
-brick_test_solo:
-	beq $23 $0 brick_draw_solo
+brick_test_solo_mz_2:
+	beq $23 $0 brick_draw_solo_mz_2
 	
 	jr $31
 	
-brick_draw_solo:
+brick_draw_solo_mz_2:
 	sw $10 -512($8)
 	sw $10 -1024($8)
 	sw $10 -1536($8)
@@ -238,7 +238,7 @@ brick_draw_solo:
 
 ######## função lava
 
-lava_draw_func:
+lava_draw_func_mz_2:
 	ori $10 $0 0xFF0000 #vermelho lava
 	ori $11 $0 0xFF8A00 #laranja lava
 	ori $12 $0 0xF9FC2B #amarelo lava
@@ -250,11 +250,11 @@ lava_draw_func:
 	addi $23 $25 -6
 	addi $8 $8 -20612
 	
-lava_laco_start: beq $25 $23 lava_draw_laco_prep
+lava_laco_start_mz_2: beq $25 $23 lava_draw_laco_prep_mz_2
                  addi $8 $8 416
                  addi $22 $0 8
                        
-lava_laco2_start:     beq $22 $0 lava_laco3_start_prep
+lava_laco2_start_mz_2:     beq $22 $0 lava_laco3_start_prep_mz_2
                       sw $10 0($8)
                       sw $10 32768($8)
                       
@@ -266,13 +266,13 @@ lava_laco2_start:     beq $22 $0 lava_laco3_start_prep
                       
                       addi $8 $8 12
                       addi $22 $22 -1
-                      j lava_laco2_start
+                      j lava_laco2_start_mz_2
 
-lava_laco3_start_prep: addi $8 $8 416
+lava_laco3_start_prep_mz_2: addi $8 $8 416
                        addi $22 $0 8
                        addi $25 $25 -2
                        
-lava_laco3_start:     beq $22 $0 lava_laco_start
+lava_laco3_start_mz_2:     beq $22 $0 lava_laco_start
 		    						  sw $12 0($8)
 		    						  sw $12 32768($8)
 		    						  
@@ -284,16 +284,16 @@ lava_laco3_start:     beq $22 $0 lava_laco_start
                       
                       addi $8 $8 12
                       addi $22 $22 -1
-                      j lava_laco3_start
+                      j lava_laco3_start_mz_2
 
-lava_draw_laco_prep: addi $8 $8 -16
+lava_draw_laco_prep_mz_2: addi $8 $8 -16
 	
-lava_draw_laco1: beq $25 $0 fim_func_lava
+lava_draw_laco1_mz_2: beq $25 $0 fim_func_lava_mz_2
                  addi $8 $8 432
                  addi $25 $25 -1
                  addi $23 $0 2
 
-lava_draw_laco2:     
+lava_draw_laco2_mz_2:     
 							 sw $10 0($8)
 							 sw $10 32768($8)
 							 
@@ -306,7 +306,7 @@ lava_draw_laco2:
 	             sw $10 12($8)
 	             sw $10 32780($8)
 	             
-	             beq $23 $0 lava_draw_laco1
+	             beq $23 $0 lava_draw_laco1_mz_2
 	             
 	             sw $11 16($8)
 	             sw $11 32784($8)
@@ -328,37 +328,25 @@ lava_draw_laco2:
 	             
 	             addi $8 $8 40
 	             addi $23 $23 -1
-	             j lava_draw_laco2
+	             j lava_draw_laco2_mz_2
 	
-fim_func_lava: add $8 $0 $24
+fim_func_lava_mz_2: add $8 $0 $24
                jr $31
 
 
 #funcao canhao
-voltar:
+voltar_mz_2:
 	jr $31
 	
-#timer buffer
-
-timer:
-  addi $16 $0 100000 #100000
-  
-forT:
-	beq $16 $0 voltar
-  nop
-  nop
-  addi $16 $16 -1      
-  j forT
-
-corrente_func_prep:
+corrente_func_prep_mz_2:
 	ori $10 $0 0x5F5F5F #cinza corrente
 	
 	addi $8 $8 -22148
 	addi $8 $8 68
 	addi $25 $0 4
 
-corrente_func_draw:
-	beq $25 $0 canhao_func_prep
+corrente_func_draw_mz_2:
+	beq $25 $0 canhao_func_prep_mz_2
 	
 	#elo de lado
 	sw $10 0($8)
@@ -367,14 +355,14 @@ corrente_func_draw:
 	sw $10 1536($8)
 	sw $10 2048($8)
 	
-	#elo de frente esquerda
+	#elo de frente esquerda_mz_2
 	sw $10 1532($8)
 	sw $10 2040($8)
 	sw $10 2552($8)
 	sw $10 3064($8)
 	sw $10 3580($8)
 	
-	#elo de frente direita
+	#elo de frente direita_mz_2
 	sw $10 1540($8)
 	sw $10 2056($8)
 	sw $10 2568($8)
@@ -384,18 +372,18 @@ corrente_func_draw:
 	
 	addi $25 $25 -1
 	addi $8 $8 3072
-	j corrente_func_draw
+	j corrente_func_draw_mz_2
 	
 	
-canhao_func_prep:
+canhao_func_prep_mz_2:
 	ori $10 $0 0xF7ED3D #preto canhao 1C1C1C
 	ori $11 $0 0xc9bb0e
 	
 	addi $8 $8 496
 	addi $25 $0 3 #3
 	
-canhao_func_draw:
-	beq $25 $0 canhao_func_fim_prep
+canhao_func_draw_mz_2:
+	beq $25 $0 canhao_func_fim_prep_mz_2
 	
 	#boca do canhao
 	sw $11 -4($8)
@@ -458,16 +446,16 @@ canhao_func_draw:
 	
 	addi $25 $25 -1
 	addi $8 $8 512
-	j canhao_func_draw
+	j canhao_func_draw_mz_2
 	
-canhao_func_fim_prep:
+canhao_func_fim_prep_mz_2:
 	addi $25 $0 2
 	addi $8 $8 -1528
 	
 	ori $10 $0 0xF7ED3D #preto canhao	1C1C1C
 	
-canhao_func_draw_2:
-	beq $25 $0 mario_reference_prep
+canhao_func_draw_2_mz_2:
+	beq $25 $0 mario_reference_prep_mz_2
 	
 	sw $10 1052($8)
 	sw $10 1564($8)
@@ -476,15 +464,15 @@ canhao_func_draw_2:
 	
 	addi $25 $25 -1
 	addi $8 $8 512
-	j canhao_func_draw_2
+	j canhao_func_draw_2_mz_2
 	
-mario_reference_prep:
+mario_reference_prep_mz_2:
 	ori $10 $0 0x9B388B #vermelho
 	
 	addi $8 $8 -512
 	
 
-mario_reference_draw:
+mario_reference_draw_mz_2:
 	#sw $10 504($8)
 	#sw $10 536($8)
 	sw $10 1020($8)
@@ -496,10 +484,10 @@ mario_reference_draw:
 	sw $10 1544($8)
 	sw $10 2060($8)
 	
-	j voltar
+	j voltar_mz_2
 
 
-sonic_prep:
+sonic_prep_mz_2:
 	ori $10	$0 0x000000 #preto
 	ori $12 $0 0x1C2182 #azul sombra
 	ori $13 $0 0xC60000 #vermelho luz
@@ -508,32 +496,32 @@ sonic_prep:
 	ori $16 $0 0xE0E0E0 #branco olhos
 	addi $24 $0 0
 	
-	beq $17 'a' esquerda
-        beq $17 's' baixo
-        beq $17 'd' direita
-        beq $17 'w' pulo
-        beq $17 $0 sonic_draw_direita
+	beq $17 'a' esquerda_mz_2
+        beq $17 's' baixo_mz_2
+        beq $17 'd' direita_mz_2
+        beq $17 'w' pulo_mz_2
+        beq $17 $0 sonic_draw_direita_mz_2
 
 
-esquerda: addi $8 $8 -4
+esquerda_mz_2: addi $8 $8 -4
           
-          j sonic_costas_prep
+          j sonic_costas_prep_mz_2
 
-direita: addi $8 $8 4
+direita_mz_2: addi $8 $8 4
 
-	j sonic_draw_direita
+	j sonic_draw_direita_mz_2
 
-baixo: addi $8 $8 512
+baixo_mz_2: addi $8 $8 512
       
        jr $31
 
-pulo: addi $8 $8 -512
+pulo_mz_2: addi $8 $8 -512
       
-      beq $11 'd' sonic_draw_direita
-      beq $11 'a' sonic_draw_esquerda
+      beq $11 'd' sonic_draw_direita_mz_2
+      beq $11 'a' sonic_draw_esquerda_mz_2
 	
 	
-sonic_draw_direita: 
+sonic_draw_direita_mz_2: 
 
 	#sapato luz
 	sw $13 0($8)
@@ -780,9 +768,9 @@ sonic_draw_direita:
                jr $31
  
                
-       # desenho sonic andando pela esquerda
+       # desenho sonic andando pela esquerda_mz_2
                                                   
-sonic_costas_prep:
+sonic_costas_prep_mz_2:
 
         ori $10	$0 0x000000 #preto
 	ori $12 $0 0x1C2182 #azul sombra
@@ -793,9 +781,9 @@ sonic_costas_prep:
 	addi $24 $0 0
 	
 	
-	beq $11 'd' limpa_sonic_frente
+	beq $11 'd' limpa_sonic_frente_mz_2
 	
-limpa_sonic_frente:# addi $11 $11 -1
+limpa_sonic_frente_mz_2:# addi $11 $11 -1
                     
 	lw $24 31224($8)
 	sw $24 -1548($8)
@@ -888,7 +876,7 @@ limpa_sonic_frente:# addi $11 $11 -1
 	sw $24 -8212($8)
 	
     
-sonic_draw_esquerda: 
+sonic_draw_esquerda_mz_2: 
 	
 	#sapato luz
 	sw $13 0($8)
@@ -1138,13 +1126,13 @@ sonic_draw_esquerda:
 
 # desenho sonic virando bola
 	
-bala_canhao_prep:
+bala_canhao_prep_mz_2:
 	ori $10	$0 0xc9bb0e #preto
 	
 	addi $23 $0 1
 	
-bala_canhao_draw:
-	beq $23 $0 voltar
+bala_canhao_draw_mz_2:
+	beq $23 $0 voltar_mz_2
 	
 	sw $10 -1032($9)
 	sw $10 -1036($9)
@@ -1219,15 +1207,15 @@ bala_canhao_draw:
 	
 	addi $22 $22 -1
 	addi $23 $23 -1
-	j bala_canhao_draw
+	j bala_canhao_draw_mz_2
 
 
-reset_bala_verif:
-	beq $22 $0 reset_bala
+reset_bala_verif_mz_2:
+	beq $22 $0 reset_bala_mz_2
 	
-	j voltar
+	j voltar_mz_2
 	
-reset_bala:
+reset_bala_mz_2:
 	ori $10 $0 0x1F001F
 
 	sw $10 -1020($9)
@@ -1261,4 +1249,4 @@ reset_bala:
 	lui $9 0x1001
 	addi $9 $9 14748
 
-	j voltar
+	j voltar_mz_2
