@@ -80,6 +80,7 @@ canhao_main:
 	
 	
 npc_prep_main:
+	addi $22 $0 20
 	lui $8 0x1001
 	lui $9 0x1001
 	lui $25 0x1001
@@ -97,6 +98,7 @@ npc_joaninha_laco_walk:
 	addi $9 $9 -12
 	addi $25 $25 -4
 	jal timer
+	jal reset_bala_verif
 	
 	add $11 $0 $17
 	
@@ -1215,5 +1217,48 @@ bala_canhao_draw:
 	lw $20 33796($9)
 	sw $20 1028($9)
 	
+	addi $22 $22 -1
 	addi $23 $23 -1
 	j bala_canhao_draw
+
+
+reset_bala_verif:
+	beq $22 $0 reset_bala
+	
+	j voltar
+	
+reset_bala:
+	ori $10 $0 0x1F001F
+
+	sw $10 -1020($9)
+	sw $10 -1024($9)
+	sw $10 -1028($9)
+	
+	sw $10 -504($9)
+	sw $10 -508($9)
+	sw $10 -512($9)
+	sw $10 -516($9)
+	sw $10 -520($9)
+	
+	sw $10 8($9)
+	sw $10 4($9)
+	sw $10 0($9)
+	sw $10 -4($9)
+	sw $10 -8($9)
+	
+	sw $10 520($9)
+	sw $10 516($9)
+	sw $10 512($9)
+	sw $10 508($9)
+	sw $10 504($9)
+	
+	sw $10 1028($9)
+	sw $10 1024($9)
+	sw $10 1020($9)
+
+	
+	addi $22 $0 20
+	lui $9 0x1001
+	addi $9 $9 14748
+
+	j voltar
