@@ -84,7 +84,7 @@ npc_prep_main:
 	lui $9 0x1001
 	lui $25 0x1001
 	addi $8 $8 19492 #altura sonic  !!!!!!!! proibido usar
-	addi $9 $9 14752	#altura bala do canhao !!!!!!!! proibido usar
+	addi $9 $9 14748	#altura bala do canhao !!!!!!!! proibido usar
 	lui $18 0xffff #registrador movimento !!!!!! proibido usar
 	addi $17 $0 0 # l� o registrador movimento !!!!!!!!!!! proibido usar
 	jal sonic_prep
@@ -94,7 +94,7 @@ npc_joaninha_laco_walk:
 	
 	jal bala_canhao_prep
 	
-	addi $9 $9 -4
+	addi $9 $9 -12
 	addi $25 $25 -4
 	jal timer
 	
@@ -1137,7 +1137,7 @@ sonic_draw_esquerda:
 # desenho sonic virando bola
 	
 bala_canhao_prep:
-	ori $10	$0 0x000000 #preto
+	ori $10	$0 0xc9bb0e #preto
 	
 	addi $23 $0 1
 	
@@ -1151,6 +1151,12 @@ bala_canhao_draw:
 	lw $20 31740($9)
 	sw $20 -1028($9)
 	
+	lw $20 31744($9)
+	sw $20 -1024($9)
+	
+	lw $20 31748($9)
+	sw $20 -1020($9)
+	
 	sw $10 -516($9)
 	sw $10 -520($9)
 	sw $10 -524($9)
@@ -1159,6 +1165,12 @@ bala_canhao_draw:
 	
 	lw $20 32256($9)
 	sw $20 -512($9)
+	
+	lw $20 32260($9)
+	sw $20 -508($9)
+	
+	lw $20 32264($9)
+	sw $20 -504($9)
 	
 	sw $10 -4($9)
 	sw $10 -8($9)
@@ -1169,6 +1181,12 @@ bala_canhao_draw:
 	lw $20 32768($9)
 	sw $20 0($9)
 	
+	lw $20 32772($9)
+	sw $20 4($9)
+	
+	lw $20 32776($9)
+	sw $20 8($9)
+	
 	sw $10 508($9)
 	sw $10 504($9)
 	sw $10 500($9)
@@ -1178,12 +1196,24 @@ bala_canhao_draw:
 	lw $20 33280($9)
 	sw $20 512($9)
 	
+	lw $20 33284($9)
+	sw $20 516($9)
+	
+	lw $20 33288($9)
+	sw $20 520($9)
+	
 	sw $10 1016($9)
 	sw $10 1012($9)
 	sw $10 1008($9)
 
 	lw $20 33788($9)
 	sw $20 1020($9)
+	
+	lw $20 33792($9)
+	sw $20 1024($9)
+	
+	lw $20 33796($9)
+	sw $20 1028($9)
 	
 	addi $23 $23 -1
 	j bala_canhao_draw
