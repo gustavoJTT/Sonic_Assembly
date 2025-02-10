@@ -2211,6 +2211,7 @@ mar_gz_2:
   beq $25 $0 grama_prep_gz_2
 	
   sw $10 0($8)
+  sw $10 32768($8) 
   jal ondas_verif_gz_2
 
   addi $8 $8 4
@@ -2227,8 +2228,11 @@ grama_prep_gz_2:
 grama_gz_2: 
   beq $25 $0 cachoeira_prep_gz_2
   sw $14 0($8)
+  sw $14 32768($8)
   sw $14 4($8)
+  sw $14 32772($8)
   sw $13 8($8)
+  sw $13 32776($8)
   jal placa_verif_gz_2
 
   addi $8 $8 12
@@ -2446,7 +2450,7 @@ fim_func_montanhas_gz_2:
 #funÃ§Ã£o ondas
       
 ondas_verif_gz_2:
-	beq $23 $0 ondas_draw_gz_2
+	beq $23 $0 ondas_draw
 	
 	jr $31
 	
@@ -2509,10 +2513,10 @@ laco1_cachoeira_gz_2: beq $18 $0 fim_func_cachoeira_gz_2
                   
 laco2_cachoeira_gz_2: beq $19 $0 laco1_cachoeira_gz_2
                  sw $10 0($8)
-                 sw $12 32768($8)
+                 sw $10 32768($8)
                  
                  sw $9 4($8)
-                 sw $12 32772($8)
+                 sw $9 32772($8)
                  
                  addi $8 $8 8
                  addi $19 $19 -1
@@ -2522,13 +2526,13 @@ laco1_cachoeira_grama_gz_2: beq $19 $0 laco2_cachoeira_grama_prep_gz_2
                        beq $18 $0 fim_func_cachoeira_gz_2
                        
                       sw $15 0($8)
-                      sw $12 32768($8)
+                      sw $15 32768($8)
                       
                       sw $9 4($8)
-                      sw $12 32772($8)
+                      sw $9 32772($8)
                       
                       sw $10 8($8)
-                      sw $12 32776($8)
+                      sw $10 32776($8)
                       
                       addi $8 $8 12
                       addi $19 $19 -1
@@ -3217,7 +3221,7 @@ npc_joaninha_laco_walk_mz_1:
 	lui $10 0x1001
 	addi $10 $10 17532 #final da tela
 	
-	beq $8 $10 fim_mz_1
+	beq $8 $10 marble_zone_2
 	#beq $8 $25 main
 	#beq $8 $9 main
 	
@@ -4126,3 +4130,2385 @@ castelo_topo_desenho_2_mz_1:
 	addi $25 $25 -1
 	addi $20 $20 32
 	j castelo_topo_desenho_2_mz_1
+
+
+######################################### MARBLE ZONE 2 
+
+
+
+marble_zone_2:
+  lui $8 0x1001
+  
+  #desenhar fundo
+fundo_prep_mz_2:
+	ori $9 $0 0x1F001F #roxo escuro fundo
+	#8192
+	addi $25 $0 5120
+	
+fundo_draw_mz_2:
+	beq $25 $0 tijolo_fundo_prep_mz_2
+	
+	sw $9 0($8)
+	sw $9 32768($8)
+	
+	addi $8 $8 4
+	addi $25 $25 -1
+	j fundo_draw_mz_2
+
+
+tijolo_fundo_prep_mz_2:
+	addi $8 $0 0
+	lui $8 0x1001
+	addi $25 $0 4481 #4504
+	addi $24 $0 896
+	
+tijolo_fundo_draw_mz_2:
+	beq $25 $0 lava_prep_mz_2
+	
+	jal teste_height_mz_2
+	
+	addi $8 $8 4
+	addi $24 $24 -1
+	addi $25 $25 -1
+	addi $22 $0 -1
+	j tijolo_fundo_draw_mz_2
+
+lava_prep_mz_2:
+	addi $25 $0 39
+	
+lava_draw_mz_2:
+	jal lava_draw_func_mz_2
+
+	#desenhar solo
+solo_prep_mz_2:
+	addi $8 $8 -4
+	add $15 $0 $8
+	ori $9 $0 0x9C73B9 #roxo solo
+	addi $25 $0 3072
+	
+solo_draw_mz_2:
+	beq $25 $0 tijolo_solo_prep_mz_2
+	
+	sw $9 0($8)
+	
+	addi $8 $8 4
+	addi $25 $25 -1
+	j solo_draw_mz_2
+	
+	
+tijolo_solo_prep_mz_2:
+	addi $25 $0 3072 #4504
+	addi $24 $0 0
+	
+tijolo_solo_draw_mz_2:
+	beq $25 $0 canhao_main_mz_2
+	
+	jal teste_height_solo_mz_2
+	
+	addi $8 $8 -4
+	addi $24 $24 -1
+	addi $25 $25 -1
+	j tijolo_solo_draw_mz_2
+
+# canhao
+canhao_main_mz_2:
+	jal corrente_func_prep_mz_2
+	
+	
+npc_prep_main_mz_2:
+	addi $22 $0 20
+	lui $8 0x1001
+	lui $9 0x1001
+	lui $25 0x1001
+	addi $8 $8 19492 #altura sonic  !!!!!!!! proibido usar
+	addi $9 $9 14748	#altura bala do canhao !!!!!!!! proibido usar
+	lui $18 0xffff #registrador movimento !!!!!! proibido usar
+	addi $17 $0 0 # l? o registrador movimento !!!!!!!!!!! proibido usar
+	jal sonic_prep_mz_2
+
+npc_joaninha_laco_walk_mz_2:
+	lui $10 0x1001
+	addi $10 $10 18580 #final da tela
+	
+	beq $8 $10 marble_zone_3
+	
+	
+	jal bala_canhao_prep_mz_2
+	
+	addi $9 $9 -12
+	addi $25 $25 -4
+	jal timer
+	jal reset_bala_verif_mz_2
+	
+	add $11 $0 $17
+	
+	lw $17 0($18)
+	beq $17 $0 npc_joaninha_laco_walk_mz_2
+	
+	lw $17 4($18)
+	
+	jal sonic_prep_mz_2
+	
+	      
+       j npc_joaninha_laco_walk_mz_2
+
+fim_mz_2:
+  addi $2 $0 10
+  syscall
+
+#----------------------func-----------------------
+	#funcao linhas hoorizontais fundo
+	
+teste_height_mz_2:
+	beq $24 $0 height_draw_mz_2
+	
+	jr $31
+
+height_draw_mz_2:
+	addi $24 $0 128
+	add $20 $0 $31
+	ori $10 $0 0x48214F #roxo linha fundo
+		
+height_draw_l1_mz_2:
+	beq $24 $0 height_fim_mz_2
+	
+	sw $10 0($8)
+	sw $10 32768($8)
+	
+	jal brick_test_mz_2
+	
+	addi $8 $8 4
+	addi $24 $24 -1
+	addi $23 $23 -1
+	
+	j height_draw_l1_mz_2
+	
+height_fim_mz_2:
+	addi $24 $0 896
+	
+	jr $20
+	
+	
+	
+	#funcao linhas verticais fundo
+	
+brick_test_mz_2:
+	beq $23 $0 brick_draw_mz_2
+	
+	jr $31
+	
+brick_draw_mz_2:
+	sw $10 -512($8)
+	sw $10 32256($8)
+	
+	sw $10 -1024($8)
+	sw $10 31744($8)
+	
+	sw $10 -1536($8)
+	sw $10 31232($8)
+	
+	sw $10 -2048($8)
+	sw $10 30720($8)
+	
+	sw $10 -2560($8)
+	sw $10 30208($8)
+	
+	sw $10 -3072($8)
+	sw $10 29696($8)
+	
+	sw $10 -3584($8)
+	sw $10 29184($8)
+	
+	sw $10 -4096($8)
+	sw $10 28672($8)
+	
+	addi $23 $0 12
+	jr $31
+
+
+
+	#funcao solo linhas horizontais
+	
+teste_height_solo_mz_2:
+	beq $24 $0 height_draw_solo_mz_2
+	
+	jr $31
+
+height_draw_solo_mz_2:
+	addi $24 $0 128
+	add $20 $0 $31
+	ori $10 $0 0x6A3F84 #roxo linha fundo
+		
+height_draw_solo_l1_mz_2:
+	beq $24 $0 height_fim_solo_mz_2
+	
+	sw $10 0($8)
+	jal brick_test_solo_mz_2
+	
+	addi $8 $8 4
+	addi $24 $24 -1
+	addi $23 $23 -1
+	
+	j height_draw_solo_l1_mz_2
+	
+height_fim_solo_mz_2:
+	addi $24 $0 896
+	
+	jr $20
+
+
+
+	#funcao tijolo solo
+brick_test_solo_mz_2:
+	beq $23 $0 brick_draw_solo_mz_2
+	
+	jr $31
+	
+brick_draw_solo_mz_2:
+	sw $10 -512($8)
+	sw $10 -1024($8)
+	sw $10 -1536($8)
+	sw $10 -2048($8)
+	sw $10 -2560($8)
+	sw $10 -3072($8)
+	
+	addi $23 $0 12
+	jr $31
+	
+
+######## função lava
+
+lava_draw_func_mz_2:
+	ori $10 $0 0xFF0000 #vermelho lava
+	ori $11 $0 0xFF8A00 #laranja lava
+	ori $12 $0 0xF9FC2B #amarelo lava
+	
+	sw $10 0($8)
+	sw $10 32768($8)
+	
+	add $24 $0 $8
+	addi $23 $25 -6
+	addi $8 $8 -20612
+	
+lava_laco_start_mz_2: beq $25 $23 lava_draw_laco_prep_mz_2
+                 addi $8 $8 416
+                 addi $22 $0 8
+                       
+lava_laco2_start_mz_2:     beq $22 $0 lava_laco3_start_prep_mz_2
+                      sw $10 0($8)
+                      sw $10 32768($8)
+                      
+                      sw $11 4($8)
+                      sw $11 32772($8)
+                      
+                      sw $12 8($8)
+                      sw $12 32776($8)
+                      
+                      addi $8 $8 12
+                      addi $22 $22 -1
+                      j lava_laco2_start_mz_2
+
+lava_laco3_start_prep_mz_2: addi $8 $8 416
+                       addi $22 $0 8
+                       addi $25 $25 -2
+                       
+lava_laco3_start_mz_2:     beq $22 $0 lava_laco_start_mz_2
+		    						  sw $12 0($8)
+		    						  sw $12 32768($8)
+		    						  
+                      sw $10 4($8)
+                      sw $10 32772($8)
+                                                                    
+                      sw $11 8($8)
+                      sw $11 32776($8)
+                      
+                      addi $8 $8 12
+                      addi $22 $22 -1
+                      j lava_laco3_start_mz_2
+
+lava_draw_laco_prep_mz_2: addi $8 $8 -16
+	
+lava_draw_laco1_mz_2: beq $25 $0 fim_func_lava_mz_2
+                 addi $8 $8 432
+                 addi $25 $25 -1
+                 addi $23 $0 2
+
+lava_draw_laco2_mz_2:     
+							 sw $10 0($8)
+							 sw $10 32768($8)
+							 
+	             sw $10 4($8)
+	             sw $10 32772($8)
+	             
+	             sw $10 8($8)
+	             sw $10 32776($8)
+	             
+	             sw $10 12($8)
+	             sw $10 32780($8)
+	             
+	             beq $23 $0 lava_draw_laco1_mz_2
+	             
+	             sw $11 16($8)
+	             sw $11 32784($8)
+	             
+	             sw $11 20($8)
+	             sw $11 32788($8)
+	             
+	             sw $11 24($8)
+	             sw $11 32792($8)
+	             
+	             sw $12 28($8)
+	             sw $12 32796($8)
+	             
+	             sw $12 32($8)
+	             sw $12 32800($8)
+	             
+	             sw $12 36($8)
+	             sw $12 32804($8)
+	             
+	             addi $8 $8 40
+	             addi $23 $23 -1
+	             j lava_draw_laco2_mz_2
+	
+fim_func_lava_mz_2: add $8 $0 $24
+               jr $31
+
+
+#funcao canhao
+voltar_mz_2:
+	jr $31
+	
+corrente_func_prep_mz_2:
+	ori $10 $0 0x5F5F5F #cinza corrente
+	
+	addi $8 $8 -22148
+	addi $8 $8 68
+	addi $25 $0 4
+
+corrente_func_draw_mz_2:
+	beq $25 $0 canhao_func_prep_mz_2
+	
+	#elo de lado
+	sw $10 0($8)
+	sw $10 512($8)
+	sw $10 1024($8)
+	sw $10 1536($8)
+	sw $10 2048($8)
+	
+	#elo de frente esquerda_mz_2
+	sw $10 1532($8)
+	sw $10 2040($8)
+	sw $10 2552($8)
+	sw $10 3064($8)
+	sw $10 3580($8)
+	
+	#elo de frente direita_mz_2
+	sw $10 1540($8)
+	sw $10 2056($8)
+	sw $10 2568($8)
+	sw $10 3080($8)
+	sw $10 3588($8)
+	
+	
+	addi $25 $25 -1
+	addi $8 $8 3072
+	j corrente_func_draw_mz_2
+	
+	
+canhao_func_prep_mz_2:
+	ori $10 $0 0xF7ED3D #preto canhao 1C1C1C
+	ori $11 $0 0xc9bb0e
+	
+	addi $8 $8 496
+	addi $25 $0 3 #3
+	
+canhao_func_draw_mz_2:
+	beq $25 $0 canhao_func_fim_prep_mz_2
+	
+	#boca do canhao
+	sw $11 -4($8)
+	sw $11 508($8)
+	sw $10 512($8)
+	sw $10 516($8)
+	
+	sw $11 -8($8)
+	sw $11 504($8)
+	sw $11 1016($8)
+	sw $11 1528($8)
+	sw $11 2040($8)
+	sw $10 2552($8)
+	
+	sw $10 1028($8)
+	
+	sw $10 1024($8)
+	sw $11 1020($8)
+	sw $10 1540($8)
+	sw $10 1536($8)
+	
+	sw $11 1532($8)
+	sw $10 2048($8)
+	sw $11 2044($8)
+	sw $11 2556($8)
+	
+	#corpo
+	sw $10 520($8)
+	sw $10 524($8)
+	sw $10 528($8)
+	sw $10 532($8)
+	sw $10 536($8)
+	sw $10 540($8)
+	sw $10 544($8)
+	
+	sw $10 1032($8)
+	sw $10 1036($8)
+	sw $10 1040($8)
+	sw $10 1044($8)
+	sw $10 1048($8)
+	sw $10 1052($8)
+	sw $10 1056($8)
+	
+	sw $10 1544($8)
+	sw $10 1548($8)
+	sw $10 1552($8)
+	sw $10 1556($8)
+	sw $10 1560($8)
+	sw $10 1564($8)
+	sw $10 1568($8)
+	
+	sw $10 2052($8)
+	sw $10 2056($8)
+	sw $10 2060($8)
+	sw $10 2064($8)
+	sw $10 2068($8)
+	sw $10 2072($8)
+	sw $10 2076($8)
+	sw $10 2080($8)
+	
+	addi $25 $25 -1
+	addi $8 $8 512
+	j canhao_func_draw_mz_2
+	
+canhao_func_fim_prep_mz_2:
+	addi $25 $0 2
+	addi $8 $8 -1528
+	
+	ori $10 $0 0xF7ED3D #preto canhao	1C1C1C
+	
+canhao_func_draw_2_mz_2:
+	beq $25 $0 mario_reference_prep_mz_2
+	
+	sw $10 1052($8)
+	sw $10 1564($8)
+	sw $10 2076($8)
+	sw $10 1568($8)
+	
+	addi $25 $25 -1
+	addi $8 $8 512
+	j canhao_func_draw_2_mz_2
+	
+mario_reference_prep_mz_2:
+	ori $10 $0 0x9B388B #vermelho
+	
+	addi $8 $8 -512
+	
+
+mario_reference_draw_mz_2:
+	#sw $10 504($8)
+	#sw $10 536($8)
+	sw $10 1020($8)
+	sw $10 1044($8)
+	sw $10 1536($8)
+	sw $10 1552($8)
+	
+	sw $10 2052($8)
+	sw $10 1544($8)
+	sw $10 2060($8)
+	
+	j voltar_mz_2
+
+
+sonic_prep_mz_2:
+	ori $10	$0 0x000000 #preto
+	ori $12 $0 0x1C2182 #azul sombra
+	ori $13 $0 0xC60000 #vermelho luz
+	ori $14 $0 0x8E0000 #vermelho sombra
+	ori $15 $0 0xEDA137 #pele
+	ori $16 $0 0xE0E0E0 #branco olhos
+	addi $24 $0 0
+	
+	beq $17 'a' esquerda_mz_2
+        beq $17 's' baixo_mz_2
+        beq $17 'd' direita_mz_2
+        beq $17 'w' pulo_mz_2
+        beq $17 $0 sonic_draw_direita_mz_2
+
+
+esquerda_mz_2: addi $8 $8 -4
+          
+          j sonic_costas_prep_mz_2
+
+direita_mz_2: addi $8 $8 4
+
+	j sonic_draw_direita_mz_2
+
+baixo_mz_2: addi $8 $8 512
+      
+       jr $31
+
+pulo_mz_2: addi $8 $8 -512
+      
+      beq $11 'd' sonic_draw_direita_mz_2
+      beq $11 'a' sonic_draw_esquerda_mz_2
+	
+	
+sonic_draw_direita_mz_2: 
+
+	#sapato luz
+	sw $13 0($8)
+	sw $13 -4($8)
+	sw $13 -8($8)
+	sw $13 -12($8)
+	sw $13 -516($8)
+	sw $13 -520($8)
+	sw $13 -524($8)
+	
+	# sapato luz anima??o
+	
+	lw $24 32752($8)
+	sw $24 -16($8)
+	
+	lw $24 32240($8)
+	sw $24 -528($8)
+	
+	#sapato sombra
+	sw $14 4($8)
+	sw $14 8($8)
+	sw $14 12($8)
+	sw $14 -508($8)
+	sw $14 -504($8)
+	
+	# sapato sombra anima??o
+	
+	lw $24 32256($8)
+	sw $24 -512($8)
+	
+	#pernas
+	sw $12 -1032($8)
+	sw $12 -1544($8)
+	sw $12 -1540($8)
+	sw $12 -1536($8)
+	
+	sw $12 -1020($8)
+	sw $12 -1532($8)
+	
+	# pernas anima??o 
+	
+	lw $24 31220($8)
+	sw $24 -1548($8)
+	
+	lw $24 31732($8)
+	sw $24 -1036($8)
+	
+	lw $24 31744($8)
+	sw $24 -1024($8)
+	
+	#barriga
+	sw $12 -2056($8)
+	sw $12 -2060($8)
+	sw $12 -2576($8)
+	sw $12 -3084($8)
+	sw $12 -3592($8)
+	sw $12 -4104($8)
+	sw $12 -4100($8)
+	sw $12 -4096($8)
+	sw $12 -4092($8)
+	sw $12 -3576($8)
+	sw $12 -3060($8)
+	sw $12 -2548($8)
+	sw $12 -2040($8)
+	sw $12 -2044($8)
+	
+	sw $15 -3588($8)
+	sw $15 -3584($8)
+	sw $15 -3580($8)
+	
+	sw $15 -3080($8)
+	sw $15 -3076($8)
+	sw $15 -3072($8)
+	sw $15 -3068($8)
+	sw $15 -3064($8)
+	
+	sw $12 -2572($8)
+	sw $15 -2568($8)
+	sw $15 -2564($8)
+	sw $15 -2560($8)
+	sw $15 -2556($8)
+	sw $15 -2552($8)
+	
+	sw $15 -2052($8)
+	sw $15 -2048($8)
+	
+	# barriga anima??o
+	
+	lw $24 28660($8)
+	sw $24 -4108($8)
+	
+	#braco
+	sw $15 -3596($8)
+	sw $15 -3600($8)
+	sw $15 -3604($8)
+	
+	sw $15 -3092($8)
+	sw $15 -3088($8)
+	sw $15 -2580($8)
+	sw $15 -2576($8)
+	
+	sw $16 -2072($8)
+	sw $16 -2068($8)
+	sw $16 -2064($8)
+	sw $16 -1556($8)
+	sw $16 -1552($8)
+	sw $16 -1044($8)
+	
+	#bra?o anima??o
+	
+	lw $24 29160($8)
+	sw $24 -3608($8)
+	
+	lw $24 29672($8)
+	sw $24 -3096($8)
+	
+	lw $24 30184($8)
+	sw $24 -2584($8)
+	
+	lw $24 30692($8)
+	sw $24 -2076($8)
+	
+	lw $24 31208($8)
+	sw $24 -1560($8)
+	
+	lw $24 31720($8)
+	sw $24 -1048($8)
+	
+	#rosto
+	sw $15 -4608($8)
+	sw $15 -4604($8)
+	sw $15 -4600($8)
+	sw $15 -4596($8)
+	
+	sw $15 -5120($8)
+	sw $15 -5116($8)
+	sw $15 -5112($8)
+	sw $15 -5108($8)
+	
+	sw $15 -5632($8)
+	sw $15 -5628($8)
+	sw $15 -5624($8)
+	sw $15 -5620($8)
+	
+	sw $12 -4612($8)
+	sw $12 -4616($8)
+	sw $12 -4620($8)
+	sw $12 -4624($8)
+	sw $12 -4628($8)
+	
+	sw $12 -5124($8)
+	sw $12 -5128($8)
+	sw $12 -5132($8)
+	sw $12 -5136($8)
+	sw $12 -5140($8)
+	sw $12 -5144($8)
+	sw $12 -5148($8)
+	
+	sw $12 -5636($8)
+	sw $12 -5640($8)
+	sw $12 -5644($8)
+	sw $12 -5648($8)
+	sw $12 -5652($8)
+	sw $12 -5656($8)
+	
+	sw $12 -6148($8)
+	sw $12 -6152($8)
+	sw $12 -6156($8)
+	sw $12 -6160($8)
+	sw $12 -6164($8)
+	
+	sw $12 -6660($8)
+	sw $12 -6664($8)
+	sw $12 -6668($8)
+	sw $12 -6672($8)
+	sw $12 -6676($8)
+	sw $12 -6680($8)
+	sw $12 -6684($8)
+	sw $12 -6688($8)
+	
+	sw $10 -6644($8)
+	sw $10 -6132($8)
+	sw $16 -6648($8)
+	sw $16 -6136($8)
+	sw $10 -6652($8)
+	sw $10 -6140($8)
+	sw $16 -6656($8)
+	sw $16 -6144($8)
+	
+	sw $12 -7156($8)
+	sw $12 -7160($8)
+	sw $12 -7164($8)
+	sw $12 -7168($8)
+	sw $12 -7172($8)
+	sw $12 -7176($8)
+	sw $15 -7180($8)
+	sw $15 -7184($8)
+	sw $12 -7188($8)
+	sw $12 -7192($8)
+	sw $12 -7196($8)
+	
+	sw $12 -7672($8)
+	sw $12 -7676($8)
+	sw $12 -7680($8)
+	sw $12 -7684($8)
+	sw $12 -7688($8)
+	sw $12 -7692($8)
+	sw $15 -7696($8)
+	sw $12 -7700($8)
+	sw $12 -7704($8)
+	
+	sw $12 -8196($8)
+	sw $12 -8200($8)
+	sw $12 -8204($8)
+	sw $15 -8208($8)
+	sw $12 -8212($8)
+	
+	#rosto anima??o
+	
+	lw $24 24552($8)
+	sw $24 -8216($8)
+	
+	lw $24 25060($8)
+	sw $24 -7708($8)
+	
+	lw $24 25568($8)
+	sw $24 -7200($8)
+	
+	lw $24 26076($8)
+	sw $24 -6692($8)
+	
+	lw $24 26600($8)
+	sw $24 -6168($8)
+	
+	lw $24 27108($8)
+	sw $24 -5660($8)
+	
+	lw $24 27616($8)
+	sw $24 -5152($8)
+	
+	lw $24 28136($8)
+	sw $24 -4632($8)
+               
+               jr $31
+ 
+               
+       # desenho sonic andando pela esquerda_mz_2
+                                                  
+sonic_costas_prep_mz_2:
+
+        ori $10	$0 0x000000 #preto
+	ori $12 $0 0x1C2182 #azul sombra
+	ori $13 $0 0xC60000 #vermelho luz
+	ori $14 $0 0x8E0000 #vermelho sombra
+	ori $15 $0 0xEDA137 #pele
+	ori $16 $0 0xE0E0E0 #branco olhos
+	addi $24 $0 0
+	
+	
+	beq $11 'd' limpa_sonic_frente_mz_2
+	
+limpa_sonic_frente_mz_2:# addi $11 $11 -1
+                    
+	lw $24 31224($8)
+	sw $24 -1548($8)
+	
+	lw $24 31748($8)
+	sw $24 -1020($8)
+
+	lw $24 30708($8)
+	sw $24 -2060($8)
+
+	lw $24 29172($8)
+	sw $24 -3596($8)
+	lw $24 29168($8)
+	sw $24 -3600($8)
+	lw $24 29164($8)
+	sw $24 -3604($8)
+	
+	lw $24 29676($8)
+	sw $24 -3092($8)
+	lw $24 29680($8)
+	sw $24 -3088($8)
+	lw $24 30188($8)
+	sw $24 -2580($8)
+	lw $24 30192($8)
+	sw $24 -2576($8)
+	
+	lw $24 30696($8)
+	sw $24 -2072($8)
+	lw $24 30700($8)
+	sw $24 -2068($8)
+	lw $24 30704($8)
+	sw $24 -2064($8)
+	lw $24 31212($8)
+	sw $24 -1556($8)
+	lw $24 31216($8)
+	sw $24 -1552($8)
+	lw $24 31720($8)
+	sw $24 -1048($8)
+
+	lw $24 28140($8)
+	sw $24 -4628($8)
+	
+	lw $24 27628($8)
+	sw $24 -5140($8)
+	lw $24 27624($8)
+	sw $24 -5144($8)
+	lw $24 27620($8)
+	sw $24 -5148($8)
+	
+	lw $24 27116($8)
+	sw $24 -5652($8)
+	lw $24 27112($8)
+	sw $24 -5656($8)
+	
+	lw $24 26604($8)
+	sw $24 -6164($8)
+	
+	lw $24 26092($8)
+	sw $24 -6676($8)
+	lw $24 26088($8)
+	sw $24 -6680($8)
+	lw $24 26084($8)
+	sw $24 -6684($8)
+	lw $24 26080($8)
+	sw $24 -6688($8)
+	
+	lw $24 25580($8)
+	sw $24 -7188($8)
+	lw $24 25576($8)
+	sw $24 -7192($8)
+	lw $24 25572($8)
+	sw $24 -7196($8)
+	
+	lw $24 25072($8)
+	sw $24 -7696($8)
+	lw $24 25068($8)
+	sw $24 -7700($8)
+	lw $24 25064($8)
+	sw $24 -7704($8)
+	
+	lw $24 24572($8)
+	sw $24 -8196($8)
+	lw $24 24568($8)
+	sw $24 -8200($8)
+	lw $24 24564($8)
+	sw $24 -8204($8)
+	lw $24 24560($8)
+	sw $24 -8208($8)
+	lw $24 24556($8)
+	sw $24 -8212($8)
+	
+    
+sonic_draw_esquerda_mz_2: 
+	
+	#sapato luz
+	sw $13 0($8)
+	sw $13 4($8)
+	sw $13 8($8)
+	sw $13 12($8)
+	sw $13 -508($8)
+	sw $13 -504($8)
+	sw $13 -500($8)
+	
+	# sapato luz animação
+	
+	lw $24 32784($8) 
+	sw $24 16($8) 
+	
+	lw $24 32272($8)
+	sw $24 -496($8) 
+	
+	#sapato sombra
+	sw $14 -4($8)
+	sw $14 -8($8)
+	sw $14 -12($8)
+	sw $14 -516($8)
+	sw $14 -520($8)
+	
+	# sapato sombra animação
+	
+	lw $24 32256($8)
+	sw $24 -512($8)
+	
+	#pernas
+	sw $12 -1028($8)
+	sw $12 -1540($8)
+	sw $12 -1536($8)
+	sw $12 -1532($8)
+	
+	sw $12 -1016($8)
+	sw $12 -1528($8)
+	
+	# pernas animação 
+	
+	lw $24 31244($8)
+	sw $24 -1524($8)
+	
+	lw $24 31756($8)
+	sw $24 -1012($8) 
+	
+	lw $24 31744($8)
+	sw $24 -1024($8)
+	
+	#barriga
+	sw $12 -2036($8)
+	sw $12 -2040($8)
+	sw $12 -2052($8)
+	sw $12 -2056($8)
+	sw $12 -2572($8)
+	sw $12 -3084($8)
+	sw $12 -3592($8)
+	sw $12 -4104($8)
+	sw $12 -4100($8)
+	sw $12 -4096($8)
+	sw $12 -4092($8)
+	sw $12 -3576($8)
+	sw $12 -3060($8)
+	sw $12 -2548($8)
+	
+	sw $15 -3588($8)
+	sw $15 -3584($8)
+	sw $15 -3580($8)
+	
+	sw $15 -3080($8)
+	sw $15 -3076($8)
+	sw $15 -3072($8)
+	sw $15 -3068($8)
+	sw $15 -3064($8)
+	
+	
+	sw $15 -2568($8)
+	sw $15 -2564($8)
+	sw $15 -2560($8)
+	sw $15 -2556($8)
+	sw $15 -2552($8)
+	
+	sw $15 -2048($8)
+	sw $15 -2044($8)
+	
+	# barriga animação
+	
+	lw $24 28680($8)
+	sw $24 -4088($8) 
+	
+	#braco
+	sw $15 -3572($8)
+	sw $15 -3568($8)
+	sw $15 -3564($8)
+	
+	sw $15 -3056($8)
+	sw $15 -3052($8)
+	
+	sw $15 -2544($8)
+	sw $15 -2540($8)
+	
+	sw $16 -2024($8)
+	sw $16 -2028($8)
+	sw $16 -2032($8)
+	sw $16 -1520($8)
+	sw $16 -1516($8)
+	sw $16 -1004($8)
+	
+	#braço animação
+	
+	lw $24 29208($8)
+	sw $24 -3560($8) 
+	
+	lw $24 29720($8)
+	sw $24 -3048($8) 
+	
+	lw $24 30232($8)
+	sw $24 -2536($8) 
+	
+	lw $24 30748($8)
+	sw $24 -2020($8) 
+	
+	lw $24 31256($8)
+	sw $24 -1512($8)
+	
+	lw $24 31768($8)
+	sw $24 -1000($8) 
+	
+	#rosto
+	
+	sw $15 -4624($8)
+	sw $15 -4620($8)
+	sw $15 -4616($8)
+	sw $15 -4612($8)
+	
+	sw $15 -5136($8)
+	sw $15 -5132($8)
+	sw $15 -5128($8)
+	sw $15 -5124($8)
+	
+	sw $15 -5648($8) 
+	sw $15 -5644($8)
+	sw $15 -5640($8)
+	sw $15 -5636($8)
+	
+	sw $12 -4608($8)
+	sw $12 -4604($8)
+	sw $12 -4600($8)
+	sw $12 -4596($8)
+	sw $12 -4592($8)
+	
+	sw $12 -5120($8)
+	sw $12 -5116($8)
+	sw $12 -5112($8)
+	sw $12 -5108($8)
+	sw $12 -5104($8)
+	sw $12 -5100($8)
+	sw $12 -5096($8)
+	
+	sw $12 -5632($8)
+	sw $12 -5628($8)
+	sw $12 -5624($8)
+	sw $12 -5620($8)
+	sw $12 -5616($8)
+	sw $12 -5612($8)
+	
+	sw $12 -6144($8)
+	sw $12 -6140($8)
+	sw $12 -6136($8)
+	sw $12 -6132($8)
+	sw $12 -6128($8)
+	
+	sw $12 -6656($8)
+	sw $12 -6652($8)
+	sw $12 -6648($8)
+	sw $12 -6644($8)
+	sw $12 -6640($8)
+	sw $12 -6636($8)
+	sw $12 -6632($8)
+	sw $12 -6628($8)
+	
+	sw $10 -6672($8)
+	sw $10 -6160($8)
+	sw $16 -6668($8)
+	sw $16 -6156($8)
+	sw $10 -6664($8)
+	sw $10 -6152($8)
+	sw $16 -6660($8)
+	sw $16 -6148($8)
+	
+	sw $12 -7184($8)
+	sw $12 -7180($8)
+	sw $12 -7176($8)
+	sw $12 -7172($8)
+	sw $12 -7168($8)
+	sw $12 -7164($8)
+	sw $15 -7160($8)
+	sw $15 -7156($8)
+	sw $12 -7152($8)
+	sw $12 -7148($8)
+	sw $12 -7144($8)
+	
+	sw $12 -7692($8)
+	sw $12 -7688($8)
+	sw $12 -7684($8)
+	sw $12 -7680($8)
+	sw $12 -7676($8)
+	sw $12 -7672($8)
+	sw $15 -7668($8) 
+	sw $12 -7664($8)
+	sw $12 -7660($8)
+	
+	sw $12 -8192($8)
+	sw $12 -8188($8)
+	sw $12 -8184($8)
+	sw $15 -8180($8)
+	sw $12 -8176($8)
+	
+	#rosto animação
+	
+	lw $24 24596($8)
+	sw $24 -8172($8) 
+	
+	lw $24 25116($8)
+	sw $24 -7656($8)
+	
+	lw $24 25628($8)
+	sw $24 -7140($8)
+	
+	lw $24 26144($8)
+	sw $24 -6624($8)
+	
+	lw $24 26644($8)
+	sw $24 -6124($8)
+	
+	lw $24 27160($8)
+	sw $24 -5608($8)
+	
+	lw $24 27676($8)
+	sw $24 -5092($8)
+	
+	lw $24 28180($8)
+	sw $24 -4588($8)
+	
+	jr $31        
+
+# desenho sonic virando bola
+	
+bala_canhao_prep_mz_2:
+	ori $10	$0 0xc9bb0e #preto
+	
+	addi $23 $0 1
+	
+bala_canhao_draw_mz_2:
+	beq $23 $0 voltar_mz_2
+	
+	sw $10 -1032($9)
+	sw $10 -1036($9)
+	sw $10 -1040($9)
+	
+	lw $20 31740($9)
+	sw $20 -1028($9)
+	
+	lw $20 31744($9)
+	sw $20 -1024($9)
+	
+	lw $20 31748($9)
+	sw $20 -1020($9)
+	
+	sw $10 -516($9)
+	sw $10 -520($9)
+	sw $10 -524($9)
+	sw $10 -528($9)
+	sw $10 -532($9)
+	
+	lw $20 32256($9)
+	sw $20 -512($9)
+	
+	lw $20 32260($9)
+	sw $20 -508($9)
+	
+	lw $20 32264($9)
+	sw $20 -504($9)
+	
+	sw $10 -4($9)
+	sw $10 -8($9)
+	sw $10 -12($9)
+	sw $10 -16($9)
+	sw $10 -20($9)
+	
+	lw $20 32768($9)
+	sw $20 0($9)
+	
+	lw $20 32772($9)
+	sw $20 4($9)
+	
+	lw $20 32776($9)
+	sw $20 8($9)
+	
+	sw $10 508($9)
+	sw $10 504($9)
+	sw $10 500($9)
+	sw $10 496($9)
+	sw $10 492($9)
+	
+	lw $20 33280($9)
+	sw $20 512($9)
+	
+	lw $20 33284($9)
+	sw $20 516($9)
+	
+	lw $20 33288($9)
+	sw $20 520($9)
+	
+	sw $10 1016($9)
+	sw $10 1012($9)
+	sw $10 1008($9)
+
+	lw $20 33788($9)
+	sw $20 1020($9)
+	
+	lw $20 33792($9)
+	sw $20 1024($9)
+	
+	lw $20 33796($9)
+	sw $20 1028($9)
+	
+	addi $22 $22 -1
+	addi $23 $23 -1
+	j bala_canhao_draw_mz_2
+
+
+reset_bala_verif_mz_2:
+	beq $22 $0 reset_bala_mz_2
+	
+	j voltar_mz_2
+	
+reset_bala_mz_2:
+	ori $10 $0 0x1F001F
+
+	sw $10 -1020($9)
+	sw $10 -1024($9)
+	sw $10 -1028($9)
+	
+	sw $10 -504($9)
+	sw $10 -508($9)
+	sw $10 -512($9)
+	sw $10 -516($9)
+	sw $10 -520($9)
+	
+	sw $10 8($9)
+	sw $10 4($9)
+	sw $10 0($9)
+	sw $10 -4($9)
+	sw $10 -8($9)
+	
+	sw $10 520($9)
+	sw $10 516($9)
+	sw $10 512($9)
+	sw $10 508($9)
+	sw $10 504($9)
+	
+	sw $10 1028($9)
+	sw $10 1024($9)
+	sw $10 1020($9)
+
+	
+	addi $22 $0 20
+	lui $9 0x1001
+	addi $9 $9 14748
+
+	j voltar_mz_2
+	
+	
+	
+	
+################################ Marble zone 3
+
+
+marble_zone_3:
+  lui $8 0x1001
+  
+  #desenhar fundo
+fundo_prep_mz_3:
+	ori $9 $0 0x1F001F #roxo escuro fundo
+	#8192
+	addi $25 $0 5120
+	
+fundo_draw_mz_3:
+	beq $25 $0 tijolo_fundo_prep_mz_3
+	
+	sw $9 0($8)
+	sw $9 32768($8)
+	
+	addi $8 $8 4
+	addi $25 $25 -1
+	j fundo_draw_mz_3
+
+
+tijolo_fundo_prep_mz_3:
+	addi $8 $0 0
+	lui $8 0x1001
+	addi $25 $0 4481 #4504
+	addi $24 $0 896
+	
+tijolo_fundo_draw_mz_3:
+	beq $25 $0 janelas_prep_mz_3
+	
+	jal teste_height_mz_3
+	
+	addi $8 $8 4
+	addi $24 $24 -1
+	addi $25 $25 -1
+	addi $22 $0 -1
+	j tijolo_fundo_draw_mz_3
+
+#desenhar janelas
+
+janelas_prep_mz_3: addi $25 $25 3
+              add $20 $0 $8
+              addi $8 $8 -17320
+            
+janelas_laco_mz_3: beq $25 $0 solo_prep_mz_3
+              jal janelas_func_mz_3
+              
+              addi $8 $8 -1880
+              addi $25 $25 -1
+              j janelas_laco_mz_3
+
+
+	#desenhar solo
+solo_prep_mz_3:
+        add $8 $0 $20
+	addi $8 $8 -4
+	add $15 $0 $8
+	ori $9 $0 0x9C73B9 #roxo solo
+	addi $25 $0 3072
+	
+solo_draw_mz_3:
+	beq $25 $0 tijolo_solo_prep_mz_3
+	
+	sw $9 0($8)
+	
+	addi $8 $8 4
+	addi $25 $25 -1
+	j solo_draw_mz_3
+	
+	
+tijolo_solo_prep_mz_3:
+	addi $25 $0 3072 #4504
+	addi $24 $0 0
+	
+tijolo_solo_draw_mz_3:
+	beq $25 $0 npc_prep_main_mz_3
+	
+	jal teste_height_solo_mz_3
+	
+	addi $8 $8 -4
+	addi $24 $24 -1
+	addi $25 $25 -1
+	j tijolo_solo_draw_mz_3
+
+npc_prep_main_mz_3:
+	lui $8 0x1001
+	lui $9 0x1001
+	lui $25 0x1001
+	addi $8 $8 17444 	#altura sonic  !!!!!!!! proibido usar
+	addi $9 $9 23788	#altura joaninha !!!!!!!! proibido usar
+	addi $25 $25 15736	#altura vespa
+	lui $18 0xffff #registrador movimento !!!!!! proibido usar
+	addi $17 $0 0 # l  o registrador movimento !!!!!!!!!!! proibido usar
+	jal sonic_prep
+
+npc_joaninha_laco_walk_mz_3:
+	lui $10 0x1001
+	addi $10 $10 24048 #final da tela
+	
+	beq $8 $10 fim
+	#beq $8 $25 main
+	#beq $8 $9 main
+	
+	#jal peixe_prep
+	
+	addi $9 $9 -4
+	addi $25 $25 -4
+	jal timer
+	
+	add $11 $0 $17
+	
+	lw $17 0($18)
+	beq $17 $0 npc_joaninha_laco_walk_mz_3
+	
+	lw $17 4($18)
+	
+	jal sonic_prep
+	
+	      
+       j npc_joaninha_laco_walk_mz_3
+       
+  addi $2 $0 10
+  syscall
+
+#----------------------func-----------------------
+	#funcao linhas hoorizontais fundo
+	
+teste_height_mz_3:
+	beq $24 $0 height_draw_mz_3
+	
+	jr $31
+
+height_draw_mz_3:
+	addi $24 $0 128
+	add $20 $0 $31
+	ori $10 $0 0x48214F #roxo linha fundo
+		
+height_draw_l1_mz_3:
+	beq $24 $0 height_fim_mz_3
+	
+	sw $10 0($8)
+	sw $10 32768($8)
+	
+	jal brick_test_mz_3
+	
+	addi $8 $8 4
+	addi $24 $24 -1
+	addi $23 $23 -1
+	
+	j height_draw_l1_mz_3
+	
+height_fim_mz_3:
+	addi $24 $0 896
+	
+	jr $20
+	
+	
+	
+	#funcao linhas verticais fundo
+	
+brick_test_mz_3:
+	beq $23 $0 brick_draw_mz_3
+	
+	jr $31
+	
+brick_draw_mz_3:
+	sw $10 -512($8)
+	sw $10 32256($8)
+	
+	sw $10 -1024($8)
+	sw $10 31744($8)
+	
+	sw $10 -1536($8)
+	sw $10 31232($8)
+	
+	sw $10 -2048($8)
+	sw $10 30720($8)
+	
+	sw $10 -2560($8)
+	sw $10 30208($8)
+	
+	sw $10 -3072($8)
+	sw $10 29696($8)
+	
+	sw $10 -3584($8)
+	sw $10 29184($8)
+	
+	sw $10 -4096($8)
+	sw $10 28672($8)
+	
+	addi $23 $0 12
+	jr $31
+
+
+
+	#funcao solo linhas horizontais
+	
+teste_height_solo_mz_3:
+	beq $24 $0 height_draw_solo_mz_3
+	
+	jr $31
+
+height_draw_solo_mz_3:
+	addi $24 $0 128
+	add $20 $0 $31
+	ori $10 $0 0x6A3F84 #roxo linha fundo
+		
+height_draw_solo_l1_mz_3:
+	beq $24 $0 height_fim_solo_mz_3
+	
+	sw $10 0($8)
+	jal brick_test_solo_mz_3
+	
+	addi $8 $8 4
+	addi $24 $24 -1
+	addi $23 $23 -1
+	
+	j height_draw_solo_l1_mz_3
+	
+height_fim_solo_mz_3:
+	addi $24 $0 896
+	
+	jr $20
+
+
+
+	#funcao tijolo solo
+brick_test_solo_mz_3:
+	beq $23 $0 brick_draw_solo_mz_3
+	
+	jr $31
+	
+brick_draw_solo_mz_3:
+	sw $10 -512($8)
+	sw $10 -1024($8)
+	sw $10 -1536($8)
+	sw $10 -2048($8)
+	sw $10 -2560($8)
+	sw $10 -3072($8)
+	
+	addi $23 $0 12
+	jr $31
+	
+############### função janelas ############
+
+janelas_func_mz_3: ori $9 $0 0xAF7B1F #amarelo cornice
+              ori $10 $0 0x000066 #azul dentro janela
+              ori $11 $0 0x4F4F4F #cinza grade
+              ori $12 $0 0xFFFFFF #branco
+              
+              addi $24 $0 5
+              addi $23 $0 0 #contagem azul
+              addi $22 $0 0
+              addi $21 $0 -8
+              sw $9 0($8)
+              sw $9 32768($8)
+              addi $8 $8 -4
+              
+janelas_borda1_mz_3: beq $24 $0 janelas_grade_prep_mz_3
+                     add $8 $8 512
+                     sw $9 0($8)
+                     sw $9 32768($8)
+                     addi $8 $8 4
+                     
+janelas_ceu1_mz_3: beq $23 $22 janelas_grade_meio_mz_3
+              sw $10 0($8)
+              sw $10 32768($8)
+              
+              addi $8 $8 4
+              addi $22 $22 1
+              j janelas_ceu1_mz_3
+
+janelas_grade_meio_mz_3: sw $11 0($8)
+										sw $11 32768($8)
+                    addi $8 $8 4
+                    addi $21 $21 -8
+
+                    
+janelas_ceu2_mz_3: beq $0 $22 janelas_borda2_mz_3
+              sw $10 0($8)
+              sw $10 32768($8)
+              
+              addi $8 $8 4
+              addi $22 $22 -1
+              j janelas_ceu2_mz_3                                      
+
+janelas_borda2_mz_3: sw $9 0($8)
+								sw $9 32768($8)
+                addi $8 $8 4  
+                
+                addi $24 $24 -1
+                addi $23 $23 1
+                add $8 $8 $21
+                j janelas_borda1_mz_3 
+
+janelas_grade_prep_mz_3: addi $24 $0 3
+                    addi $8 $8 4
+                                                          
+janelas_grade_laco_mz_3: beq $24 $0 janelas_borda_baixo_mz_3
+                    addi $8 $8 512
+                    addi $24 $24 -1
+                    addi $23 $0 6
+                    
+                    sw $9 0($8)
+                    sw $9 32768($8)
+                    
+                    sw $11 4($8)
+                    sw $11 32772($8)
+                    
+                    sw $11 8($8)
+                    sw $11 32776($8)
+                    
+                    sw $11 12($8)
+                    sw $11 32780($8)
+                    
+                    sw $11 16($8)
+                    sw $11 32784($8)
+                    
+                    sw $11 20($8)
+                    sw $11 32788($8)
+                    
+                    sw $11 24($8)
+                    sw $11 32792($8)
+                    
+                    sw $11 28($8)
+                    sw $11 32796($8)
+                    
+                    sw $11 32($8)
+                    sw $11 32800($8)
+                    
+                    sw $11 36($8)
+                    sw $11 32804($8)
+                    
+                    sw $9 40($8)
+                    sw $9 32808($8)
+
+janelas_laco_func_mz_3: beq $23 $0 janelas_grade_laco_mz_3
+
+              addi $8 $8 512
+              sw $9 0($8)
+              sw $9 32768($8)
+              
+              sw $10 4($8)
+              sw $10 32772($8)
+              
+              sw $10 8($8)
+              sw $10 32776($8)
+              
+              sw $10 12($8)
+              sw $10 32780($8)
+              
+              sw $10 16($8)
+              sw $10 32784($8)
+              
+              sw $11 20($8)
+              sw $11 32788($8)
+              
+              sw $10 24($8)
+              sw $10 32792($8)
+              
+              sw $10 28($8)
+              sw $10 32796($8)
+              
+              sw $10 32($8)
+              sw $10 32800($8)
+              
+              sw $10 36($8)
+              sw $10 32804($8)
+              
+              sw $9 40($8)
+              sw $9 32808($8)
+              
+              addi $23 $23 -1
+              j janelas_laco_func_mz_3
+
+                                        
+janelas_borda_baixo_mz_3: addi $8 $8 512
+               sw $9 0($8)
+               sw $9 32768($8)
+                 
+               sw $9 4($8)
+               sw $9 32772($8)
+               
+             	 sw $9 8($8)
+             	 sw $9 32776($8)
+             	 
+	             sw $9 12($8)
+	             sw $9 32780($8)
+	             
+        	     sw $9 16($8)
+        	     sw $9 32784($8)
+        	     
+          	   sw $9 20($8)
+          	   sw $9 32788($8)
+          	   
+        	     sw $9 24($8)
+        	     sw $9 32792($8)
+        	     
+               sw $9 28($8)
+               sw $9 32796($8)
+               
+	             sw $9 32($8)
+	             sw $9 32800($8)
+	             
+        	     sw $9 36($8)
+        	     sw $9 32804($8)
+        	     
+	             sw $9 40($8)
+	             sw $9 32808($8)
+
+janela_estrelas_mz_3: addi $8 $8 -11760
+                 sw $12 0($8)
+                 sw $12 32768($8)
+                 
+                 sw $12 2064($8)
+                 sw $12 34832($8)
+                 
+                 sw $12 3064($8)
+                 sw $12 35832($8)
+                 
+                 sw $12 5140($8)
+                 sw $12 37908($8)
+                 
+                 sw $12 9724($8)
+                 sw $12 42492($8)
+                 
+                 sw $12 10764($8)
+                 sw $12 43532($8)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+fim_func_janelas: jr $31
+
+
+
+
+doc_prep:	#movimento com o $20 pq no $15 já tem cor
+	ori $10	$0 0x000000 #preto
+	ori $11 $0 0x8E0000 #vermelho sombra
+	ori $12 $0 0xE0E0E0 #branco
+	ori $13 $0 0xff7e00 #laranja roupa
+	ori $14 $0 0x5c230b #marrom barba
+	ori $15 $0 0xEDA137 #pele
+	
+	addi $23 $0 1
+	
+	#j doc_draw_dir
+	
+doc_draw_esq:
+	beq $23 $0 voltar
+	
+	#perna esq
+	sw $10 -1532($9)
+	
+	lw $20 31240($9)
+	sw $20 -1528($9)
+	
+	sw $10 -1020($9)
+	
+	lw $20 31752($9)
+	sw $20 -1016($9)
+	
+	sw $10 -508($9)
+	
+	lw $20 32264($9)
+	sw $20 -504($9)
+	
+	sw $10 -512($9)
+	sw $10 -4($9)
+	
+	lw $20 32768($9)
+	sw $20 0($9)
+	
+	sw $10 0($9)
+	sw $10 4($9)
+	
+	lw $20 32776($9)
+	sw $20 8($9)
+	
+	#perna dir
+	sw $10 -1516($9)
+	
+	lw $20 31256($9)
+	sw $20 -1512($9)
+	
+	sw $10 -1004($9)
+	
+	lw $20 31768($9)
+	sw $20 -1000($9)
+	
+	sw $10 -492($9)
+	sw $10 -488($9)
+	
+	lw $20 32284($9)
+	sw $20 -484($9)
+	
+	sw $10 20($9)
+	sw $10 24($9)
+	sw $10 28($9)
+	
+	lw $20 32800($9)
+	sw $20 32($9)
+	
+	#barriga
+		#esq
+	sw $10 -2036($9) #do meio
+	sw $10 -2040($9)
+	sw $10 -2044($9)
+	sw $10 -2048($9)
+	
+	sw $10 -2548($9)
+	sw $10 -2552($9)
+	sw $13 -2556($9)
+	sw $13 -2560($9)
+	sw $10 -2564($9)
+	sw $10 -2568($9)
+	
+	sw $10 -3060($9)
+	sw $10 -3064($9)
+	sw $13 -3068($9)
+	sw $13 -3072($9)
+	sw $10 -3076($9)
+	sw $10 -3080($9)
+	sw $10 -3084($9)
+	
+	sw $10 -3572($9)
+	sw $10 -3576($9)
+	sw $13 -3580($9)
+	sw $13 -3584($9)
+	sw $10 -3588($9)
+	sw $10 -3592($9)
+	sw $10 -3596($9)
+	
+	sw $10 -4084($9)
+	sw $10 -4088($9)
+	sw $10 -4092($9)
+	sw $10 -4096($9)
+	sw $10 -4100($9)
+	sw $10 -4104($9)
+	sw $10 -4108($9)
+		
+		#dir
+	sw $10 -2036($9)
+	sw $10 -2032($9)
+	sw $10 -2028($9)
+	sw $10 -2024($9)
+	
+	lw $20 30748($9)
+	sw $20 -2020($9)
+	
+	sw $10 -2548($9)
+	sw $10 -2544($9)
+	sw $13 -2540($9)
+	sw $13 -2536($9)
+	sw $10 -2532($9)
+	sw $10 -2528($9)
+	
+	sw $10 -3060($9)
+	sw $10 -3056($9)
+	sw $13 -3052($9)
+	sw $13 -3048($9)
+	sw $10 -3044($9)
+	sw $10 -3040($9)
+	sw $10 -3036($9)
+	
+	sw $10 -3572($9)
+	sw $10 -3568($9)
+	sw $13 -3564($9)
+	sw $13 -3560($9)
+	sw $10 -3556($9)
+	sw $10 -3552($9)
+	sw $10 -3548($9)
+
+	sw $10 -4084($9)
+	sw $10 -4080($9)
+	sw $10 -4076($9)
+	sw $10 -4072($9)
+	sw $10 -4068($9)
+	sw $10 -4064($9)
+	sw $10 -4060($9)
+
+	#blusa
+		#esq
+	sw $11 -4596($9)
+	sw $11 -4600($9)
+	sw $11 -4604($9)
+	sw $11 -4608($9)
+	sw $11 -4612($9)
+	sw $11 -4616($9)
+	sw $11 -4620($9)
+	
+	sw $11 -5108($9)
+	sw $11 -5112($9)
+	sw $11 -5116($9)
+	sw $13 -5120($9)
+	sw $11 -5124($9)
+	sw $11 -5128($9)
+	sw $11 -5132($9)
+	
+	sw $11 -5620($9)
+	sw $11 -5624($9)
+	sw $13 -5628($9)
+	sw $13 -5632($9)
+	sw $13 -5636($9)
+	sw $11 -5640($9)
+	
+	sw $11 -6132($9)
+	sw $11 -6136($9)
+	sw $13 -6140($9)
+	sw $13 -6144($9)
+	sw $13 -6148($9)
+	
+					#braço esq
+	sw $11 -5136($9)
+	sw $11 -5140($9)
+	
+	sw $11 -4624($9)
+	sw $11 -4628($9)
+	
+	sw $11 -4112($9)
+	sw $11 -4116($9)
+	
+	sw $12 -3600($9)
+	sw $12 -3604($9)
+	sw $12 -3608($9)
+
+	sw $12 -3088($9)
+	sw $12 -3092($9)
+	
+	sw $12 -2580($9)
+	
+	lw $20 30192($9)
+	sw $20 -2576($9)
+	
+		#dir
+	sw $11 -4592($9)
+	sw $11 -4588($9)
+	sw $11 -4584($9)
+	sw $11 -4580($9)
+	sw $11 -4576($9)
+	sw $11 -4572($9)
+
+	sw $11 -5104($9)
+	sw $11 -5100($9)
+	sw $13 -5096($9)
+	sw $11 -5092($9)
+	sw $11 -5088($9)
+	sw $11 -5084($9)
+	
+	sw $11 -5616($9)
+	sw $13 -5612($9)
+	sw $13 -5608($9)
+	sw $13 -5604($9)
+	sw $11 -5600($9)
+	
+	lw $20 27172($9)
+	sw $20 -5596($9)
+
+	sw $11 -6128($9)
+	sw $13 -6124($9)
+	sw $13 -6120($9)
+	sw $13 -6116($9)
+	
+	lw $20 26656($9)
+	sw $20 -6112($9)
+	
+				#braco dir
+	sw $11 -5076($9)
+	sw $11 -5080($9)
+	
+	lw $20 27696($9)
+	sw $20 -5072($9)
+	
+	sw $11 -4564($9)#
+	sw $11 -4568($9)
+	
+	lw $20 28208($9)
+	sw $20 -4560($9)
+	
+	sw $11 -4052($9)
+	sw $11 -4056($9)
+	
+	lw $20 28720($9)
+	sw $20 -4048($9)
+	
+	sw $12 -3540($9)
+	sw $12 -3544($9)
+	sw $12 -3548($9)
+	
+	lw $20 29232($9)
+	sw $20 -3536($9)
+
+	sw $12 -3028($9)
+	sw $12 -3032($9)
+	
+	lw $20 29744($9)
+	sw $20 -3024($9)
+	
+	sw $12 -2520($9)
+	
+	lw $20 30252($9)
+	sw $20 -2516($9)
+
+	#rosto
+		#dentes
+	sw $12 -6652($9)	
+	sw $12 -6648($9)	
+	sw $12 -6644($9)
+	sw $12 -6640($9)
+	sw $12 -6636($9)
+	
+		#barba
+	sw $14 -7160($9)
+	sw $11 -7156($9)
+	sw $14 -7152($9)
+	
+			#esq
+	sw $14 -7164($9)
+	
+	sw $14 -7168($9)
+	sw $14 -6656($9)
+
+	sw $14 -7172($9)
+	
+	sw $14 -7688($9)
+	
+	lw $20 25084($9)
+	sw $20 -7684($9)
+	
+			#dir
+	sw $14 -7148($9)
+	
+	sw $14 -7144($9)
+	
+	sw $14 -6632($9)
+	sw $14 -7140($9)
+	sw $14 -7648($9)
+	
+	lw $20 26140($9)
+	sw $20 -6628($9)
+	
+	lw $20 25632($9)
+	sw $20 -7136($9)
+	
+	lw $20 25124($9)
+	sw $20 -7644($9)
+				
+		#careca
+	sw $15 -7656($9)
+	sw $15 -8168($9)
+	sw $15 -8684($9)
+	sw $15 -8688($9)
+	sw $15 -8692($9)
+	sw $15 -8688($9)
+	sw $15 -8692($9)
+	sw $15 -8696($9)
+	sw $15 -8700($9)
+	sw $15 -8192($9)
+	sw $15 -7680($9)
+	
+	lw $20 25116($9)
+	sw $20 -7652($9)
+	
+	lw $20 24604($9)
+	sw $20 -8164($9)
+	
+	lw $20 24088($9)
+	sw $20 -8680($9)
+	
+	sw $10 -8188($9)
+	sw $10 -7676($9)
+	sw $12 -8184($9)
+	sw $12 -7672($9)
+	sw $15 -8180($9)
+	sw $15 -7668($9)
+	sw $10 -8176($9)
+	sw $10 -7664($9)
+	sw $12 -8172($9)
+	sw $12 -7660($9)
+	
+	addi $23 $23 -1
+	j doc_draw_esq
+
+
+doc_draw_dir:
+	beq $23 $0 voltar
+	
+	#perna esq
+	sw $10 -1532($9)
+	
+	lw $20 31232($9)
+	sw $20 -1536($9)
+	
+	sw $10 -1020($9)
+	
+	lw $20 31744($9)
+	sw $20 -1024($9)
+	
+	sw $10 -508($9)	
+	sw $10 -512($9)
+	
+	lw $20 32252($9)
+	sw $20 -516($9)
+	
+	sw $10 -4($9)
+	
+	lw $20 32760($9)
+	sw $20 -8($9)
+	
+	sw $10 0($9)
+	sw $10 4($9)
+	
+	#perna dir
+	sw $10 -1516($9)
+	
+	lw $20 31248($9)
+	sw $20 -1520($9)
+	
+	sw $10 -1004($9)
+	
+	lw $20 31760($9)
+	sw $20 -1008($9)
+	
+	sw $10 -492($9)
+	
+	lw $20 32272($9)
+	sw $20 -496($9)
+	
+	sw $10 -488($9)	
+	sw $10 20($9)
+	
+	lw $20 32784($9)
+	sw $20 16($9)
+	
+	sw $10 24($9)
+	sw $10 28($9)	
+	#barriga
+		#esq
+	sw $10 -2036($9) #do meio
+	sw $10 -2040($9)
+	sw $10 -2044($9)
+	sw $10 -2048($9)
+	
+	lw $20 30716($9)
+	sw $20 -2052($9)
+	
+	sw $10 -2548($9)
+	sw $10 -2552($9)
+	sw $13 -2556($9)
+	sw $13 -2560($9)
+	sw $10 -2564($9)
+	sw $10 -2568($9)
+	
+	sw $10 -3060($9)
+	sw $10 -3064($9)
+	sw $13 -3068($9)
+	sw $13 -3072($9)
+	sw $10 -3076($9)
+	sw $10 -3080($9)
+	sw $10 -3084($9)
+	
+	sw $10 -3572($9)
+	sw $10 -3576($9)
+	sw $13 -3580($9)
+	sw $13 -3584($9)
+	sw $10 -3588($9)
+	sw $10 -3592($9)
+	sw $10 -3596($9)
+	
+	sw $10 -4084($9)
+	sw $10 -4088($9)
+	sw $10 -4092($9)
+	sw $10 -4096($9)
+	sw $10 -4100($9)
+	sw $10 -4104($9)
+	sw $10 -4108($9)
+		
+		#dir
+	sw $10 -2036($9)
+	sw $10 -2032($9)
+	sw $10 -2028($9)
+	sw $10 -2024($9)
+	
+	sw $10 -2548($9)
+	sw $10 -2544($9)
+	sw $13 -2540($9)
+	sw $13 -2536($9)
+	sw $10 -2532($9)
+	sw $10 -2528($9)
+	
+	sw $10 -3060($9)
+	sw $10 -3056($9)
+	sw $13 -3052($9)
+	sw $13 -3048($9)
+	sw $10 -3044($9)
+	sw $10 -3040($9)
+	sw $10 -3036($9)
+	
+	sw $10 -3572($9)
+	sw $10 -3568($9)
+	sw $13 -3564($9)
+	sw $13 -3560($9)
+	sw $10 -3556($9)
+	sw $10 -3552($9)
+	sw $10 -3548($9)
+
+	sw $10 -4084($9)
+	sw $10 -4080($9)
+	sw $10 -4076($9)
+	sw $10 -4072($9)
+	sw $10 -4068($9)
+	sw $10 -4064($9)
+	sw $10 -4060($9)
+
+	#blusa
+		#esq
+	sw $11 -4596($9)
+	sw $11 -4600($9)
+	sw $11 -4604($9)
+	sw $11 -4608($9)
+	sw $11 -4612($9)
+	sw $11 -4616($9)
+	sw $11 -4620($9)
+	
+	sw $11 -5108($9)
+	sw $11 -5112($9)
+	sw $11 -5116($9)
+	sw $13 -5120($9)
+	sw $11 -5124($9)
+	sw $11 -5128($9)
+	sw $11 -5132($9)
+	
+	sw $11 -5620($9)
+	sw $11 -5624($9)
+	sw $13 -5628($9)
+	sw $13 -5632($9)
+	sw $13 -5636($9)
+	sw $11 -5640($9)
+	
+	lw $20 27124($9)
+	sw $20 -5644($9)
+	
+	sw $11 -6132($9)
+	sw $11 -6136($9)
+	sw $13 -6140($9)
+	sw $13 -6144($9)
+	sw $13 -6148($9)
+	
+	lw $20 26616($9)
+	sw $20 -6152($9)
+	
+					#braço esq
+	sw $11 -5136($9)
+	sw $11 -5140($9)
+	
+	lw $20 27624($9)
+	sw $20 -5144($9)
+	
+	sw $11 -4624($9)
+	sw $11 -4628($9)
+	
+	lw $20 28136($9)
+	sw $20 -4632($9)
+	
+	sw $11 -4112($9)
+	sw $11 -4116($9)
+	
+	lw $20 28648($9)
+	sw $20 -4120($9)
+	
+	sw $12 -3600($9)
+	sw $12 -3604($9)
+	sw $12 -3608($9)
+	
+	lw $20 29156($9)
+	sw $20 -3612($9)
+
+	sw $12 -3088($9)
+	sw $12 -3092($9)
+	
+	lw $20 29672($9)
+	sw $20 -3096($9)
+	
+	sw $12 -2580($9)
+	
+	lw $20 30184($9)
+	sw $20 -2584($9)
+	
+		#dir
+	sw $11 -4592($9)
+	sw $11 -4588($9)
+	sw $11 -4584($9)
+	sw $11 -4580($9)
+	sw $11 -4576($9)
+	sw $11 -4572($9)
+
+	sw $11 -5104($9)
+	sw $11 -5100($9)
+	sw $13 -5096($9)
+	sw $11 -5092($9)
+	sw $11 -5088($9)
+	sw $11 -5084($9)
+	
+	sw $11 -5616($9)
+	sw $13 -5612($9)
+	sw $13 -5608($9)
+	sw $13 -5604($9)
+	sw $11 -5600($9)
+
+	sw $11 -6128($9)
+	sw $13 -6124($9)
+	sw $13 -6120($9)
+	sw $13 -6116($9)
+	
+				#braco dir
+	sw $11 -5076($9)
+	sw $11 -5080($9)
+	
+	sw $11 -4564($9)
+	sw $11 -4568($9)
+	
+	sw $11 -4052($9)
+	sw $11 -4056($9)
+	
+	sw $12 -3540($9)
+	sw $12 -3544($9)
+	sw $12 -3548($9)
+
+	sw $12 -3028($9)
+	sw $12 -3032($9)
+	
+	lw $20 29732($9)
+	sw $20 -3036($9)
+	
+	sw $12 -2520($9)
+	
+	lw $20 30244($9)
+	sw $20 -2524($9)
+
+	#rosto
+		#dentes
+	sw $12 -6652($9)	
+	sw $12 -6648($9)	
+	sw $12 -6644($9)
+	sw $12 -6640($9)
+	sw $12 -6636($9)
+	
+		#barba
+	sw $14 -7160($9)
+	sw $11 -7156($9)
+	sw $14 -7152($9)
+	
+			#esq
+	sw $14 -7164($9)
+	
+	sw $14 -7168($9)
+	sw $14 -6656($9)
+	
+	lw $20 26108($9)
+	sw $20 -6660($9)
+
+	sw $14 -7172($9)
+	
+	lw $20 25592($9)
+	sw $20 -7176($9)
+	
+	sw $14 -7688($9)
+	
+	lw $20 25076($9)
+	sw $20 -7692($9)
+	
+			#dir
+	sw $14 -7148($9)
+	
+	sw $14 -7144($9)
+	
+	sw $14 -6632($9)
+	sw $14 -7140($9)
+	sw $14 -7648($9)
+	
+	lw $20 25116($9)
+	sw $20 -7652($9)
+				
+		#careca
+	sw $15 -7656($9)
+	sw $15 -8168($9)
+	sw $15 -8684($9)
+	sw $15 -8688($9)
+	sw $15 -8692($9)
+	sw $15 -8688($9)
+	sw $15 -8692($9)
+	sw $15 -8696($9)
+	sw $15 -8700($9)
+	sw $15 -8192($9)
+	sw $15 -7680($9)
+	
+	lw $20 24064($9)
+	sw $20 -8704($9)
+	
+	lw $20 24572($9)
+	sw $20 -8196($9)
+	
+	lw $20 25084($9)
+	sw $20 -7684($9)
+	
+	sw $12 -8188($9)
+	sw $12 -7676($9)
+	sw $10 -8184($9)
+	sw $10 -7672($9)
+	sw $15 -8180($9)
+	sw $15 -7668($9)
+	sw $12 -8176($9)
+	sw $12 -7664($9)
+	sw $10 -8172($9)
+	sw $10 -7660($9)
+	
+	addi $23 $23 -1
+	j doc_draw_dir
